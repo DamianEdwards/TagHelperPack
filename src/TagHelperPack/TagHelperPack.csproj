@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
+    <Authors>Damian Edwards</Authors>
+    <Version>0.1.0</Version>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <Copyright>Copyright © Damian Edwards</Copyright>
+    <PackageLicenseUrl>https://github.com/DamianEdwards/TagHelperPack/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.4" />
+  </ItemGroup>
+</Project>
