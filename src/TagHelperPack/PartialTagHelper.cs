@@ -11,7 +11,7 @@ namespace TagHelperPack
     /// <summary>
     /// Renders a CSHTML partial.
     /// </summary>
-    [HtmlTargetElement("partial", Attributes = "name")]
+    [HtmlTargetElement("partial", Attributes = "name", TagStructure = TagStructure.WithoutEndTag)]
     public class PartialTagHelper : TagHelper
     {
         private readonly IHtmlHelper _htmlHelper;
