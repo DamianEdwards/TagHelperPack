@@ -1,43 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Html;
 
 namespace TagHelperPack
 {
     /// <summary>
     /// Renders markdown.
     /// </summary>
-    [HtmlTargetElement("markdown")]
+    [HtmlTargetElement("markdown", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class MarkdownTagHelper : TagHelper
     {
-        private static readonly IMemoryCache Cache;
-
-        static MarkdownTagHelper()
-        {
-            var cacheOptions = new MemoryCacheOptions
-            {
-                CompactOnMemoryPressure = false
-            };
-            Cache = new MemoryCache(new OptionsWrapper<MemoryCacheOptions>(cacheOptions));
-        }
-
         // TODO: Support a 'src' attribute for specifying a source markdown file
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            var cacheKey = context.UniqueId;
-            var html = await Cache.GetOrCreateAsync(cacheKey, async entry =>
-            {
-                var markdown = await output.GetChildContentAsync();
-                return Markdig.Markdown.ToHtml(markdown.GetContent(NullHtmlEncoder.Default));
-            });
+            var markdownRazorContent = await output.GetChildContentAsync();
+            var markdownHtmlContent = new MarkdownHtmlContent(markdownRazorContent.GetContent(NullHtmlEncoder.Default));
 
-            output.Content.SetHtmlContent(html);
+            output.Content.SetHtmlContent(markdownHtmlContent);
             output.TagName = null;
+        }
+
+        private class MarkdownHtmlContent : IHtmlContent
+        {
+            private readonly string _markdown;
+
+            public MarkdownHtmlContent(string markdown)
+            {
+                _markdown = markdown;
+            }
+
+            public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+            {
+                Markdig.Markdown.ToHtml(_markdown, writer);
+            }
         }
     }
 }
