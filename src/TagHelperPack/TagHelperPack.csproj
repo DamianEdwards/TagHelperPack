@@ -3,7 +3,9 @@
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
-    <Version>0.1.0</Version>
+    <Version>0.1.0-$(VersionSuffix)</Version>
+    <Version Condition="$(VersionSuffix) == ''">0.1.0</Version>
+    <Version Condition="$(VersionSuffix) != ''">0.1.0-$(VersionSuffix)</Version>
     <TargetFramework>netstandard1.6</TargetFramework>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseUrl>https://github.com/DamianEdwards/TagHelperPack/blob/master/LICENSE</PackageLicenseUrl>
@@ -15,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.12.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.4" />
   </ItemGroup>
 </Project>
