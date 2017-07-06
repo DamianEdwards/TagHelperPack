@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B871B0D-8E1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CE6635DE-0546-4ECC-949A-08192E19E366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagHelperPack", "src\TagHelperPack\TagHelperPack.csproj", "{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack", "src\TagHelperPack\TagHelperPack.csproj", "{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack.Sample.1.0", "samples\TagHelperPack.Sample.1.0\TagHelperPack.Sample.1.0.csproj", "{2EF56DA0-696A-49A0-BE82-178901BD1EC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,17 @@ Global
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF56DA0-696A-49A0-BE82-178901BD1EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF56DA0-696A-49A0-BE82-178901BD1EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF56DA0-696A-49A0-BE82-178901BD1EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF56DA0-696A-49A0-BE82-178901BD1EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4} = {5B871B0D-8E1E-4350-9959-DE8ED19CA113}
+		{2EF56DA0-696A-49A0-BE82-178901BD1EC2} = {CE6635DE-0546-4ECC-949A-08192E19E366}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59D4518E-872C-4D34-A5F6-385BB5D3B58C}

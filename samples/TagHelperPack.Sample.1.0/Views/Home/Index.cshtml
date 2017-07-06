@@ -1,0 +1,144 @@
+﻿@model TagHelperPack.Sample.Models.Customer
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Tag Helper Pack Samples on ASP.NET Core 1.0.x</h1>
+
+<h2>Field Template &amp; Data Annotation Tag Helpers</h2>
+<p>
+    Use <code>&lt;element asp-display-for="..."&gt; or &lt;display for="..."&gt;</code> to render a model
+    value using the relevant field display template.
+</p>
+<p>
+    Use <code>&lt;element asp-editor-for="..."&gt; or &lt;editor for="..."&gt;</code> to render a model
+    value using the relevant field editor template.
+</p>
+<p>
+    Use <code>&lt;element asp-display-name-for="..."&gt; or &lt;display-name for="..."&gt;</code> to render a model
+    property's display name using the relevant field display template.
+</p>
+<p>
+    Use <code>&lt;label asp-for="..."&gt;</code> to include the model property's description in the <code>title</code>
+    attribute.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                <label asp-for="Id"></label>
+                <p class="form-control-static" asp-display-for="Id"></p>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <editor for="FirstName" />
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <editor for="LastName" />
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate"></label>
+                <editor for="BirthDate" />
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th asp-display-name-for="Orders[0].PlacedOn"></th>
+                        <th asp-display-name-for="Orders[0].Total"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td asp-display-for="@order.PlacedOn"></td>
+                            <td asp-display-for="@order.Total"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre></pre>
+</figure>
+
+<h2>Markdown Tag Helper</h2>
+<p>
+    Use <code>&lt;markdown&gt;</code> to render markdown in the page/view.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <markdown>Greetings *Elizabeth*, from **markdown**!
+
+- This is a list
+- Of things you could do
+- With this Tag Helper</markdown>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;markdown&gt;Greetings *Elizabeth*, from **markdown**!
+
+- This is a list
+- Of things you could do
+- With this Tag Helper&lt;/markdown&gt;</pre>
+</figure>
+
+<h2>Partial Tag Helper</h2>
+<p>
+    Use <code>&lt;partial&gt;</code> to render a Razor partial. A model can optionally be provided via the <code>model</code> attribute.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @{ var greetingName = "Elizabeth"; }
+        <partial name="_Greeting" model="greetingName" />
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>@@{ var greetingName = "Elizabeth"; }
+&lt;partial name="_Greeting" model="greetingName" /&gt;</pre>
+</figure>
+
+<h2>Script Inlining Tag Helper</h2>
+<p>
+    Use <code>&lt;script src="..." asp-inline="true"&gt;</code> to inline the contents of the referenced JavaScript file in the
+    element body.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="jsGreeting"></div>
+        <script src="~/js/site.js" asp-inline="true"></script>
+        <script>document.getElementById('jsGreeting').appendChild(document.createTextNode(getGreeting('Elizabeth')))</script>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;script src="~/js/site.js" inline="true"&gt;&lt;/script&gt;</pre>
+</figure>
+
+<h2>If Tag Helper</h2>
+<p>
+    Use <code>&lt;element asp-if="..."&gt;</code> to condtionally suppress an element and its content when
+    the provided expression is <code>false</code>.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div asp-if="(DateTime.UtcNow.Minute % 2) == 0">This paragraph will only render during <strong>even</strong> mintues.</div>
+        <div asp-if="(DateTime.UtcNow.Minute % 2) == 1">This paragraph will only render during <strong>odd</strong> mintues.</div>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;div <strong>asp-if</strong>="(DateTime.UtcNow.Minute % 2) == 0"&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; mintues.&lt;/div&gt;
+&lt;div <strong>asp-if</strong>="(DateTime.UtcNow.Minute % 2) == 1"&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; mintues.&lt;/div&gt;</pre>
+</figure>

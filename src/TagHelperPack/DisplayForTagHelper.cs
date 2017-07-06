@@ -34,7 +34,10 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.PostContent.AppendHtml(_htmlHelper.Display(For.Metadata.PropertyName));
+            // BUG: This doesn't work for nested expressions, e.g.
+            // @foreach (var order in Model.Orders) {
+            //   <span asp-display-for="@order.PlacedOn"></span>
+            output.PostContent.AppendHtml(_htmlHelper.Display(For.Name));
         }
     }
 }
