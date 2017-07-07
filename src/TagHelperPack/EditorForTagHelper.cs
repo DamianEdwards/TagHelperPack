@@ -34,7 +34,7 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.PostContent.AppendHtml(_htmlHelper.Editor(For.Name));
+            output.PostContent.AppendHtml(_htmlHelper.Editor(For));
         }
     }
 }

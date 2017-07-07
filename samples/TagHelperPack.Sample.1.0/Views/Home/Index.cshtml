@@ -1,6 +1,6 @@
 ﻿@model TagHelperPack.Sample.Models.Customer
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Tag Helper Pack Samples";
 }
 
 <h1>Tag Helper Pack Samples on ASP.NET Core 1.0.x</h1>
@@ -25,7 +25,7 @@
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
-        <form>
+        <form asp-action="IndexPost">
             <div class="form-group">
                 <label asp-for="Id"></label>
                 <p class="form-control-static" asp-display-for="Id"></p>
@@ -33,16 +33,20 @@
             <div class="form-group">
                 <label asp-for="FirstName"></label>
                 <editor for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
                 <editor for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BirthDate"></label>
                 <editor for="BirthDate" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
-            <table class="table">
+            <table class="table table-bordered table-condensed">
+                <caption>Customer Orders</caption>
                 <thead>
                     <tr>
                         <th asp-display-name-for="Orders[0].PlacedOn"></th>
@@ -59,12 +63,58 @@
                     }
                 </tbody>
             </table>
+            <div class="form-group">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
         </form>
     </div>
 </div>
 <h4>Source</h4>
 <figure>
-    <pre></pre>
+    <pre>&lt;form asp-action="IndexPost"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="Id"&gt;&lt;/label&gt;
+        &lt;p class="form-control-static" asp-display-for="Id"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="FirstName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="FirstName" /&gt;</strong>
+        &lt;span asp-validation-for="FirstName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="LastName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="LastName" /&gt;</strong>
+        &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="BirthDate" /&gt;</strong>
+        &lt;span asp-validation-for="BirthDate" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;table class="table table-bordered table-condensed"&gt;
+        &lt;caption&gt;Customer Orders&lt;/caption&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"&gt;</strong>&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Total"&gt;</strong>&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @@foreach (var order in Model.Orders)
+            {
+                &lt;tr&gt;
+                    &lt;td <strong>asp-display-for="@@order.PlacedOn"&gt;</strong>&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Total"&gt;</strong>&lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="text-danger" asp-validation-summary="ModelOnly"&gt;&lt;/div&gt;
+        &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</pre>
 </figure>
 
 <h2>Markdown Tag Helper</h2>
@@ -104,7 +154,7 @@
 <h4>Source</h4>
 <figure>
     <pre>@@{ var greetingName = "Elizabeth"; }
-&lt;partial name="_Greeting" model="greetingName" /&gt;</pre>
+<strong>&lt;partial name="_Greeting" model="greetingName" /&gt;</strong></pre>
 </figure>
 
 <h2>Script Inlining Tag Helper</h2>
@@ -122,7 +172,7 @@
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;script src="~/js/site.js" inline="true"&gt;&lt;/script&gt;</pre>
+    <pre>&lt;script src="~/js/site.js" <strong>inline="true"</strong>&gt;&lt;/script&gt;</pre>
 </figure>
 
 <h2>If Tag Helper</h2>
@@ -139,6 +189,10 @@
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;div <strong>asp-if</strong>="(DateTime.UtcNow.Minute % 2) == 0"&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; mintues.&lt;/div&gt;
-&lt;div <strong>asp-if</strong>="(DateTime.UtcNow.Minute % 2) == 1"&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; mintues.&lt;/div&gt;</pre>
+    <pre>&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 0"</strong>&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; mintues.&lt;/div&gt;
+&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; mintues.&lt;/div&gt;</pre>
 </figure>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

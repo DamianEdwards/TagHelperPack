@@ -34,7 +34,7 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.Content.SetHtmlContent(_htmlHelper.Display(For.Name));
+            output.Content.SetHtmlContent(_htmlHelper.Display(For));
 
             output.TagName = null;
         }
