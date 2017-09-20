@@ -1,11 +1,17 @@
 ﻿@model TagHelperPack.Sample.Models.Customer
+@inject TagHelperPack.Sample.Services.AspNetCoreVersion AspNetCoreVersion
 @{
     ViewData["Title"] = "Tag Helper Pack Samples";
 }
 
-<h1>Tag Helper Pack Samples on ASP.NET Core 1.0.x</h1>
+<h1>Tag Helper Pack Samples</h1>
+<p>Supported on ASP.NET Core 1.0.x, 1.1.x, and 2.0.x. (This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion)</p>
 
-<h2>Field Template &amp; Data Annotation Tag Helpers</h2>
+<h2>Installation &amp; Issues</h2>
+<p>See installation instructions and file issues at <a href="https://github.com/DamianEdwards/TagHelperPack">GitHub</a>.</p>
+
+<h2>Examples</h2>
+<h3>Field Template &amp; Data Annotation Tag Helpers</h3>
 <p>
     Use <code>&lt;element asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
     value using the relevant field display template.
@@ -117,7 +123,7 @@
 &lt;/form&gt;</pre>
 </figure>
 
-<h2>Markdown Tag Helper</h2>
+<h3>Markdown Tag Helper</h3>
 <p>
     Use <code>&lt;markdown&gt;</code> to render markdown in the page/view.
 </p>
@@ -140,7 +146,7 @@
 - With this Tag Helper&lt;/markdown&gt;</pre>
 </figure>
 
-<h2>Partial Tag Helper</h2>
+<h3>Partial Tag Helper</h3>
 <p>
     Use <code>&lt;partial&gt;</code> to render a Razor partial. A model can optionally be provided via the <code>model</code> attribute.
 </p>
@@ -157,7 +163,7 @@
 <strong>&lt;partial name="_Greeting" model="greetingName" /&gt;</strong></pre>
 </figure>
 
-<h2>Script Inlining Tag Helper</h2>
+<h3>Script Inlining Tag Helper</h3>
 <p>
     Use <code>&lt;script src="..." asp-inline="true"&gt;</code> to inline the contents of the referenced JavaScript file in the
     element body.
@@ -172,10 +178,10 @@
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;script src="~/js/site.js" <strong>inline="true"</strong>&gt;&lt;/script&gt;</pre>
+    <pre>&lt;script src="~/js/site.js" <strong>asp-inline="true"</strong>&gt;&lt;/script&gt;</pre>
 </figure>
 
-<h2>If Tag Helper</h2>
+<h3>If Tag Helper</h3>
 <p>
     Use <code>&lt;element asp-if="..."&gt;</code> to condtionally suppress an element and its content when
     the provided expression is <code>false</code>.

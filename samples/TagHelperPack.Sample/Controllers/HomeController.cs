@@ -13,6 +13,7 @@ namespace TagHelperPack.Sample.Controllers
         {
             var customer = new Customer
             {
+                Id = 123,
                 FirstName = "Elizabeth",
                 LastName = "Edwards",
                 BirthDate = new DateTime(2005, 8, 8)
