@@ -26,3 +26,7 @@ Add the MyGet feed to your project's NuGet configuration:
     ```
     MyGreatProject> dotnet restore
     ```
+1. Register the Tag Helpers in your application's `_ViewImports.cshtml` file:
+    ```
+   @addTagHelper *, TagHelperPack
+    ```
