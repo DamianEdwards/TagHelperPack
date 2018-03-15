@@ -19,7 +19,7 @@ namespace TagHelperPack
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            var markdownRazorContent = await output.GetChildContentAsync();
+            var markdownRazorContent = await output.GetChildContentAsync(NullHtmlEncoder.Default);
             var markdownHtmlContent = new MarkdownHtmlContent(markdownRazorContent.GetContent(NullHtmlEncoder.Default));
 
             output.Content.SetHtmlContent(markdownHtmlContent);
