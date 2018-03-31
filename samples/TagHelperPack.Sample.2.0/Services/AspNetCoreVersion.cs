@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace TagHelperPack.Sample.Services
 {
@@ -38,11 +37,11 @@ namespace TagHelperPack.Sample.Services
                     }
                     else
                     {
-                        
+
                         _version += " on " + ".NET Core " + GetCoreFrameworkVersion();
                     }
                 }
-                
+
                 return _version;
             }
         }
@@ -66,10 +65,15 @@ namespace TagHelperPack.Sample.Services
                 }
                 catch (Exception)
                 {
+                    var appAssembly = Assembly.Load(new AssemblyName(_env.ApplicationName));
+                    return DependencyContext.Load(appAssembly)
+                        .RuntimeLibraries
+                        .FirstOrDefault(l => string.Equals(l.Name, "Microsoft.NETCore.App", StringComparison.OrdinalIgnoreCase))
+                        .Version;
                 }
             }
 #endif
-            return PlatformServices.Default.Application.RuntimeFramework.Version.ToString();
+            return null;
         }
     }
 }

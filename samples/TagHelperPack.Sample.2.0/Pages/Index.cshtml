@@ -1,0 +1,205 @@
+﻿@page
+@model IndexModel
+@inject TagHelperPack.Sample.Services.AspNetCoreVersion AspNetCoreVersion
+@{
+    ViewData["Title"] = "Tag Helper Pack Samples";
+}
+
+<h1>Tag Helper Pack Samples</h1>
+<p>Supported on ASP.NET Core 1.0.x, 1.1.x, and 2.0.x. (This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion)</p>
+
+<h2>Installation &amp; Issues</h2>
+<p>See installation instructions and file issues at <a href="https://github.com/DamianEdwards/TagHelperPack">GitHub</a>.</p>
+
+<h2>Examples</h2>
+<h3>Field Template &amp; Data Annotation Tag Helpers</h3>
+<p>
+    Use <code>&lt;element asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
+    value using the relevant field display template.
+</p>
+<p>
+    Use <code>&lt;element asp-editor-for="..."&gt;</code> or <code>&lt;editor for="..."&gt;</code> to render a model
+    value using the relevant field editor template.
+</p>
+<p>
+    Use <code>&lt;element asp-display-name-for="..."&gt;</code> or <code>&lt;display-name for="..."&gt;</code> to render a model
+    property's display name using the relevant field display template.
+</p>
+<p>
+    Use <code>&lt;label asp-for="..."&gt;</code> to include the model property's description in the <code>title</code>
+    attribute.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Customer.Id"></label>
+                <p class="form-control-static" asp-display-for="Customer.Id"></p>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.FirstName"></label>
+                <editor for="Customer.FirstName" />
+                <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.LastName"></label>
+                <editor for="Customer.LastName" />
+                <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.BirthDate"></label>
+                <editor for="Customer.BirthDate" />
+                <span asp-validation-for="Customer.BirthDate" class="text-danger"></span>
+            </div>
+            <table class="table table-bordered table-condensed">
+                <caption>Customer Orders</caption>
+                <thead>
+                    <tr>
+                        <th asp-display-name-for="Customer.Orders[0].PlacedOn"></th>
+                        <th asp-display-name-for="Customer.Orders[0].Total"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Customer.Orders)
+                    {
+                        <tr>
+                            <td asp-display-for="@order.PlacedOn"></td>
+                            <td asp-display-for="@order.Total"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="form-group">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;form method="post"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="Id"&gt;&lt;/label&gt;
+        &lt;p class="form-control-static" asp-display-for="Id"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="FirstName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="FirstName" /&gt;</strong>
+        &lt;span asp-validation-for="FirstName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="LastName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="LastName" /&gt;</strong>
+        &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="BirthDate" /&gt;</strong>
+        &lt;span asp-validation-for="BirthDate" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;table class="table table-bordered table-condensed"&gt;
+        &lt;caption&gt;Customer Orders&lt;/caption&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"&gt;</strong>&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Total"&gt;</strong>&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @@foreach (var order in Model.Orders)
+            {
+                &lt;tr&gt;
+                    &lt;td <strong>asp-display-for="@@order.PlacedOn"&gt;</strong>&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Total"&gt;</strong>&lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="text-danger" asp-validation-summary="ModelOnly"&gt;&lt;/div&gt;
+        &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</pre>
+</figure>
+
+<h3>Markdown Tag Helper</h3>
+<p>
+    Use <code>&lt;markdown&gt;</code> to render markdown in the page/view.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <markdown>Greetings *Elizabeth*, from **markdown**!
+
+- This is a list
+- Of things you could do
+- With this Tag Helper</markdown>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;markdown&gt;Greetings *Elizabeth*, from **markdown**!
+
+- This is a list
+- Of things you could do
+- With this Tag Helper&lt;/markdown&gt;</pre>
+</figure>
+
+<h3>Partial Tag Helper</h3>
+<p>
+    Use <code>&lt;partial&gt;</code> to render a Razor partial. A model can optionally be provided via the <code>model</code> attribute.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @{ var greetingName = "Elizabeth"; }
+        <partial name="_Greeting" model="greetingName" />
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>@@{ var greetingName = "Elizabeth"; }
+<strong>&lt;partial name="_Greeting" model="greetingName" /&gt;</strong></pre>
+</figure>
+
+<h3>Script Inlining Tag Helper</h3>
+<p>
+    Use <code>&lt;script src="..." asp-inline="true"&gt;</code> to inline the contents of the referenced JavaScript file in the
+    element body.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="jsGreeting"></div>
+        <script src="~/js/site.js" asp-inline="true"></script>
+        <script>document.getElementById('jsGreeting').appendChild(document.createTextNode(getGreeting('Elizabeth')))</script>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;script src="~/js/site.js" <strong>asp-inline="true"</strong>&gt;&lt;/script&gt;</pre>
+</figure>
+
+<h3>If Tag Helper</h3>
+<p>
+    Use <code>&lt;element asp-if="..."&gt;</code> to condtionally suppress an element and its content when
+    the provided expression is <code>false</code>.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div asp-if="(DateTime.UtcNow.Minute % 2) == 0">This paragraph will only render during <strong>even</strong> mintues.</div>
+        <div asp-if="(DateTime.UtcNow.Minute % 2) == 1">This paragraph will only render during <strong>odd</strong> mintues.</div>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 0"</strong>&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; minutes.&lt;/div&gt;
+&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; minutes.&lt;/div&gt;</pre>
+</figure>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
