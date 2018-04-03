@@ -199,6 +199,23 @@
 &lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; minutes.&lt;/div&gt;</pre>
 </figure>
 
+<h3>If combined with Partial</h3>
+<p>
+    Remember, you can compose certain Tag Helpers together on the same element, assuming they all apply to the specific element name.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <partial name="_Even" asp-if="(DateTime.UtcNow.Minute % 2) == 0" />
+        <partial name="_Odd" asp-if="(DateTime.UtcNow.Minute % 2) != 0" />
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;<strong>partial name="_Even" asp-if="(DateTime.UtcNow.Minute % 2) == 0"</strong> /&gt;
+&lt;<strong>partial name="_Odd" asp-if="(DateTime.UtcNow.Minute % 2) != 0"</strong> /&gt;</pre>
+</figure>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
