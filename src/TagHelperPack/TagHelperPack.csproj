@@ -20,12 +20,12 @@
     <PackageReference Include="Markdig" Version="0.15.4" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.4" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.6" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.6" />
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.6'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.*" />
   </ItemGroup>
   
 </Project>
