@@ -24,11 +24,7 @@ namespace TagHelperPack.Sample.Services
             {
                 if (_version == null)
                 {
-                    var appAssembly = Assembly.Load(new AssemblyName(_env.ApplicationName));
-                    _version = DependencyContext.Load(appAssembly)
-                        .RuntimeLibraries
-                        .FirstOrDefault(l => string.Equals(l.Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase))
-                        .Version;
+                    _version = GetAspNetCoreVersion();
 
                     var framework = RuntimeInformation.FrameworkDescription;
                     if (framework.StartsWith(".NET Framework"))
@@ -44,6 +40,31 @@ namespace TagHelperPack.Sample.Services
 
                 return _version;
             }
+        }
+
+        private string GetAspNetCoreVersion()
+        {
+            var aspNetCoreAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => string.Equals(a.GetName().Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase));
+
+            try
+            {    
+                var aspNetCorePath = aspNetCoreAssembly.Location;
+                if (aspNetCorePath.IndexOf($"dotnet{Path.DirectorySeparatorChar}shared{Path.DirectorySeparatorChar}Microsoft.AspNetCore.App", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    // Assemly path contains the shared framework name, the version is the dir above the assembly
+                    var parentDirName = Directory.GetParent(aspNetCorePath).Name;
+                    if (Version.TryParse(parentDirName, out Version aspNetCoreVersion))
+                    {
+                        return aspNetCoreVersion.ToString();
+                    }
+                }
+            }
+            catch (Exception) { }
+            
+            
+            // Just use the version of the Microsoft.AspNetCore assembly
+            return aspNetCoreAssembly.GetName().Version.ToString();
         }
 
         private string GetCoreFrameworkVersion()

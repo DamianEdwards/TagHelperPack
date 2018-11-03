@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
-    <Version>0.1.0-$(VersionSuffix)</Version>
-    <Version Condition="$(VersionSuffix) == ''">0.1.0</Version>
-    <Version Condition="$(VersionSuffix) != ''">0.1.0-$(VersionSuffix)</Version>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <Version>0.2.0-$(VersionSuffix)</Version>
+    <Version Condition="$(VersionSuffix) == ''">0.2.0</Version>
+    <Version Condition="$(VersionSuffix) != ''">0.2.0-$(VersionSuffix)</Version>
+    <TargetFrameworks>netstandard1.6;netstandard2.0;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseUrl>https://github.com/DamianEdwards/TagHelperPack/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
@@ -17,7 +17,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.14.9" />
+    <PackageReference Include="Markdig" Version="0.15.4" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.6" />
   </ItemGroup>
+  
 </Project>
