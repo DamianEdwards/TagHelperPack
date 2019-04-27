@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26621.2
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28824.287
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B871B0D-8E1E-4350-9959-DE8ED19CA113}"
 EndProject
@@ -9,9 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CE66
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack", "src\TagHelperPack\TagHelperPack.csproj", "{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack.Sample", "samples\TagHelperPack.Sample\TagHelperPack.Sample.csproj", "{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack.Sample.2.1", "samples\TagHelperPack.Sample.2.1\TagHelperPack.Sample.2.1.csproj", "{4B40FA24-7012-439B-98FB-138A80652F04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagHelperPack.Sample", "samples\TagHelperPack.Sample\TagHelperPack.Sample.csproj", "{90885970-EF7F-4CFA-AEFB-AE8036A08B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,22 +21,17 @@ Global
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B40FA24-7012-439B-98FB-138A80652F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B40FA24-7012-439B-98FB-138A80652F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B40FA24-7012-439B-98FB-138A80652F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B40FA24-7012-439B-98FB-138A80652F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90885970-EF7F-4CFA-AEFB-AE8036A08B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90885970-EF7F-4CFA-AEFB-AE8036A08B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90885970-EF7F-4CFA-AEFB-AE8036A08B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90885970-EF7F-4CFA-AEFB-AE8036A08B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4} = {5B871B0D-8E1E-4350-9959-DE8ED19CA113}
-		{6CC61FE9-F359-4F2A-A7DF-8E309318AC2A} = {CE6635DE-0546-4ECC-949A-08192E19E366}
-		{4B40FA24-7012-439B-98FB-138A80652F04} = {CE6635DE-0546-4ECC-949A-08192E19E366}
+		{90885970-EF7F-4CFA-AEFB-AE8036A08B36} = {CE6635DE-0546-4ECC-949A-08192E19E366}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59D4518E-872C-4D34-A5F6-385BB5D3B58C}

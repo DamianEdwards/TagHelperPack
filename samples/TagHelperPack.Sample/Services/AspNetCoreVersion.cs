@@ -3,18 +3,25 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace TagHelperPack.Sample.Services
 {
     public class AspNetCoreVersion
     {
+#if NETCOREAPP3_0
+        private readonly IHostEnvironment _env;
+#else
         private readonly IHostingEnvironment _env;
+#endif
         private string _version;
 
+#if NETCOREAPP3_0
+        public AspNetCoreVersion(IHostEnvironment env)
+#else
         public AspNetCoreVersion(IHostingEnvironment env)
+#endif
         {
             _env = env;
         }
@@ -25,11 +32,7 @@ namespace TagHelperPack.Sample.Services
             {
                 if (_version == null)
                 {
-                    var appAssembly = Assembly.Load(new AssemblyName(_env.ApplicationName));
-                    _version = DependencyContext.Load(appAssembly)
-                        .RuntimeLibraries
-                        .FirstOrDefault(l => string.Equals(l.Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase))
-                        .Version;
+                    _version = GetAspNetCoreVersion();
 
                     var framework = RuntimeInformation.FrameworkDescription;
                     if (framework.StartsWith(".NET Framework"))
@@ -38,38 +41,83 @@ namespace TagHelperPack.Sample.Services
                     }
                     else
                     {
-                        
+
                         _version += " on " + ".NET Core " + GetCoreFrameworkVersion();
                     }
                 }
-                
+
                 return _version;
             }
+        }
+
+        private static string GetSharedFrameworkVersion(string frameworkPath)
+        {
+            var versionFilePath = Path.Combine(frameworkPath, ".version");
+            if (File.Exists(versionFilePath))
+            {
+                var versionFile = new FileInfo(versionFilePath);
+
+                using (var fileStream = new StreamReader(versionFile.OpenRead()))
+                {
+                    // Version is 2nd line of the .version file
+                    fileStream.ReadLine();
+                    var secondLine = fileStream.ReadLine();
+                    return secondLine;
+                }
+            }
+            return string.Empty;
+        }
+
+        private string GetAspNetCoreVersion()
+        {
+            var aspNetCoreAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => string.Equals(a.GetName().Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase));
+
+            try
+            {    
+                var aspNetCorePath = aspNetCoreAssembly.Location;
+                if (aspNetCorePath.IndexOf($"dotnet{Path.DirectorySeparatorChar}shared{Path.DirectorySeparatorChar}Microsoft.AspNetCore.App", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return GetSharedFrameworkVersion(Path.GetDirectoryName(aspNetCorePath));
+                }
+            }
+            catch (Exception) { }
+            
+            
+            // Just use the version of the Microsoft.AspNetCore assembly
+            return aspNetCoreAssembly.GetName().Version.ToString();
         }
 
         private string GetCoreFrameworkVersion()
         {
 #if !NET461
-            var fxDepsFile = AppContext.GetData("FX_DEPS_FILE") as string;
+            // Try and get version directly from AppContext data
+            var fxProductVersion = AppContext.GetData("FX_PRODUCT_VERSION") as string;
+            if (!string.IsNullOrEmpty(fxProductVersion))
+            {
+                return fxProductVersion;
+            }
 
+            // Try and parse version from shared framework folder
+            var fxDepsFile = AppContext.GetData("FX_DEPS_FILE") as string;
             if (!string.IsNullOrEmpty(fxDepsFile))
             {
                 try
                 {
-                    var frameworkDir = new FileInfo(fxDepsFile) // Microsoft.NETCore.App.deps.json
-                        .Directory; // (version)
+                    var frameworkDirPath = Path.GetDirectoryName(fxDepsFile);
+                    return GetSharedFrameworkVersion(frameworkDirPath);
+                }
+                catch (Exception) { }
 
-                    if (Version.TryParse(frameworkDir.Name, out Version frameworkVersion))
-                    {
-                        return frameworkVersion.ToString();
-                    }
-                }
-                catch (Exception)
-                {
-                }
+                // Fallback to just getting version from dependency context
+                var appAssembly = Assembly.Load(new AssemblyName(_env.ApplicationName));
+                return DependencyContext.Load(appAssembly)
+                    .RuntimeLibraries
+                    .FirstOrDefault(l => string.Equals(l.Name, "Microsoft.NETCore.App", StringComparison.OrdinalIgnoreCase))
+                    .Version;
             }
 #endif
-            return PlatformServices.Default.Application.RuntimeFramework.Version.ToString();
+            return null;
         }
     }
 }

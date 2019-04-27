@@ -6,7 +6,7 @@
 }
 
 <h1>Tag Helper Pack Samples</h1>
-<p>Supported on ASP.NET Core 1.0.x, 1.1.x, and 2.1.x. (This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion)</p>
+<p>Supported on ASP.NET Core 2.1, 2.2 &amp; 3.0 (This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion)</p>
 
 <h2>Installation &amp; Issues</h2>
 <p>See installation instructions and file issues at <a href="https://github.com/DamianEdwards/TagHelperPack">GitHub</a>.</p>
@@ -14,15 +14,15 @@
 <h2>Examples</h2>
 <h3>Field Template &amp; Data Annotation Tag Helpers</h3>
 <p>
-    Use <code>&lt;element asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
+    Use <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
     value using the relevant field display template.
 </p>
 <p>
-    Use <code>&lt;element asp-editor-for="..."&gt;</code> or <code>&lt;editor for="..."&gt;</code> to render a model
+    Use <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code> or <code>&lt;editor for="..."&gt;</code> to render a model
     value using the relevant field editor template.
 </p>
 <p>
-    Use <code>&lt;element asp-display-name-for="..."&gt;</code> or <code>&lt;display-name for="..."&gt;</code> to render a model
+    Use <code>&lt;<em>any-element</em> asp-display-name-for="..."&gt;</code> or <code>&lt;display-name for="..."&gt;</code> to render a model
     property's display name using the relevant field display template.
 </p>
 <p>
@@ -145,23 +145,6 @@
 - This is a list
 - Of things you could do
 - With this Tag Helper&lt;/markdown&gt;</pre>
-</figure>
-
-<h3>Partial Tag Helper</h3>
-<p>
-    Use <code>&lt;partial&gt;</code> to render a Razor partial. A model can optionally be provided via the <code>model</code> attribute.
-</p>
-<h4>Example</h4>
-<div class="panel panel-default">
-    <div class="panel-body">
-        @{ var greetingName = "Elizabeth"; }
-        <partial name="_Greeting" model="greetingName" asp-if="true" />
-    </div>
-</div>
-<h4>Source</h4>
-<figure>
-    <pre>@@{ var greetingName = "Elizabeth"; }
-<strong>&lt;partial name="_Greeting" model="greetingName" /&gt;</strong></pre>
 </figure>
 
 <h3>Script Inlining Tag Helper</h3>

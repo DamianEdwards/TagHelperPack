@@ -3,29 +3,23 @@
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
-    <Version>0.2.0-$(VersionSuffix)</Version>
-    <Version Condition="$(VersionSuffix) == ''">0.2.0</Version>
-    <Version Condition="$(VersionSuffix) != ''">0.2.0-$(VersionSuffix)</Version>
-    <TargetFrameworks>netstandard1.6;netstandard2.0;net461</TargetFrameworks>
+    <SemVerVersion>0.3.0</SemVerVersion>
+    <Version>$(SemVerVersion)-$(VersionSuffix)</Version>
+    <Version Condition="$(VersionSuffix) == ''">$(SemVerVersion)</Version>
+    <Version Condition="$(VersionSuffix) != ''">$(SemVerVersion)-$(VersionSuffix)</Version>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
-    <PackageLicenseUrl>https://github.com/DamianEdwards/TagHelperPack/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.15.4" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.4" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.0.6" />
+    <PackageReference Include="Markdig" Version="0.16.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
   </ItemGroup>
   
 </Project>
