@@ -7,7 +7,7 @@
     <Version>$(SemVerVersion)-$(VersionSuffix)</Version>
     <Version Condition="$(VersionSuffix) == ''">$(SemVerVersion)</Version>
     <Version Condition="$(VersionSuffix) != ''">$(SemVerVersion)-$(VersionSuffix)</Version>
-    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
@@ -19,7 +19,14 @@
   
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.16.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   
 </Project>

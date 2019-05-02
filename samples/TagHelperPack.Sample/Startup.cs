@@ -27,7 +27,6 @@ namespace TagHelperPack.Sample
             services.AddRazorPages();
 #else
             services.AddMvc();
-
 #endif
         }
 

@@ -5,18 +5,18 @@ A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core (all ver
 ## Included Tag Helpers & Examples
 See the examples page at https://taghelperpack.azurewebsites.net
 
-Supports ASP.NET Core 1.0.x, 1.1.x, and 2.1.x
+Supports ASP.NET Core 2.1.x, 2.2.x, and 3.0.x
 
 ## Installing
 Add the MyGet feed to your project's NuGet configuration:
-1. Update (or create if it doesn't exist) your solution's `nuget.config` file (next to the .sln file) to include the [MyGet feed](https://www.myget.org/gallery/taghelperpack-ci):
+1. Add the CI [MyGet feed](https://www.myget.org/gallery/taghelperpack-ci) to your project's `.csproj` file:
     ``` xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <configuration>
-    <packageSources>
-        <add key="TagHelperPack-CI" value="https://www.myget.org/F/taghelperpack-ci/api/v3/index.json" protocolVersion="3" />
-    </packageSources>
-    </configuration>
+    <PropertyGroup>
+        <RestoreSources>
+            $(RestoreSources);
+            https://www.myget.org/F/taghelperpack-ci/api/v3/index.json
+        </RestoreSources>
+    </PropertyGroup>
     ```
 1. Add a reference to the package from the cmd line:
     ```
