@@ -3,10 +3,7 @@
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
-    <SemVerVersion>0.3.0</SemVerVersion>
-    <Version>$(SemVerVersion)-$(VersionSuffix)</Version>
-    <Version Condition="$(VersionSuffix) == ''">$(SemVerVersion)</Version>
-    <Version Condition="$(VersionSuffix) != ''">$(SemVerVersion)-$(VersionSuffix)</Version>
+    <VersionPrefix>0.3.0</VersionPrefix>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
