@@ -83,7 +83,6 @@ namespace TagHelperPack.Sample.Services
             }
             catch (Exception) { }
             
-            
             // Just use the version of the Microsoft.AspNetCore assembly
             return aspNetCoreAssembly.GetName().Version.ToString();
         }

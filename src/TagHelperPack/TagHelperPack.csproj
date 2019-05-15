@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
-    <VersionPrefix>0.3.0</VersionPrefix>
+    <VersionPrefix>0.4.0</VersionPrefix>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,6 +12,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RestoreSources>
+      $(ResourceSources);
+      https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
+    </RestoreSources>
   </PropertyGroup>
   
   <ItemGroup>

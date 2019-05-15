@@ -86,17 +86,17 @@
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="FirstName"&gt;&lt;/label&gt;
-        <strong>&lt;editor for="FirstName" /&gt;</strong>
+    <strong>&lt;editor for="FirstName" /&gt;</strong>
         &lt;span asp-validation-for="FirstName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="LastName"&gt;&lt;/label&gt;
-        <strong>&lt;editor for="LastName" /&gt;</strong>
+    <strong>&lt;editor for="LastName" /&gt;</strong>
         &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
-        <strong>&lt;editor for="BirthDate" /&gt;</strong>
+    <strong>&lt;editor for="BirthDate" /&gt;</strong>
         &lt;span asp-validation-for="BirthDate" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;table class="table table-bordered table-condensed"&gt;
@@ -131,11 +131,13 @@
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
-        <markdown>Greetings *Elizabeth*, from **markdown**!
+        <markdown>
+            Greetings *Elizabeth*, from **markdown**!
 
-- This is a list
-- Of things you could do
-- With this Tag Helper</markdown>
+            - This is a list
+            - Of things you could do
+            - With this Tag Helper
+        </markdown>
     </div>
 </div>
 <h4>Source</h4>
@@ -163,6 +165,31 @@
 <h4>Source</h4>
 <figure>
     <pre>&lt;script src="~/js/site.js" <strong>asp-inline="true"</strong>&gt;&lt;/script&gt;</pre>
+</figure>
+
+<h3>AuthZ Tag Helper</h3>
+<p>
+    Use <code>&lt;<em>any-element</em> asp-authz="..." asp-authz-policy=""&gt;</code> to specify authoriziation requirements that
+    must be satisified for this element to be rendered.
+</p>
+<h4>Example</h4>
+<ul class="nav nav-pills">
+    <li role="presentation"><a asp-route-auth="std" asp-authz="false">Log in as StandardUser</a></li>
+    <li role="presentation"><a asp-route-auth="admin" asp-authz="false">Log in as AdminUser</a></li>
+    <li role="presentation"><a asp-route-auth="" asp-authz>Log out</a></li>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div asp-authz>This will only render if the user is authenticated.</div>
+        <div asp-authz="false">This will only render when the user is <strong>*not*</strong> authenticated.</div>
+        <div asp-authz-policy="AdminPolicy">This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.</div>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;div asp-authz&gt;This will only render if the user is authenticated.&lt;/div&gt;
+&lt;div asp-authz="false"&gt;This will only render when the user is &lt;strong&gt;*not*&lt;/strong&gt; authenticated.&lt;/div&gt;
+&lt;div asp-authz-policy="AdminPolicy"&gt;This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.&lt;/div&gt;</pre>
 </figure>
 
 <h3>If Tag Helper</h3>

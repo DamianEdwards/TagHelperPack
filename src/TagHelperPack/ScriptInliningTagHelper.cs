@@ -19,7 +19,11 @@ namespace TagHelperPack
     {
         private readonly IFileProvider _wwwroot;
 
+#if NETCOREAPP3_0
+        public ScriptInliningTagHelper(IWebHostEnvironment env)
+#else
         public ScriptInliningTagHelper(IHostingEnvironment env)
+#endif
         {
             _wwwroot = env.WebRootFileProvider;
         }

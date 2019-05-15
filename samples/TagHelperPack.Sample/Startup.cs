@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,18 @@ namespace TagHelperPack.Sample
             services.AddSingleton<AspNetCoreVersion>();
 
             // Add framework services.
+            services.AddAuthentication("QueryAuth")
+                    .AddScheme<AuthenticationSchemeOptions, QueryAuthScheme>("QueryAuth", options => { });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("IsAdmin", "true");
+                });
+            });
+
 #if NETCOREAPP3_0
             services.AddRazorPages();
 #else
@@ -47,6 +60,8 @@ namespace TagHelperPack.Sample
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
 #if NETCOREAPP3_0
             app.UseRouting();
