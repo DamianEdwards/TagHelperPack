@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Html;
+using Markdig;
 
 namespace TagHelperPack
 {
@@ -37,7 +38,8 @@ namespace TagHelperPack
 
             public void WriteTo(TextWriter writer, HtmlEncoder encoder)
             {
-                Markdig.Markdown.ToHtml(_markdown, writer);
+                var pipeline = new MarkdownPipelineBuilder().DisableHtml().Build();
+                Markdig.Markdown.ToHtml(_markdown, writer, pipeline);
             }
         }
     }

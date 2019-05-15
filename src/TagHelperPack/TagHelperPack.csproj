@@ -14,7 +14,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RestoreSources>
       $(RestoreSources);
-      https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
+      https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json
     </RestoreSources>
   </PropertyGroup>
   
