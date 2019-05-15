@@ -5,6 +5,7 @@
     <RootNamespace>TagHelperPack.Sample</RootNamespace>
     <RestoreSources>
       $(RestoreSources);
+      https://api.nuget.org/v3/index.json;
       https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
       https://dotnetfeed.blob.core.windows.net/dotnet-windowsdesktop/index.json;
       https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore/index.json;
