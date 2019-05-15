@@ -4,7 +4,7 @@
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>TagHelperPack.Sample</RootNamespace>
     <RestoreSources>
-      $(ResourceSources);
+      $(RestoreSources);
       https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
     </RestoreSources>
   </PropertyGroup>

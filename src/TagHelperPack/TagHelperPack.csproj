@@ -13,7 +13,7 @@
     <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RestoreSources>
-      $(ResourceSources);
+      $(RestoreSources);
       https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
     </RestoreSources>
   </PropertyGroup>
