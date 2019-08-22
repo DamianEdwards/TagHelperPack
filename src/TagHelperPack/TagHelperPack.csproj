@@ -6,7 +6,7 @@
     <VersionPrefix>0.5.0</VersionPrefix>
     <VersionSuffix Condition="'$(BuildNumber)' == ''">pre</VersionSuffix>
     <VersionSuffix Condition="'$(BuildNumber)' != ''">pre-$(BuildNumber)</VersionSuffix>
-    <InformationalVersion Condition="'$(SourceVersion)' != ''">$(InformationalVersion)+$(SourceVersion)</InformationalVersion>
+    <InformationalVersion Condition="'$(SourceVersion)' != ''">$(Version)+$(SourceVersion)</InformationalVersion>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net461</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
