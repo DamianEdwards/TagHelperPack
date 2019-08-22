@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoWarn>NU5105</NoWarn>
   </PropertyGroup>
   
   <ItemGroup>
@@ -27,10 +27,4 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
-  <Target Name="SetInformationalVersion" BeforeTargets="Build;Pack">
-    <PropertyGroup>
-      <InformationalVersion Condition="'$(SourceVersion)' != ''">$(InformationalVersion)+$(SourceVersion)</InformationalVersion>
-    </PropertyGroup>
-  </Target>
 </Project>
