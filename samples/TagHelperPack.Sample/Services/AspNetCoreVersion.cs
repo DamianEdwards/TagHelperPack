@@ -35,14 +35,15 @@ namespace TagHelperPack.Sample.Services
                     _version = GetAspNetCoreVersion();
 
                     var framework = RuntimeInformation.FrameworkDescription;
-                    if (framework.StartsWith(".NET Framework"))
+
+                    // .NET Core 1.x and 2.x both report themselves as .NET Core 4.x :(
+                    if (framework.StartsWith(".NET Framework") || !framework.StartsWith(".NET Core 4."))
                     {
                         _version += " on " + framework;
                     }
                     else
                     {
-
-                        _version += " on " + ".NET Core " + GetCoreFrameworkVersion();
+                        _version += " on " + ".NET Core " + GetPre30CoreFrameworkVersion();
                     }
                 }
 
@@ -87,7 +88,7 @@ namespace TagHelperPack.Sample.Services
             return aspNetCoreAssembly.GetName().Version.ToString();
         }
 
-        private string GetCoreFrameworkVersion()
+        private string GetPre30CoreFrameworkVersion()
         {
 #if !NET461
             // Try and get version directly from AppContext data
