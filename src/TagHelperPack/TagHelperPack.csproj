@@ -17,7 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.16.0" />
   </ItemGroup>
-
+  
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
   </ItemGroup>

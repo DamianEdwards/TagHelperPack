@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
