@@ -10,14 +10,14 @@ namespace TagHelperPack.Sample.Services
 {
     public class AspNetCoreVersion
     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
         private readonly IHostEnvironment _env;
 #else
         private readonly IHostingEnvironment _env;
 #endif
         private string _version;
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
         public AspNetCoreVersion(IHostEnvironment env)
 #else
         public AspNetCoreVersion(IHostingEnvironment env)

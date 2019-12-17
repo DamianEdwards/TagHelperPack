@@ -12,9 +12,9 @@
       https://grpc.jfrog.io/grpc/api/nuget/v3/grpc-nuget-dev;
     </RestoreSources>
   </PropertyGroup>
-  <ItemGroup Condition="'$(EnableDotNetCorePreviewFeeds)' == 'true' And '$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Update="Microsoft.AspNetCore.*" Version="3.0.0-*" />
-    <PackageReference Update="Microsoft.Extensions.*" Version="3.0.0-*" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.*" Version="3.0.0-*" />
+  <ItemGroup Condition="'$(EnableDotNetCorePreviewFeeds)' == 'true' And '$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Update="Microsoft.AspNetCore.*" Version="3.1.0-*" />
+    <PackageReference Update="Microsoft.Extensions.*" Version="3.1.0-*" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.*" Version="3.1.0-*" />
   </ItemGroup>
 </Project>

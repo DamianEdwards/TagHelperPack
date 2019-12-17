@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <EnableDotNetCorePreviewFeeds>true</EnableDotNetCorePreviewFeeds>
+    <EnableDotNetCorePreviewFeeds>false</EnableDotNetCorePreviewFeeds>
   </PropertyGroup>
 </Project>
