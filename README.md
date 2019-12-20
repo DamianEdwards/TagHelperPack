@@ -5,7 +5,7 @@ A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core (all ver
 ## Included Tag Helpers & Examples
 See the examples page at https://taghelperpack.net
 
-Supports ASP.NET Core 2.1.x, 2.2.x, and 3.0.x
+Supports ASP.NET Core 2.1.x, 2.2.x, 3.0.x, and 3.1.x
 
 ## Installing
 1. Add a reference to the package from the cmd line:
