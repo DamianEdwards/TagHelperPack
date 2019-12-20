@@ -3,7 +3,7 @@
 A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core (all versions).
 
 ## Included Tag Helpers & Examples
-See the examples page at https://taghelperpack.azurewebsites.net
+See the examples page at https://taghelperpack.net
 
 Supports ASP.NET Core 2.1.x, 2.2.x, and 3.0.x
 
