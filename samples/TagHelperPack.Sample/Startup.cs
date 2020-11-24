@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
 using Microsoft.Extensions.Hosting;
 #endif
 using TagHelperPack.Sample.Services;
@@ -36,7 +36,7 @@ namespace TagHelperPack.Sample
                 });
             });
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             services.AddRazorPages();
 #else
             services.AddMvc();
@@ -44,7 +44,7 @@ namespace TagHelperPack.Sample
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 #else
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -63,7 +63,7 @@ namespace TagHelperPack.Sample
 
             app.UseAuthentication();
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             app.UseRouting();
 
             app.UseEndpoints(routes =>
