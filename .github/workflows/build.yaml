@@ -68,7 +68,7 @@ jobs:
       run: dotnet publish ${{ env.PROJECT_NAME }} --framework net5.0 --configuration Release --no-build
     
     - name: Pack
-      run: dotnet pack ${{ env.PROJECT_NAME }} --configuration Release --no-restore -o ${{ env. ARTIFACTS_PATH }} /p:SourceRevisionId=${{ github.sha }}
+      run: dotnet pack ${{ env.PROJECT_NAME }} --configuration Release --no-restore -o ${{ env.ARTIFACTS_PATH }} /p:SourceRevisionId=${{ github.sha }}
 
     # To enable direct push to NuGet.org feed, add a GitHub SECRET to your repo with NUGET_API_KEY as the name and the NuGet API key as the value
     #- name: Publish NuGet package
