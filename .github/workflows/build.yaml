@@ -1,0 +1,81 @@
+name: "Build"
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+  workflow_dispatch:
+    branches:
+      - master
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+      
+jobs:
+  build:
+    if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
+    name: Build 
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+      DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: false
+      DOTNET_MULTILEVEL_LOOKUP: 0
+      PROJECT_NAME: src/TagHelperPack/TagHelperPack.csproj
+      ARTIFACTS_PATH: ./published/
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core 2.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+
+    - name: Setup .NET Core 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Restore
+      run: dotnet restore ${{ env.PROJECT_NAME }}
+
+    - name: Build
+      run: dotnet build ${{ env.PROJECT_NAME }} --configuration Release --no-restore
+
+    - name: Publish net461
+      run: dotnet publish ${{ env.PROJECT_NAME }} --framework net461 --configuration Release --no-build
+    
+    - name: Publish netcoreapp2.1
+      run: dotnet publish ${{ env.PROJECT_NAME }} --framework netcoreapp2.1 --configuration Release --no-build
+    
+    - name: Publish netcoreapp3.1
+      run: dotnet publish ${{ env.PROJECT_NAME }} --framework netcoreapp3.1 --configuration Release --no-build
+    
+    - name: Publish net5.0
+      run: dotnet publish ${{ env.PROJECT_NAME }} --framework net5.0 --configuration Release --no-build
+    
+    - name: Pack
+      run: dotnet pack ${{ env.PROJECT_NAME }} --configuration Release --no-restore -o ${{ env. ARTIFACTS_PATH }} /p:SourceRevisionId=${{ github.sha }}
+
+    # To enable direct push to NuGet.org feed, add a GitHub SECRET to your repo with NUGET_API_KEY as the name and the NuGet API key as the value
+    #- name: Publish NuGet package
+    #  run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+    
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: published_assets
+        path: ${{ env.ARTIFACTS_PATH }}
