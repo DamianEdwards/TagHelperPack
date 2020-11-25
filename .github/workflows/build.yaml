@@ -49,6 +49,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+      # set an env var with the date of the run
+    - name: Set date env
+      run: echo "CURRENT_DATE=$(Get-Date -format "yyyyMMdd")" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      shell: pwsh
+
     - name: Restore
       run: dotnet restore ${{ env.PROJECT_NAME }}
 
@@ -68,7 +73,7 @@ jobs:
       run: dotnet publish ${{ env.PROJECT_NAME }} --framework net5.0 --configuration Release --no-build
     
     - name: Pack
-      run: dotnet pack ${{ env.PROJECT_NAME }} --configuration Release --no-restore -o ${{ env. ARTIFACTS_PATH }} /p:SourceRevisionId=${{ github.sha }}
+      run: dotnet pack ${{ env.PROJECT_NAME }} --configuration Release --no-restore -o ${{ env.ARTIFACTS_PATH }} /p:SourceRevisionId=${{ github.sha }} /p:BuildNumber=${{ env.CURRENT_DATE }}.${{ github.run_number }}
 
     # To enable direct push to NuGet.org feed, add a GitHub SECRET to your repo with NUGET_API_KEY as the name and the NuGet API key as the value
     #- name: Publish NuGet package
