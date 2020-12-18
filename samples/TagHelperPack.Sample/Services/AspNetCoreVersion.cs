@@ -90,7 +90,7 @@ namespace TagHelperPack.Sample.Services
 
         private string GetPre30CoreFrameworkVersion()
         {
-#if !NET461
+#if !NET471
             // Try and get version directly from AppContext data
             var fxProductVersion = AppContext.GetData("FX_PRODUCT_VERSION") as string;
             if (!string.IsNullOrEmpty(fxProductVersion))

@@ -6,7 +6,7 @@
     <VersionPrefix>0.6.0</VersionPrefix>
     <VersionSuffix Condition="'$(BuildNumber)' == ''">pre</VersionSuffix>
     <VersionSuffix Condition="'$(BuildNumber)' != ''">pre-$(BuildNumber)</VersionSuffix>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net471</TargetFrameworks>
     <Copyright>Copyright © Damian Edwards</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
@@ -17,7 +17,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.16.0" />
+    <PackageReference Include="Markdig" Version="0.22.1" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
@@ -28,7 +28,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
   </ItemGroup>
 </Project>
