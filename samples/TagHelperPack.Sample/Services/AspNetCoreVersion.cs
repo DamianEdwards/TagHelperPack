@@ -15,7 +15,7 @@ namespace TagHelperPack.Sample.Services
 #else
         private readonly IHostingEnvironment _env;
 #endif
-        private string _version;
+        private string? _version;
 
 #if NETCOREAPP3_1 || NET5_0
         public AspNetCoreVersion(IHostEnvironment env)
@@ -117,7 +117,7 @@ namespace TagHelperPack.Sample.Services
                     .Version;
             }
 #endif
-            return null;
+            return null!;
         }
     }
 }

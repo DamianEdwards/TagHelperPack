@@ -4,6 +4,8 @@
     <!-- Targeting minimum supported versions here despite package targeting lower in some cases -->
     <TargetFrameworks>net471;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
     <RootNamespace>TagHelperPack.Sample</RootNamespace>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">

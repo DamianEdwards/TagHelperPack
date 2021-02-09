@@ -13,13 +13,14 @@ namespace TagHelperPack.Sample.Models
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "First name", Prompt = "Enter customer's first name", Description = "The customer's first name.")]
-        public string FirstName { get; set; }
+        [Display(Name = "First name", Prompt = "Enter customer's first name",
+            Description = "The customer's first name.")]
+        public string FirstName { get; set; } = default!;
 
         [Required]
         [StringLength(100)]
         [Display(Name = "Last name", Prompt = "Enter customer's last name", Description = "The customer's last name.")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = default!;
 
         [Display(Name = "Birth date", Description = "The customer's date of birth.")]
         [DataType(DataType.Date)]

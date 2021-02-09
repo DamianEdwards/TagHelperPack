@@ -7,8 +7,7 @@ namespace TagHelperPack.Sample.Pages
 {
     public class IndexModel : PageModel
     {
-        [BindProperty]
-        public Customer Customer { get; set; }
+        [BindProperty] public Customer Customer { get; set; } = new Customer();
 
         public void OnGet()
         {
