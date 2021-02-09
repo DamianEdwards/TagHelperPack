@@ -10,7 +10,7 @@ namespace TagHelperPack.Sample.Models
     {
         public int Id { get; set; }
 
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = new Customer();
 
         public int CustomerId { get; set; }
 
