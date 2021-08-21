@@ -53,6 +53,12 @@
                 <editor for="Customer.BirthDate" />
                 <span asp-validation-for="Customer.BirthDate" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Customer.Country"></label>
+                <input asp-for="Customer.Country" class="form-control" list="countries" />
+                <datalist id="countries" asp-list="@Models.Customer.Countries"><option value="GB" /></datalist>
+                <span asp-validation-for="Customer.Country" class="text-danger"></span>
+            </div>
             <table class="table table-bordered table-condensed">
                 <caption>Customer Orders</caption>
                 <thead>
@@ -99,6 +105,12 @@
         &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
         <strong>&lt;editor for="BirthDate" /&gt;</strong>
         &lt;span asp-validation-for="BirthDate" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="Customer.Country"&gt;&lt;/label&gt;
+        &lt;input asp-for="Customer.Country" class="form-control" list="countries" /&gt;
+        &lt;datalist id="countries" <strong>asp-list="@@Models.Customer.Countries"</strong>&gt;&lt;option value="GB" /&gt;&lt;/datalist&gt;
+        &lt;span asp-validation-for="Customer.Country" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;table class="table table-bordered table-condensed"&gt;
         &lt;caption&gt;Customer Orders&lt;/caption&gt;

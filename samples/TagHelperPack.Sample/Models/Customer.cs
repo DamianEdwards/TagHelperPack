@@ -9,6 +9,8 @@ namespace TagHelperPack.Sample.Models
 {
     public class Customer
     {
+        public static readonly IList<string> Countries = new List<string> { "DE", "FR", "US" };
+
         public int Id { get; set; }
 
         [Required]
@@ -24,6 +26,10 @@ namespace TagHelperPack.Sample.Models
         [Display(Name = "Birth date", Description = "The customer's date of birth.")]
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
+
+        [Display(Name = "Country", Description = "The customer's country.")]
+        [DataType(DataType.Text)]
+        public string Country { get; set; }
 
         public IList<Order> Orders { get; set; } = new List<Order>();
     }
