@@ -41,9 +41,6 @@ jobs:
 
     - name: Publish sample (net471)
       run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
-      
-    - name: Publish sample (netcoreapp2.1)
-      run: dotnet publish $SAMPLE_PATH --framework netcoreapp2.1 --configuration Release --no-build --verbosity normal
 
     - name: Publish sample (netcoreapp3.1)
       run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
