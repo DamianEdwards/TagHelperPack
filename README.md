@@ -1,4 +1,4 @@
-# TagHelperPack [![Build status](https://damianedwards.visualstudio.com/TagHelperPack/_apis/build/status/build/TagHelperPack-ASP.NET%20Core-CI)](https://damianedwards.visualstudio.com/TagHelperPack/_build/latest?definitionId=1) [![NuGet](https://img.shields.io/nuget/v/TagHelperPack?logo=nuget)](https://www.nuget.org/packages/TagHelperPack/)
+# TagHelperPack ![CI](https://github.com/DamianEdwards/TagHelperPack/actions/workflows/ci.yml/badge.svg) [![Build status](https://damianedwards.visualstudio.com/TagHelperPack/_apis/build/status/build/TagHelperPack-ASP.NET%20Core-CI)](https://damianedwards.visualstudio.com/TagHelperPack/_build/latest?definitionId=1) [![NuGet](https://img.shields.io/nuget/v/TagHelperPack?logo=nuget)](https://www.nuget.org/packages/TagHelperPack/)
 
 A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core (all versions).
 
