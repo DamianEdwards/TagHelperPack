@@ -52,7 +52,7 @@ jobs:
       run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
       
     - name: Pack
-      run: dotnet pack --configuration Release --output finalpackage --verbosity d /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
     - name: Upload nupkg
       uses: actions/upload-artifact@master

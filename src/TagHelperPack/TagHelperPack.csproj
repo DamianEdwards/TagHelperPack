@@ -21,6 +21,7 @@
   
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.26.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
