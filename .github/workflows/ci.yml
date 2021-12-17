@@ -8,9 +8,6 @@ on:
     - '**/*.gitignore'
     - '**/*.gitattributes'
     
-  pull_request:
-    branches: [ master ]
-    
   workflow_dispatch:
 
 env:
@@ -84,3 +81,16 @@ jobs:
 
       - name: Push to GitHub Packages
         run: dotnet nuget push **/*.nupkg -s "GPR" --skip-duplicate
+  
+  clean:
+    needs: deploy
+    runs-on: ubuntu-latest
+    name: Delete old packages on repo feed
+
+    steps:
+      - name: Delete old packages
+        uses: smartsquaregmbh/delete-old-packages@v0.3.1
+        with:
+          keep: 5
+          names: |
+            TagHelperPack
