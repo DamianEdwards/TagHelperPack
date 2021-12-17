@@ -49,16 +49,24 @@ jobs:
       run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-restore --no-build --verbosity normal
     
     - name: Publish sample (net5.0)
-      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-restore --no-build --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net5.0 --configuration Release --no-restore --no-build --verbosity normal
       
     - name: Pack
       run: dotnet pack --no-build --configuration Release --output finalpackage --verbosity d /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
-    - name: Publish artifacts
+    - name: Upload nupkg
       uses: actions/upload-artifact@master
       with:
         name: nupkg
         path: finalpackage
+        retention-days: 30
+    
+    - name: Upload sample site
+      uses: actions/upload-artifact@master
+      with:
+        name: samplesite
+        path: samplesite
+        retention-days: 30
       
   deploy:
     needs: build
