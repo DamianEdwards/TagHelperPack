@@ -10,14 +10,15 @@ namespace TagHelperPack.Sample.Services
 {
     public class AspNetCoreVersion
     {
-#if NETCOREAPP3_1 || NET5_0
+#if !NET471
         private readonly IHostEnvironment _env;
 #else
         private readonly IHostingEnvironment _env;
 #endif
         private string _version;
+        private string _osName;
 
-#if NETCOREAPP3_1 || NET5_0
+#if !NET471
         public AspNetCoreVersion(IHostEnvironment env)
 #else
         public AspNetCoreVersion(IHostingEnvironment env)
@@ -48,6 +49,38 @@ namespace TagHelperPack.Sample.Services
                 }
 
                 return _version;
+            }
+        }
+
+        public string OperatingSystemName
+        {
+            get
+            {
+                if (_osName == null)
+                {
+#if NET471_OR_GREATER
+                    _osName = Environment.OSVersion.Platform.ToString();
+#else
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        _osName = "Windows";
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        _osName = "Linux";
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        _osName = "macOS";
+                    }
+                    else
+                    {
+                        _osName = "unknown";
+                    }
+#endif
+                }
+
+                return _osName;
             }
         }
 
