@@ -1,0 +1,78 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  DOTNET_SDK_VERSION: 6.0.100
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build, Pack
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Set current date as env variable
+      run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      
+    - name: Create build number
+      run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+    
+    - name: Publish sample (net471)
+      run: dotnet publish --framework net471 --configuration Release --no-restore --no-build --verbosity normal
+      
+    - name: Publish sample (netcoreapp2.1)
+      run: dotnet publish --framework netcoreapp2.1 --configuration Release --no-restore --no-build --verbosity normal
+      
+    - name: Publish sample (netcoreapp3.1)
+      run: dotnet publish --framework netcoreapp3.1 --configuration Release --no-restore --no-build --verbosity normal
+    
+    - name: Publish sample (net5.0)
+      run: dotnet publish --framework net5.0 --configuration Release --no-restore --no-build --verbosity normal
+      
+    - name: Pack
+      run: dotnet pack --no-build --configuration Release --output finalpackage --verbosity d /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+
+    - name: Publish artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: nupkg
+        path: finalpackage
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    name: Push nupkg to repo packages feed
+
+    steps:
+      - name: Download package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: nupkg
+
+      - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+      - name: Add GitHub Package Repository source
+        run: dotnet nuget add source --username ${{ secrets.GPR_USERNAME }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name GPR ${{ secrets.GPR_URI }}
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push **/*.nupkg -s "GPR" --skip-duplicate
