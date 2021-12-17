@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build, Pack
+    name: Build package & sample site
 
     steps:
     - uses: actions/checkout@v2
@@ -71,7 +71,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    name: Push nupkg to repo packages feed
+    name: Deploy NuGet package & sample site
 
     steps:
       - name: Download artifacts

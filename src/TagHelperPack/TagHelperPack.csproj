@@ -12,7 +12,10 @@
     <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>aspnetcore, taghelpers, razor, cshtml</PackageTags>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsPackable>true</IsPackable>
+    <DebugType>embedded</DebugType>
+    <PackageTags>aspnetcore taghelpers razor cshtml</PackageTags>
     <NoWarn>NU5105</NoWarn>
   </PropertyGroup>
   
