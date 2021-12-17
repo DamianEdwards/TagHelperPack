@@ -15,6 +15,7 @@ on:
 
 env:
   DOTNET_SDK_VERSION: 6.0.100
+  SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
 
 jobs:
   build:
@@ -42,16 +43,16 @@ jobs:
       run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
     
     - name: Publish sample (net471)
-      run: dotnet publish --framework net471 --configuration Release --no-restore --no-build --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-restore --no-build --verbosity normal
       
     - name: Publish sample (netcoreapp2.1)
-      run: dotnet publish --framework netcoreapp2.1 --configuration Release --no-restore --no-build --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --framework netcoreapp2.1 --configuration Release --no-restore --no-build --verbosity normal
       
     - name: Publish sample (netcoreapp3.1)
-      run: dotnet publish --framework netcoreapp3.1 --configuration Release --no-restore --no-build --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-restore --no-build --verbosity normal
     
     - name: Publish sample (net5.0)
-      run: dotnet publish --framework net5.0 --configuration Release --no-restore --no-build --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-restore --no-build --verbosity normal
       
     - name: Pack
       run: dotnet pack --no-build --configuration Release --output finalpackage --verbosity d /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
