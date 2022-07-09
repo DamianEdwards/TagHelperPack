@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_SDK_VERSION: 6.0.201
+  DOTNET_SDK_VERSION: 6.0.x
   SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
 
 jobs:
