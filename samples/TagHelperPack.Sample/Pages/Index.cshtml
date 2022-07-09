@@ -31,6 +31,15 @@
     Use <code>&lt;label asp-for="..."&gt;</code> to include the model property's description in the <code>title</code>
     attribute.
 </p>
+<p>
+    When using <code>&lt;display for="..." /&gt;</code> or <code>&lt;editor for="..." /&gt;</code> use the
+    <code>template-name</code> attribute to override the template used to render the model.
+</p>
+<p>
+    When using <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or
+    <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code> use the <code>asp-template-name</code> attribute to
+    override the template used to render the model.
+</p>
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -46,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Customer.LastName"></label>
-                <editor for="Customer.LastName" />
+                <editor for="Customer.LastName" template-name="String2" />
                 <span asp-validation-for="Customer.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -59,6 +68,7 @@
                 <thead>
                     <tr>
                         <th asp-display-name-for="Customer.Orders[0].PlacedOn"></th>
+                        <th asp-display-name-for="Customer.Orders[0].Customer"></th>
                         <th asp-display-name-for="Customer.Orders[0].Total"></th>
                     </tr>
                 </thead>
@@ -67,6 +77,7 @@
                     {
                         <tr>
                             <td asp-display-for="@order.PlacedOn"></td>
+                            <td asp-display-for="@order.Customer" asp-template-name="CustomerName"></td>
                             <td asp-display-for="@order.Total"></td>
                         </tr>
                     }
@@ -93,7 +104,7 @@
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="LastName"&gt;&lt;/label&gt;
-        <strong>&lt;editor for="LastName" /&gt;</strong>
+        <strong>&lt;editor for="LastName" template-name="String2" /&gt;</strong>
         &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
@@ -106,6 +117,7 @@
         &lt;thead&gt;
             &lt;tr&gt;
                 &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"&gt;</strong>&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Customer"&gt;</strong>&lt;/th&gt;
                 &lt;th <strong>asp-display-name-for="Orders[0].Total"&gt;</strong>&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
@@ -114,6 +126,7 @@
             {
                 &lt;tr&gt;
                     &lt;td <strong>asp-display-for="@@order.PlacedOn"&gt;</strong>&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Customer" asp-template-name="CustomerName"&gt;</strong>&lt;/td&gt;
                     &lt;td <strong>asp-display-for="@@order.Total"&gt;</strong>&lt;/td&gt;
                 &lt;/tr&gt;
             }

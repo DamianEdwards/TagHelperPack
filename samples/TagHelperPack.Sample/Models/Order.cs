@@ -10,6 +10,7 @@ namespace TagHelperPack.Sample.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Placed By", Description = "The customer that placed the order.")]
         public Customer Customer { get; set; }
 
         public int CustomerId { get; set; }

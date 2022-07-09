@@ -26,6 +26,12 @@ namespace TagHelperPack
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
+        /// <summary>
+        /// The name of the template to use instead of the default one.
+        /// </summary>
+        [HtmlAttributeName("template-name")]
+        public string TemplateName { get; set; }
+
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -34,7 +40,7 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.Content.SetHtmlContent(_htmlHelper.Editor(For));
+            output.Content.SetHtmlContent(_htmlHelper.Editor(For, TemplateName));
 
             output.TagName = null;
         }
