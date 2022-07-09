@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -18,6 +15,7 @@ namespace TagHelperPack
     {
         // TODO: Support a 'src' attribute for specifying a source markdown file
 
+        /// <inheritdoc />
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var markdownRazorContent = await output.GetChildContentAsync(NullHtmlEncoder.Default);

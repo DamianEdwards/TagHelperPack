@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
@@ -19,9 +18,14 @@ namespace TagHelperPack
     {
         private readonly IFileProvider _wwwroot;
 
-#if NETCOREAPP3_1
+        /// <summary>
+        /// Creates a new instance of the <see cref="ScriptInliningTagHelper"/> class.
+        /// </summary>
+#if NETCOREAPP3_1_OR_GREATER
+        /// <param name="env">The <see cref="IWebHostEnvironment" />.</param>
         public ScriptInliningTagHelper(IWebHostEnvironment env)
 #else
+        /// <param name="env">The <see cref="IHostingEnvironment" />.</param>
         public ScriptInliningTagHelper(IHostingEnvironment env)
 #endif
         {
@@ -34,9 +38,13 @@ namespace TagHelperPack
         [HtmlAttributeName("asp-inline")]
         public bool Inline { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ViewContext"/>.
+        /// </summary>
         [ViewContext]
         public ViewContext ViewContext { get; set; }
 
+        /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (!Inline)

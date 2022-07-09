@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -15,6 +12,10 @@ namespace TagHelperPack
     {
         private readonly IHtmlHelper _htmlHelper;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="DisplayForTagHelper" /> class.
+        /// </summary>
+        /// <param name="htmlHelper">The <see cref="IHtmlHelper"/>.</param>
         public DisplayForTagHelper(IHtmlHelper htmlHelper)
         {
             _htmlHelper = htmlHelper;
@@ -32,10 +33,14 @@ namespace TagHelperPack
         [HtmlAttributeName("asp-template-name")]
         public string TemplateName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ViewContext"/>.
+        /// </summary>
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
 
+        /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);

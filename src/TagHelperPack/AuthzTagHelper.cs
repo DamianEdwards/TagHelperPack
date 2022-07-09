@@ -18,6 +18,10 @@ namespace TagHelperPack
 
         private readonly IAuthorizationService _authz;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="AuthzTagHelper" /> class.
+        /// </summary>
+        /// <param name="authz">The <see cref="IAuthorizationService"/>.</param>
         public AuthzTagHelper(IAuthorizationService authz)
         {
             _authz = authz;
@@ -30,15 +34,19 @@ namespace TagHelperPack
         public bool RequiresAuthentication { get; set; }
 
         /// <summary>
-        /// An authoriziation policy name that must be satisified in order for the current element to be rendered.
+        /// An authorization policy name that must be satisfied in order for the current element to be rendered.
         /// </summary>
         [HtmlAttributeName(AspAuthzPolicyAttributeName)]
         public string RequiredPolicy { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ViewContext"/>.
+        /// </summary>
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
 
+        /// <inheritdoc />
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy);

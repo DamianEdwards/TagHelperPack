@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
-using System.Linq.Expressions;
 
 namespace Microsoft.AspNetCore.Mvc.ViewFeatures
 {
-    public static class HtmlHelperExtensions
+    internal static class HtmlHelperExtensions
     {
         private static Func<HtmlHelper, ModelExplorer, string, string> _getDisplayNameThunk;
 

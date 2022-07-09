@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack
@@ -13,11 +10,12 @@ namespace TagHelperPack
     public class LabelTitleTagHelper : TagHelper
     {
         /// <summary>
-        /// An expression to be evaluated against the current model.
+        /// Gets or sets an expression to be evaluated against the current model.
         /// </summary>
         [HtmlAttributeName("asp-for")]
         public ModelExpression For { get; set; }
 
+        /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var description = For.Metadata.Description;

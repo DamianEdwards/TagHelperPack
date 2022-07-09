@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack
 {
@@ -12,11 +9,12 @@ namespace TagHelperPack
     public class IfTagHelper : TagHelper
     {
         /// <summary>
-        /// The predicate expression to test.
+        /// Gets or sets the predicate expression to test.
         /// </summary>
         [HtmlAttributeName("asp-if")]
         public bool Predicate { get; set; }
 
+        /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (!Predicate)
