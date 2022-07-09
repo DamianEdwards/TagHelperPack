@@ -107,6 +107,17 @@ namespace TagHelperPack.Sample.Services
             var aspNetCoreAssembly = AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(a => string.Equals(a.GetName().Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase));
 
+            // Get AssemblyInformationalVersion
+            var assemblyInformationalVersion = aspNetCoreAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            if (assemblyInformationalVersion != null)
+            {
+                var indexOfPlus = assemblyInformationalVersion.IndexOf('+');
+                return indexOfPlus >= 0
+                    ? assemblyInformationalVersion.Substring(0, indexOfPlus)
+                    : assemblyInformationalVersion;
+            }
+
+            // Try shared framework directory name
             try
             {    
                 var aspNetCorePath = aspNetCoreAssembly.Location;
@@ -116,7 +127,7 @@ namespace TagHelperPack.Sample.Services
                 }
             }
             catch (Exception) { }
-            
+
             // Just use the version of the Microsoft.AspNetCore assembly
             return aspNetCoreAssembly.GetName().Version.ToString();
         }
