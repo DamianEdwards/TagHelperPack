@@ -26,6 +26,12 @@ namespace TagHelperPack
         [HtmlAttributeName("asp-display-for")]
         public ModelExpression For { get; set; }
 
+        /// <summary>
+        /// The name of the template to use instead of the default one.
+        /// </summary>
+        [HtmlAttributeName("asp-template-name")]
+        public string TemplateName { get; set; }
+
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -34,7 +40,7 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.PostContent.AppendHtml(_htmlHelper.Display(For));
+            output.PostContent.AppendHtml(_htmlHelper.Display(For, TemplateName));
         }
     }
 }
