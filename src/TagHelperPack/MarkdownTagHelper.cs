@@ -1,19 +1,14 @@
 #nullable enable
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Ganss.XSS;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Html;
 using Markdig;
-using Markdig.Extensions.Abbreviations;
-using Markdig.Renderers;
-using Markdig.Renderers.Html;
-using Markdig.Syntax;
+using Markdig.Helpers;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack
 {
@@ -41,7 +36,7 @@ namespace TagHelperPack
         /// <remarks>
         /// <para>
         /// When pulling markdown from a variable, to get full fidelity, you may want to do this:
-        /// &lt;markdown normalize-whitespace="false"&gt;@yourMarkdown&lt;/markdown&gt; otherwise cases where the markdown
+        /// &lt;markdown normalize-indentation="false"&gt;@yourMarkdown&lt;/markdown&gt; otherwise cases where the markdown
         /// you're rendering starts with an indented code block will not render correctly.
         /// </para>
         /// <para>
@@ -50,10 +45,9 @@ namespace TagHelperPack
         /// (MIT license).
         /// </para>
         /// </remarks>
-        [HtmlAttributeName("normalize-whitespace")]
-        public bool NormalizeWhitespace { get; set; } = true;
+        [HtmlAttributeName("normalize-indentation")]
+        public bool NormalizeIndentation { get; set; } = true;
 
->>>>>>> 0ba9182 (Implement Html support for MarkdownTagHelper)
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var childContent = await output.GetChildContentAsync(NullHtmlEncoder.Default);
@@ -62,92 +56,123 @@ namespace TagHelperPack
             {
                 return;
             }
-            var markdown = NormalizeWhitespace ? NormalizeWhiteSpaceText(razorContent) : razorContent;
 
-            var pipelineBuilder = new MarkdownPipelineBuilder();
-            if (!AllowHtml)
-            {
-                pipelineBuilder = pipelineBuilder.DisableHtml();
-            }
-            var pipeline = pipelineBuilder.Build();
-            var html = Markdown.ToHtml(markdown, pipeline);
-            var sanitizedHtml = SanitizeHtml(html);
-
-            output.Content.SetHtmlContent(sanitizedHtml);
+            var markdownHtmlContent = new MarkdownHtmlContent(razorContent, AllowHtml, NormalizeIndentation);
+            output.Content.SetHtmlContent(markdownHtmlContent);
             output.TagName = null;
-            await base.ProcessAsync(context, output);
         }
 
-        /// <summary>
-        /// Strips leading white space based on shortest indented non-empty line.
-        /// </summary>
-        /// <remarks>
-        /// The reason this method exists is indented markdown is considered to be preformatted code blocks. And the
-        /// the markdown this tag helper receives might all be indented because of where the markdown tag helper is used
-        /// within the page (such as indented within a div).
-        /// </remarks>
-        static string NormalizeWhiteSpaceText(string text)
+        class MarkdownHtmlContent : IHtmlContent
         {
-            if (text is { Length: 0 })
+            readonly string _content;
+            readonly bool _allowHtml;
+            readonly bool _normalizeIndentation;
+
+            public MarkdownHtmlContent(string content, bool allowHtml, bool normalizeIndentation)
             {
-                return text;
+                _content = content;
+                _allowHtml = allowHtml;
+                _normalizeIndentation = normalizeIndentation;
             }
 
-            var lineReader = new StringReader(text);
-            // In the case of something like this, the first line will be empty, so we need to advance to the first
-            // non-empty line.
-            // <markdown>
-            //    @someMarkdown
-            // </markdown>
-            var firstLine = lineReader.ReadLine();
-            while (firstLine is not { Length: > 0 })
+            public void WriteTo(TextWriter writer, HtmlEncoder encoder)
             {
-                firstLine = lineReader.ReadLine();
+                var markdown = _normalizeIndentation ? NormalizeIndentation(_content) : _content;
+
+                if (!_allowHtml)
+                {
+                    // Convert the markdown to HTML directly to the writer. This is a bit more memory efficient than
+                    // converting the markdown to HTML in memory and then writing out the HTML.
+                    var pipeline = new MarkdownPipelineBuilder().DisableHtml().Build();
+                    Markdown.ToHtml(markdown, writer, pipeline);
+                }
+                else
+                {
+                    WriteSanitizedHtml(markdown, writer);
+                }
             }
 
-            if (firstLine is not { Length: > 0 })
+            void WriteSanitizedHtml(string markdown, TextWriter writer)
             {
-                return text;
+                var pipeline = new MarkdownPipelineBuilder().Build();
+                // I wasn't able to find a way to sanitize the HTML in a "streaming" manner so
+                // we convert the markdown to HTML in memory so that we can sanitize it.
+                var html = Markdown.ToHtml(markdown, pipeline);
+                var sanitizedHtml = _allowHtml ? SanitizeHtml(html) : html;
+                writer.Write(sanitizedHtml);
             }
 
-            var indent = GetIndentation(firstLine); // We're going to use this to strip leading white space.
-
-            return string.Join("\n", GetLines(lineReader, firstLine, indent));
-        }
-
-        static IEnumerable<string> GetLines(TextReader stringReader, string firstLine, int indent)
-        {
-            yield return firstLine.Substring(indent);
-
-            while (stringReader.ReadLine() is { } line)
+            /// <summary>
+            /// Strips leading white space based on shortest indented non-empty line.
+            /// </summary>
+            /// <remarks>
+            /// The reason this method exists is indented markdown is considered to be preformatted code blocks. And the
+            /// the markdown this tag helper receives might all be indented because of where the markdown tag helper is used
+            /// within the page (such as indented within a div).
+            /// </remarks>
+            static string NormalizeIndentation(string text)
             {
-                var indentation = GetIndentation(line);
-                yield return indentation < indent
-                    ? line
-                    : line.Substring(indent);
+                if (text is { Length: 0 } || !text[0].IsWhitespace())
+                {
+                    return text;
+                }
+
+                var lineReader = new StringReader(text);
+                // In the case of something like this, the first line will be empty, so we need to advance to the first
+                // non-empty line.
+                // <markdown>
+                //    @someMarkdown
+                // </markdown>
+                var firstLine = lineReader.ReadLine();
+                while (firstLine is not { Length: > 0 })
+                {
+                    firstLine = lineReader.ReadLine();
+                }
+
+                if (firstLine is not { Length: > 0 })
+                {
+                    return text;
+                }
+
+                var indent = GetIndentation(firstLine); // We're going to use this to strip leading white space.
+
+                return string.Join("\n", GetLines(lineReader, firstLine, indent));
             }
-        }
 
-        static int GetIndentation(string line)
-        {
-            int num = 0;
-            while (num < line.Length && char.IsWhiteSpace(line[num]))
-                ++num;
-            return num;
-        }
+            static IEnumerable<string> GetLines(TextReader stringReader, string firstLine, int indent)
+            {
+                yield return firstLine.Substring(indent);
 
-        static string SanitizeHtml(string markdownContent)
-        {
-            var sanitizer = new HtmlSanitizer();
-            sanitizer.AllowedTags.Add("blockquote");
-            sanitizer.AllowedTags.Add("footer");
-            sanitizer.AllowedTags.Add("video");
-            sanitizer.AllowedTags.Add("source");
-            sanitizer.AllowedTags.Add("iframe");
-            sanitizer.AllowedAttributes.Add("class");
-            sanitizer.AllowedAttributes.Add("controls");
+                while (stringReader.ReadLine() is { } line)
+                {
+                    var indentation = GetIndentation(line);
+                    yield return indentation < indent
+                        ? line
+                        : line.Substring(indent);
+                }
+            }
 
-            return sanitizer.Sanitize(markdownContent);
+            static int GetIndentation(string line)
+            {
+                int num = 0;
+                while (num < line.Length && char.IsWhiteSpace(line[num]))
+                    ++num;
+                return num;
+            }
+
+            static string SanitizeHtml(string markdownContent)
+            {
+                var sanitizer = new HtmlSanitizer();
+                sanitizer.AllowedTags.Add("blockquote");
+                sanitizer.AllowedTags.Add("footer");
+                sanitizer.AllowedTags.Add("video");
+                sanitizer.AllowedTags.Add("source");
+                sanitizer.AllowedTags.Add("iframe");
+                sanitizer.AllowedAttributes.Add("class");
+                sanitizer.AllowedAttributes.Add("controls");
+
+                return sanitizer.Sanitize(markdownContent);
+            }
         }
     }
 }
