@@ -28,6 +28,12 @@ namespace TagHelperPack
         public ModelExpression For { get; set; }
 
         /// <summary>
+        /// The name of the HTML field to use instead of the default one.
+        /// </summary>
+        [HtmlAttributeName("asp-html-field-name")]
+        public string HtmlFieldName { get; set; }
+
+        /// <summary>
         /// The name of the template to use instead of the default one.
         /// </summary>
         [HtmlAttributeName("asp-template-name")]
@@ -45,7 +51,7 @@ namespace TagHelperPack
         {
             ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-            output.PostContent.AppendHtml(_htmlHelper.Editor(For, TemplateName));
+            output.PostContent.AppendHtml(_htmlHelper.Editor(For, HtmlFieldName, TemplateName));
         }
     }
 }

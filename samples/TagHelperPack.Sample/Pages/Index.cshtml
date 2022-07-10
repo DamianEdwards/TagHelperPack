@@ -32,13 +32,19 @@
     attribute.
 </p>
 <p>
-    When using <code>&lt;display for="..." /&gt;</code> or <code>&lt;editor for="..." /&gt;</code> use the
-    <code>template-name</code> attribute to override the template used to render the model.
+    When using <code>&lt;display for="..." /&gt;</code> or <code>&lt;editor for="..." /&gt;</code>:
+    <ul>
+        <li>Use the <code>template-name</code> attribute to override the template used to render the model.</li>
+        <li>Use the <code>html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+    </ul>
 </p>
 <p>
     When using <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or
-    <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code> use the <code>asp-template-name</code> attribute to
-    override the template used to render the model.
+    <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code>:
+    <ul>
+        <li>Use the <code>asp-template-name</code> attribute to override the template used to render the model.</li>
+        <li>Use the <code>asp-html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+    </ul>
 </p>
 <h4>Example</h4>
 <div class="panel panel-default">
@@ -55,8 +61,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="Customer.LastName"></label>
+                (<code>template-name="String2"</code>)
                 <editor for="Customer.LastName" template-name="String2" />
                 <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-display-name-for="Customer.LastName" for="CustomerLastName">
+                </label>
+                (<code>html-field-name="CustomerLastName"</code>)
+                <editor for="Customer.LastName" html-field-name="CustomerLastName" />
+                <span class="text-danger" data-valmsg-for="CustomerLastName"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Customer.BirthDate"></label>

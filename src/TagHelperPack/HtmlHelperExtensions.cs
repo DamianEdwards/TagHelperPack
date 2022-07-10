@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
 
         private static Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent> _getDisplayThunk;
 
-        public static IHtmlContent Display(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string templateName = null)
+        public static IHtmlContent Display(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string htmlFieldName = null, string templateName = null, object additionalViewData = null)
         {
             var expression = GetExpressionText(modelExpression.Name);
 
@@ -49,15 +49,16 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
                     _getDisplayThunk = (Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>)methodInfo.CreateDelegate(typeof(Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>));
                 }
 
-                return _getDisplayThunk(htmlHelperConcrete, modelExpression.ModelExplorer, expression, templateName, null);
+                return _getDisplayThunk(htmlHelperConcrete, modelExpression.ModelExplorer,
+                    htmlFieldName ?? expression, templateName, additionalViewData);
             }
 
-            return htmlHelper.Display(expression, templateName);
+            return htmlHelper.Display(expression, templateName, htmlFieldName, additionalViewData);
         }
 
         private static Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent> _editorThunk;
 
-        public static IHtmlContent Editor(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string templateName = null)
+        public static IHtmlContent Editor(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string htmlFieldName = null, string templateName = null, object additionalViewData = null)
         {
             var expression = GetExpressionText(modelExpression.Name);
 
@@ -70,10 +71,11 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
                     _editorThunk = (Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>)methodInfo.CreateDelegate(typeof(Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>));
                 }
 
-                return _editorThunk(htmlHelperConcrete, modelExpression.ModelExplorer, expression, templateName, null);
+                return _editorThunk(htmlHelperConcrete, modelExpression.ModelExplorer,
+                    htmlFieldName ?? expression, templateName, additionalViewData);
             }
 
-            return htmlHelper.Editor(expression, templateName);
+            return htmlHelper.Editor(expression, templateName, htmlFieldName, additionalViewData);
         }
     }
 }
