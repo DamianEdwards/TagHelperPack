@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
+using TagHelperPack.Internal;
 
 namespace Microsoft.AspNetCore.Mvc.ViewFeatures
 {
@@ -18,6 +19,11 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
         public static string DisplayName(this IHtmlHelper htmlHelper, ModelExpression modelExpression)
         {
             var expression = GetExpressionText(modelExpression.Name);
+
+            if (htmlHelper is IModelHtmlHelper modelHtmlHelper)
+            {
+                return modelHtmlHelper.GenerateDisplayName(modelExpression.ModelExplorer, expression);
+            }
 
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
@@ -40,6 +46,12 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
         {
             var expression = GetExpressionText(modelExpression.Name);
 
+            if (htmlHelper is IModelHtmlHelper modelHtmlHelper)
+            {
+                return modelHtmlHelper.GenerateDisplay(modelExpression.ModelExplorer,
+                    htmlFieldName ?? expression, templateName, additionalViewData);
+            }
+
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
                 if (_getDisplayThunk == null)
@@ -61,6 +73,12 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
         public static IHtmlContent Editor(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string htmlFieldName = null, string templateName = null, object additionalViewData = null)
         {
             var expression = GetExpressionText(modelExpression.Name);
+
+            if (htmlHelper is IModelHtmlHelper modelHtmlHelper)
+            {
+                return modelHtmlHelper.GenerateEditor(modelExpression.ModelExplorer,
+                    htmlFieldName ?? expression, templateName, additionalViewData);
+            }
 
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
