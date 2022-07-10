@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <Authors>Damian Edwards</Authors>
@@ -19,10 +19,11 @@
     <PackageTags>aspnetcore taghelpers razor cshtml</PackageTags>
     <NoWarn>NU5105</NoWarn>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="HtmlSanitizer" Version="7.1.512" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
