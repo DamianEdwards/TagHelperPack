@@ -36,6 +36,9 @@ namespace TagHelperPack.Sample
                 });
             });
 
+            // Optional optimizations to avoid Reflection
+            services.AddTagHelperPack();
+
 #if !NET471
             services.AddRazorPages();
 #else

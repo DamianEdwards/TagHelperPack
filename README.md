@@ -20,3 +20,7 @@ Supports ASP.NET Core 3.1.x, 5.0.x, and 6.0.x. Also supports ASP.NET Core 2.1.x 
     ```
    @addTagHelper *, TagHelperPack
     ```
+1. Optional: Register optimizations in `ConfigureServices()` or `Program.cs` (ASP.NET Core 6+)
+    ```
+    services.AddTagHelperPack();
+    ```
