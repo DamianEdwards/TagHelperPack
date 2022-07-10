@@ -17,6 +17,8 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
 
         public static string DisplayName(this IHtmlHelper htmlHelper, ModelExpression modelExpression)
         {
+            var expression = GetExpressionText(modelExpression.Name);
+
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
                 if (_getDisplayNameThunk == null)
@@ -26,16 +28,18 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
                     _getDisplayNameThunk = (Func<HtmlHelper, ModelExplorer, string, string>)methodInfo.CreateDelegate(typeof(Func<HtmlHelper, ModelExplorer, string, string>));
                 }
 
-                return _getDisplayNameThunk.Invoke(htmlHelperConcrete, modelExpression.ModelExplorer, GetExpressionText(modelExpression.Name));
+                return _getDisplayNameThunk.Invoke(htmlHelperConcrete, modelExpression.ModelExplorer, expression);
             }
 
-            return htmlHelper.DisplayName(GetExpressionText(modelExpression.Name));
+            return htmlHelper.DisplayName(expression);
         }
 
         private static Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent> _getDisplayThunk;
 
         public static IHtmlContent Display(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string templateName = null)
         {
+            var expression = GetExpressionText(modelExpression.Name);
+
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
                 if (_getDisplayThunk == null)
@@ -45,16 +49,18 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
                     _getDisplayThunk = (Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>)methodInfo.CreateDelegate(typeof(Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>));
                 }
 
-                return _getDisplayThunk(htmlHelperConcrete, modelExpression.ModelExplorer, GetExpressionText(modelExpression.Name), templateName, null);
+                return _getDisplayThunk(htmlHelperConcrete, modelExpression.ModelExplorer, expression, templateName, null);
             }
 
-            return htmlHelper.Display(GetExpressionText(modelExpression.Name), templateName);
+            return htmlHelper.Display(expression, templateName);
         }
 
         private static Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent> _editorThunk;
 
         public static IHtmlContent Editor(this IHtmlHelper htmlHelper, ModelExpression modelExpression, string templateName = null)
         {
+            var expression = GetExpressionText(modelExpression.Name);
+
             if (htmlHelper is HtmlHelper htmlHelperConcrete)
             {
                 if (_editorThunk == null)
@@ -64,10 +70,10 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
                     _editorThunk = (Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>)methodInfo.CreateDelegate(typeof(Func<HtmlHelper, ModelExplorer, string, string, object, IHtmlContent>));
                 }
 
-                return _editorThunk(htmlHelperConcrete, modelExpression.ModelExplorer, GetExpressionText(modelExpression.Name), templateName, null);
+                return _editorThunk(htmlHelperConcrete, modelExpression.ModelExplorer, expression, templateName, null);
             }
 
-            return htmlHelper.Editor(GetExpressionText(modelExpression.Name), templateName);
+            return htmlHelper.Editor(expression, templateName);
         }
     }
 }
