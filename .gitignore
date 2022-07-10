@@ -287,3 +287,5 @@ __pycache__/
 *.xsd.cs
 
 *.binlog
+
+.DS_Store
