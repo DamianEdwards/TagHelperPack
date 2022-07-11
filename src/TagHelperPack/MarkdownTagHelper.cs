@@ -65,9 +65,9 @@ namespace TagHelperPack
 
         class MarkdownHtmlContent : IHtmlContent
         {
-            readonly string _content;
-            readonly bool _allowHtml;
-            readonly bool _preserveIndentation;
+            private readonly string _content;
+            private readonly bool _allowHtml;
+            private readonly bool _preserveIndentation;
 
             public MarkdownHtmlContent(string content, bool allowHtml, bool preserveIndentation)
             {
