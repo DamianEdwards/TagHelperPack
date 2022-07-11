@@ -31,7 +31,7 @@ namespace TagHelperPack
 
         /// <summary>
         /// When set to true (default) strips leading white space based on the first line of non-empty content. The
-        /// first line of content determines the format of the white spacing and removes q`it from all other lines.
+        /// first line of content determines the format of the white spacing and removes it from all other lines.
         /// </summary>
         /// <remarks>
         /// <para>
