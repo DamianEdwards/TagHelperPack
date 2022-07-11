@@ -30,7 +30,8 @@ namespace TagHelperPack
         public bool AllowHtml { get; set; }
 
         /// <summary>
-        /// When set to true (default) strips leading white space based on the first line of non-empty content. The
+        /// When set to <c>true</c> (default), leaves the content alone in terms of indentation. When set to
+        /// <c>false</c> (default) strips leading white space based on the first line of non-empty content. The
         /// first line of content determines the format of the white spacing and removes it from all other lines.
         /// </summary>
         /// <remarks>
@@ -45,8 +46,8 @@ namespace TagHelperPack
         /// (MIT license).
         /// </para>
         /// </remarks>
-        [HtmlAttributeName("normalize-indentation")]
-        public bool NormalizeIndentation { get; set; } = true;
+        [HtmlAttributeName("preserve-indentation")]
+        public bool PreserveIndentation { get; set; } = true;
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -57,7 +58,7 @@ namespace TagHelperPack
                 return;
             }
 
-            var markdownHtmlContent = new MarkdownHtmlContent(razorContent, AllowHtml, NormalizeIndentation);
+            var markdownHtmlContent = new MarkdownHtmlContent(razorContent, AllowHtml, PreserveIndentation);
             output.Content.SetHtmlContent(markdownHtmlContent);
             output.TagName = null;
         }
@@ -66,18 +67,18 @@ namespace TagHelperPack
         {
             readonly string _content;
             readonly bool _allowHtml;
-            readonly bool _normalizeIndentation;
+            readonly bool _preserveIndentation;
 
-            public MarkdownHtmlContent(string content, bool allowHtml, bool normalizeIndentation)
+            public MarkdownHtmlContent(string content, bool allowHtml, bool preserveIndentation)
             {
                 _content = content;
                 _allowHtml = allowHtml;
-                _normalizeIndentation = normalizeIndentation;
+                _preserveIndentation = preserveIndentation;
             }
 
             public void WriteTo(TextWriter writer, HtmlEncoder encoder)
             {
-                var markdown = _normalizeIndentation ? NormalizeIndentation(_content) : _content;
+                var markdown = !_preserveIndentation ? NormalizeIndentation(_content) : _content;
 
                 if (!_allowHtml)
                 {

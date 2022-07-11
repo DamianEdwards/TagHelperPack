@@ -36,7 +36,7 @@ public class MarkdownTagHelperTests
         [Fact]
         public async Task RendersMarkdownWithHtmlEncodedByDefault()
         {
-            var tagHelper = new MarkdownTagHelper { NormalizeIndentation = true };
+            var tagHelper = new MarkdownTagHelper { PreserveIndentation = false };
             var tagHelperContext = new TagHelperContext(
                 new TagHelperAttributeList(),
                 new Dictionary<object, object>(),
@@ -76,7 +76,7 @@ public class MarkdownTagHelperTests
         [Fact]
         public async Task RendersSanitizedHtmlWhenAllowHtmlTrue()
         {
-            var tagHelper = new MarkdownTagHelper { AllowHtml = true, NormalizeIndentation = true };
+            var tagHelper = new MarkdownTagHelper { AllowHtml = true, PreserveIndentation = false };
             var tagHelperContext = new TagHelperContext(
                 new TagHelperAttributeList(),
                 new Dictionary<object, object>(),
@@ -116,7 +116,7 @@ public class MarkdownTagHelperTests
         [Fact]
         public async Task RendersMarkdownThatStartsWithIndentedCodeBlock()
         {
-            var tagHelper = new MarkdownTagHelper { NormalizeIndentation = false };
+            var tagHelper = new MarkdownTagHelper { PreserveIndentation = true };
             var tagHelperContext = new TagHelperContext(
                 new TagHelperAttributeList(),
                 new Dictionary<object, object>(),
