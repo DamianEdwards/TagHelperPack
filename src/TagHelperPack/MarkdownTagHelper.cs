@@ -24,7 +24,7 @@ namespace TagHelperPack
         /// When <c>true</c>, allows sanitized HTML to be rendered.
         /// </summary>
         /// <remarks>
-        /// Makes use of Ganss.XSS.HtmlSanitizer to sanitize HTML.
+        /// Makes use of <see href="https://www.nuget.org/packages/HtmlSanitizer">HtmlSanitizer</see> to sanitize HTML.
         /// </remarks>
         [HtmlAttributeName("allow-html")]
         public bool AllowHtml { get; set; }
