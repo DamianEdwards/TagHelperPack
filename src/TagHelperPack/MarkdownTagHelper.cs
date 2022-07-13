@@ -47,7 +47,7 @@ namespace TagHelperPack
         /// </para>
         /// </remarks>
         [HtmlAttributeName("preserve-indentation")]
-        public bool PreserveIndentation { get; set; } = true;
+        public bool PreserveIndentation { get; set; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
