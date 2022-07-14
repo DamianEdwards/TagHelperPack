@@ -12,6 +12,6 @@ on:
 
 jobs:
   build:
-    uses: DamianEdwards/TagHelperPack/.github/workflows/_build.yml@main
+    uses: DamianEdwards/TagHelperPack/.github/workflows/_build.yml@master
     with:
       versionSuffix: ci
