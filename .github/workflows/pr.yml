@@ -1,0 +1,17 @@
+name: PRs
+
+on:
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: DamianEdwards/TagHelperPack/.github/workflows/_build.yml@main
+    with:
+      versionSuffix: ci

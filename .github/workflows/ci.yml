@@ -2,12 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
     paths-ignore:
-    - '**/*.md'
-    - '**/*.gitignore'
-    - '**/*.gitattributes'
-    
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+
   workflow_dispatch:
 
 env:
@@ -20,54 +20,54 @@ jobs:
     name: Build package & sample site
 
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-    
-    - name: Restore dependencies
-      run: dotnet restore
-    
-    - name: Set current date as env variable
-      run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
-      
-    - name: Create build number
-      run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
-    - name: Publish sample (net471)
-      run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Publish sample (netcoreapp3.1)
-      run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-    - name: Publish sample (net5.0)
-      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
+      - name: Create build number
+        run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-    - name: Publish sample (net6.0)
-      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
-      
-    - name: Pack
-      run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      - name: Build
+        run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
-    - name: Upload nupkg
-      uses: actions/upload-artifact@master
-      with:
-        name: nupkg
-        path: finalpackage
-        retention-days: 30
-    
-    - name: Upload sample site
-      uses: actions/upload-artifact@master
-      with:
-        name: samplesite
-        path: samplesite
-        retention-days: 30
-      
+      - name: Publish sample (net471)
+        run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
+
+      - name: Publish sample (netcoreapp3.1)
+        run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
+
+      - name: Publish sample (net5.0)
+        run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
+
+      - name: Publish sample (net6.0)
+        run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
+
+      - name: Pack
+        run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+
+      - name: Upload nupkg
+        uses: actions/upload-artifact@master
+        with:
+          name: nupkg
+          path: finalpackage
+          retention-days: 30
+
+      - name: Upload sample site
+        uses: actions/upload-artifact@master
+        with:
+          name: samplesite
+          path: samplesite
+          retention-days: 30
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -87,17 +87,17 @@ jobs:
 
       - name: Push to GitHub Packages
         run: dotnet nuget push ./nupkg/**/*.nupkg -s "GPR" --skip-duplicate
-        
+
       - name: Delete old packages
         uses: smartsquaregmbh/delete-old-packages@v0.4.0
         with:
           keep: 5
           names: TagHelperPack
-          
+
       # Deploy to Azure Web apps
       - name: Deploy sample site to Azure
         uses: azure/webapps-deploy@v2
-        with: 
+        with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./samplesite
