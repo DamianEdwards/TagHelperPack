@@ -2,11 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
     paths-ignore:
-    - '**/*.md'
-    - '**/*.gitignore'
-    - '**/*.gitattributes'
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
 
   workflow_dispatch:
 
@@ -20,56 +20,56 @@ jobs:
     name: Build package & sample site
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+      - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Set current date as env variable
-      run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-    - name: Create build number
-      run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+      - name: Create build number
+        run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      - name: Build
+        run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
-    - name: Test
-      run: dotnet test --configuration Release --no-restore 
+      - name: Test
+      run: dotnet test --configuration Release --no-restore
 
-    - name: Publish sample (net471)
-      run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
+      - name: Publish sample (net471)
+        run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
 
-    - name: Publish sample (netcoreapp3.1)
-      run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
+      - name: Publish sample (netcoreapp3.1)
+        run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
 
-    - name: Publish sample (net5.0)
-      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
+      - name: Publish sample (net5.0)
+        run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
 
-    - name: Publish sample (net6.0)
-      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
+      - name: Publish sample (net6.0)
+        run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
 
-    - name: Pack
-      run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      - name: Pack
+        run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
-    - name: Upload nupkg
-      uses: actions/upload-artifact@master
-      with:
-        name: nupkg
-        path: finalpackage
-        retention-days: 30
+      - name: Upload nupkg
+        uses: actions/upload-artifact@master
+        with:
+          name: nupkg
+          path: finalpackage
+          retention-days: 30
 
-    - name: Upload sample site
-      uses: actions/upload-artifact@master
-      with:
-        name: samplesite
-        path: samplesite
-        retention-days: 30
+      - name: Upload sample site
+        uses: actions/upload-artifact@master
+        with:
+          name: samplesite
+          path: samplesite
+          retention-days: 30
 
   deploy:
     needs: build

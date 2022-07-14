@@ -1,0 +1,67 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      versionSuffix:
+        required: false
+        type: string
+        default: ci
+
+env:
+  DOTNET_SDK_VERSION: 6.0.x
+  SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build package & sample site
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Set current date as env variable
+      run: echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      
+    - name: Create build number
+      run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore /p:VersionSuffix=${{ inputs.versionSuffix }} /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+
+    - name: Publish sample (net471)
+      run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
+
+    - name: Publish sample (netcoreapp3.1)
+      run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
+
+    - name: Publish sample (net5.0)
+      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
+
+    - name: Publish sample (net6.0)
+      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
+      
+    - name: Pack
+      run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:VersionSuffix=${{ inputs.versionSuffix }} /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+
+    - name: Upload nupkg
+      uses: actions/upload-artifact@master
+      with:
+        name: nupkg
+        path: finalpackage
+        retention-days: 5
+    
+    - name: Upload sample site
+      uses: actions/upload-artifact@master
+      with:
+        name: samplesite
+        path: samplesite
+        retention-days: 5
