@@ -37,7 +37,7 @@ namespace TagHelperPack
         /// <remarks>
         /// <para>
         /// When pulling markdown from a variable, to get full fidelity, you may want to do this:
-        /// &lt;markdown normalize-indentation="false"&gt;@yourMarkdown&lt;/markdown&gt; otherwise cases where the markdown
+        /// &lt;markdown preserve-indentation&gt;@yourMarkdown&lt;/markdown&gt; otherwise cases where the markdown
         /// you're rendering starts with an indented code block will not render correctly.
         /// </para>
         /// <para>
