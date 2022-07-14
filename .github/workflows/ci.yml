@@ -40,7 +40,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
 
       - name: Test
-      run: dotnet test --configuration Release --no-restore
+        run: dotnet test --configuration Release --no-restore
 
       - name: Publish sample (net471)
         run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
