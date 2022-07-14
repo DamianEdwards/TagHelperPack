@@ -18,13 +18,17 @@ namespace TagHelperPack
     {
         private readonly IFileProvider _wwwroot;
 
+        
+#if NETCOREAPP3_1_OR_GREATER
         /// <summary>
         /// Creates a new instance of the <see cref="ScriptInliningTagHelper"/> class.
         /// </summary>
-#if NETCOREAPP3_1_OR_GREATER
         /// <param name="env">The <see cref="IWebHostEnvironment" />.</param>
         public ScriptInliningTagHelper(IWebHostEnvironment env)
 #else
+        /// <summary>
+        /// Creates a new instance of the <see cref="ScriptInliningTagHelper"/> class.
+        /// </summary>
         /// <param name="env">The <see cref="IHostingEnvironment" />.</param>
         public ScriptInliningTagHelper(IHostingEnvironment env)
 #endif

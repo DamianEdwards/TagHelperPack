@@ -49,6 +49,7 @@ namespace TagHelperPack
         [HtmlAttributeName("preserve-indentation")]
         public bool PreserveIndentation { get; set; }
 
+        /// <inheritdoc />
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var childContent = await output.GetChildContentAsync(NullHtmlEncoder.Default);
