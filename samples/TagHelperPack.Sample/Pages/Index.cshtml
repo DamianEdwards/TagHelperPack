@@ -1,6 +1,6 @@
 ﻿@page
 @model IndexModel
-@inject TagHelperPack.Sample.Services.AspNetCoreVersion AspNetCoreVersion
+@inject Services.AspNetCoreVersion AspNetCoreVersion
 @{
     ViewData["Title"] = "Tag Helper Pack Samples";
 }
@@ -146,20 +146,70 @@
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
-        <markdown>Greetings *Elizabeth*, from **markdown**!
+        <markdown allow-html="true">
+            Greetings *Elizabeth*, from **markdown**!
 
-- This is a list
-- Of things you could do
-- With this Tag Helper</markdown>
+            - This is a list
+            - Of things you could do
+            - With this Tag Helper
+
+            <img src="/images/works-on-my-machine.png" alt="Works on my machine"/>
+        </markdown>
     </div>
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;markdown&gt;Greetings *Elizabeth*, from **markdown**!
+    <pre>&lt;markdown allow-html="true"&gt;
+    Greetings *Elizabeth*, from **markdown**!
+
+    - This is a list
+    - Of things you could do
+    - With this Tag Helper&lt;/markdown&gt;
+
+    &lt;img src="/images/works-on-my-machine.png" alt="Works on my machine" /&gt;
+&lt;/markdown&gt;</pre>
+</figure>
+
+<p>
+    By default, indentation is normalized, which is why the previous example renders correctly. To turn off
+    indentation normalization, set <code>preserve-indentation</code> to <code>true</code>. If you do so, you'll need
+    to remove leading whitespace between the &lt;markdown&gt; tag and the content.
+</p>
+
+<h4>Source</h4>
+<figure>
+    <pre>&lt;markdown allow-html="true" preserve-indentation&gt;Greetings *Elizabeth*, from **markdown**!
 
 - This is a list
 - Of things you could do
-- With this Tag Helper&lt;/markdown&gt;</pre>
+- With this Tag Helper&lt;/markdown&gt;
+
+&lt;img src="/images/works-on-my-machine.png" alt="Works on my machine" /&gt;</pre>
+</figure>
+
+<p>If you don't, you might end up with unexpected code blocks.</p>
+
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <markdown preserve-indentation>
+            Greetings *Elizabeth*, from **markdown**!
+
+            - This is a list
+            - Of things you could do
+            - With this Tag Helper
+        </markdown>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;markdown preserve-indentation&gt;
+        Greetings *Elizabeth*, from **markdown**!
+
+        - This is a list
+        - Of things you could do
+        - With this Tag Helper
+&lt;/markdown&gt;</pre>
 </figure>
 
 <h3>Script Inlining Tag Helper</h3>
