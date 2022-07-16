@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
-using TagHelperPack.Internal;
+using TagHelperPack;
 
 namespace Microsoft.AspNetCore.Mvc.ViewFeatures
 {

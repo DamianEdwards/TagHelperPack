@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using TagHelperPack.Internal;
+using TagHelperPack;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

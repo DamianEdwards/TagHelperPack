@@ -10,12 +10,27 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 #endif
 
-namespace TagHelperPack.Internal
+namespace TagHelperPack
 {
+    /// <summary>
+    /// An <see cref="IHtmlHelper"/> with methods to generate HTML from a model.
+    /// </summary>
+    public interface IModelHtmlHelper : IHtmlHelper
+    {
+        /// <inheritdoc cref="HtmlHelper.GenerateDisplay(ModelExplorer, string, string, object)"/>
+        IHtmlContent GenerateDisplay(ModelExplorer modelExplorer, string htmlFieldName, string templateName, object additionalViewData);
+
+        /// <inheritdoc cref="HtmlHelper.GenerateDisplayName(ModelExplorer, string)"/>
+        string GenerateDisplayName(ModelExplorer modelExplorer, string expression);
+
+        /// <inheritdoc cref="HtmlHelper.GenerateEditor(ModelExplorer, string, string, object)"/>
+        IHtmlContent GenerateEditor(ModelExplorer modelExplorer, string htmlFieldName, string templateName, object additionalViewData);
+    }
+
     /// <summary>
     /// An <see cref="HtmlHelper"/> that implements <see cref="IModelHtmlHelper"/>.
     /// </summary>
-    public class ModelHtmlHelper : HtmlHelper, IModelHtmlHelper
+    internal class ModelHtmlHelper : HtmlHelper, IModelHtmlHelper
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelHtmlHelper"/> class.
@@ -37,20 +52,5 @@ namespace TagHelperPack.Internal
         /// <inheritdoc cref="HtmlHelper.GenerateEditor(ModelExplorer, string, string, object)"/>
         public new IHtmlContent GenerateEditor(ModelExplorer modelExplorer, string htmlFieldName, string templateName, object additionalViewData)
             => base.GenerateEditor(modelExplorer, htmlFieldName, templateName, additionalViewData);
-    }
-
-    /// <summary>
-    /// An <see cref="IHtmlHelper"/> with methods to generate HTML from a model.
-    /// </summary>
-    public interface IModelHtmlHelper : IHtmlHelper
-    {
-        /// <inheritdoc cref="HtmlHelper.GenerateDisplay(ModelExplorer, string, string, object)"/>
-        IHtmlContent GenerateDisplay(ModelExplorer modelExplorer, string htmlFieldName, string templateName, object additionalViewData);
-
-        /// <inheritdoc cref="HtmlHelper.GenerateDisplayName(ModelExplorer, string)"/>
-        string GenerateDisplayName(ModelExplorer modelExplorer, string expression);
-
-        /// <inheritdoc cref="HtmlHelper.GenerateEditor(ModelExplorer, string, string, object)"/>
-        IHtmlContent GenerateEditor(ModelExplorer modelExplorer, string htmlFieldName, string templateName, object additionalViewData);
     }
 }
