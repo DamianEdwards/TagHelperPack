@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TagHelperPack
 {
     /// <summary>
-    /// <see cref="ITagHelper"/> implementation targeting &lt;datalist&gt; elements with <c>asp-list</c> attribute(s).
+    /// <see cref="ITagHelper"/> implementation targeting <c>&lt;datalist&gt;</c> elements with <c>asp-list</c> attribute(s).
     /// </summary>
     [HtmlTargetElement("datalist", Attributes = ListAttributeName)]
     public class DatalistTagHelper : TagHelper
@@ -20,8 +20,8 @@ namespace TagHelperPack
         public override int Order => -1000;
 
         /// <summary>
-        /// A collection of <see cref="string"/> objects used to populate the &lt;datalist&gt; element with
-        /// &lt;option&gt; elements.
+        /// A collection of <see cref="string"/> values used to populate the <c>&lt;datalist&gt;</c> element with
+        /// <c>&lt;option&gt;</c> elements.
         /// </summary>
         [HtmlAttributeName(ListAttributeName)]
         public IEnumerable<string> List { get; set; }
@@ -40,12 +40,12 @@ namespace TagHelperPack
                 throw new ArgumentNullException(nameof(output));
             }
 
-            if (List == null)
+            if (List == null || List is IReadOnlyCollection<string> { Count: 0 })
             {
                 return;
             }
 
-            var tagBuilder = GenerateDatalist(datalistList: List);
+            var tagBuilder = GenerateDatalist(List);
 
             if (tagBuilder != null && tagBuilder.HasInnerHtml)
             {
@@ -64,7 +64,7 @@ namespace TagHelperPack
         /// <returns>A new <see cref="TagBuilder"/> describing the &lt;datalist&gt; element.</returns>
         private TagBuilder GenerateDatalist(IEnumerable<string> datalistList)
         {
-            if (!(datalistList is IList<string> stringList))
+            if (datalistList is not IReadOnlyCollection<string> stringList)
             {
                 stringList = datalistList.ToList();
             }
@@ -78,11 +78,12 @@ namespace TagHelperPack
             var listItemBuilder = new HtmlContentBuilder(stringList.Count);
             foreach (var item in stringList)
             {
-                var optionBuilder = new TagBuilder("option");
+                var optionBuilder = new TagBuilder("option") { TagRenderMode = TagRenderMode.SelfClosing };
                 optionBuilder.Attributes["value"] = item;
                 listItemBuilder.AppendLine(optionBuilder);
             }
             tagBuilder.InnerHtml.SetHtmlContent(listItemBuilder);
+
             return tagBuilder;
         }
     }

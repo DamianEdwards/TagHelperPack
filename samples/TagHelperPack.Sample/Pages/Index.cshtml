@@ -14,7 +14,7 @@
 <p>See installation instructions and file issues at <a href="https://github.com/DamianEdwards/TagHelperPack">GitHub</a>.</p>
 
 <h2>Examples</h2>
-<h3>Field Template &amp; Data Annotation Tag Helpers</h3>
+<h3>Field Template, Data Annotation, &amp; Model Tag Helpers</h3>
 <p>
     Use <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
     value using the relevant field display template.
@@ -39,6 +39,11 @@
     When using <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or
     <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code> use the <code>asp-template-name</code> attribute to
     override the template used to render the model.
+</p>
+<p>
+    Use <code>&lt;datalist asp-list="..."&gt;</code> to render a <code>&lt;datalist&gt;</code> element containing <code>&lt;option&gt;</code> elements
+    representing each of the values from the specified list. Set input elements to use the list using the <code>list</code> attribute,
+    e.g. <code>&lt;input asp-for="..." list="countries" /&gt;&lt;datalist id="countries" asp-list="..."&gt;</code>
 </p>
 <h4>Example</h4>
 <div class="panel panel-default">
@@ -66,7 +71,9 @@
             <div class="form-group">
                 <label asp-for="Customer.Country"></label>
                 <input asp-for="Customer.Country" class="form-control" list="countries" />
-                <datalist id="countries" asp-list="@Models.Customer.Countries"><option value="GB" /></datalist>
+                <datalist id="countries" asp-list="@Model.Countries">
+                    <option value="GB" />
+                </datalist>
                 <span asp-validation-for="Customer.Country" class="text-danger"></span>
             </div>
             <table class="table table-bordered table-condensed">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TagHelperPack.Sample.Models;
@@ -9,6 +10,8 @@ namespace TagHelperPack.Sample.Pages
     {
         [BindProperty]
         public Customer Customer { get; set; }
+
+        public IReadOnlyList<string> Countries { get; } = new List<string> { "DE", "FR", "US" };
 
         public void OnGet()
         {
