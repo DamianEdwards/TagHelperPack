@@ -61,16 +61,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Customer.LastName"></label>
-                (<code>template-name="String2"</code>)
                 <editor for="Customer.LastName" template-name="String2" />
                 <span asp-validation-for="Customer.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-display-name-for="Customer.LastName" for="CustomerLastName">
-                </label>
-                (<code>html-field-name="CustomerLastName"</code>)
+                <label asp-display-name-for="Customer.LastName" for="CustomerLastName"></label>
                 <editor for="Customer.LastName" html-field-name="CustomerLastName" />
-                <span class="text-danger" data-valmsg-for="CustomerLastName"></span>
+                <span asp-validation-for="Customer.LastName" data-valmsg-for="CustomerLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Customer.BirthDate"></label>
@@ -120,6 +117,11 @@
         &lt;label asp-for="LastName"&gt;&lt;/label&gt;
         <strong>&lt;editor for="LastName" template-name="String2" /&gt;</strong>
         &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label <strong>asp-display-name-for="LastName"</strong> for="CustomerLastName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="LastName" html-field-name="CustomerLastName" /&gt;</strong>
+        &lt;span asp-validation-for="LastName" data-valmsg-for="CustomerLastName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
