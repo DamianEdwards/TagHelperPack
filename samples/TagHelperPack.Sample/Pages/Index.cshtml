@@ -32,13 +32,19 @@
     attribute.
 </p>
 <p>
-    When using <code>&lt;display for="..." /&gt;</code> or <code>&lt;editor for="..." /&gt;</code> use the
-    <code>template-name</code> attribute to override the template used to render the model.
+    When using <code>&lt;display for="..." /&gt;</code> or <code>&lt;editor for="..." /&gt;</code>:
+    <ul>
+        <li>Use the <code>template-name</code> attribute to override the template used to render the model.</li>
+        <li>Use the <code>html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+    </ul>
 </p>
 <p>
     When using <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or
-    <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code> use the <code>asp-template-name</code> attribute to
-    override the template used to render the model.
+    <code>&lt;<em>any-element</em> asp-editor-for="..."&gt;</code>:
+    <ul>
+        <li>Use the <code>asp-template-name</code> attribute to override the template used to render the model.</li>
+        <li>Use the <code>asp-html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+    </ul>
 </p>
 <p>
     Use <code>&lt;datalist asp-list="..."&gt;</code> to render a <code>&lt;datalist&gt;</code> element containing <code>&lt;option&gt;</code> elements
@@ -62,6 +68,11 @@
                 <label asp-for="Customer.LastName"></label>
                 <editor for="Customer.LastName" template-name="String2" />
                 <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-display-name-for="Customer.LastName" for="CustomerLastName"></label>
+                <editor for="Customer.LastName" html-field-name="CustomerLastName" />
+                <span asp-validation-for="Customer.LastName" data-valmsg-for="CustomerLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Customer.BirthDate"></label>
@@ -119,6 +130,11 @@
         &lt;label asp-for="LastName"&gt;&lt;/label&gt;
         <strong>&lt;editor for="LastName" template-name="String2" /&gt;</strong>
         &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label <strong>asp-display-name-for="LastName"</strong> for="CustomerLastName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="LastName" html-field-name="CustomerLastName" /&gt;</strong>
+        &lt;span asp-validation-for="LastName" data-valmsg-for="CustomerLastName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="BirthDate"&gt;&lt;/label&gt;
