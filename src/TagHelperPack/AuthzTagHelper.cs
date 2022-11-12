@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
 
 namespace TagHelperPack;
 
@@ -68,7 +68,8 @@ public class AuthzTagHelper : TagHelper
         var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy);
         var showOutput = false;
 
-        if (context.AllAttributes[AspAuthzAttributeName] != null && !requiresAuth && !ViewContext.HttpContext.User.Identity.IsAuthenticated)
+        var user = ViewContext.HttpContext.User;
+        if (context.AllAttributes[AspAuthzAttributeName] != null && !requiresAuth && !user.Identity.IsAuthenticated)
         {
             // authz="false" & user isn't authenticated
             showOutput = true;
@@ -85,14 +86,14 @@ public class AuthzTagHelper : TagHelper
             }
             else
             {
-                var authResult = await _authz.AuthorizeAsync(ViewContext.HttpContext.User, RequiredPolicy);
+                var authResult = await _authz.AuthorizeAsync(user, RequiredPolicy);
                 authorized = authResult.Succeeded;
                 ViewContext.ViewData[cacheKey] = authorized;
             }
 
             showOutput = authorized;
         }
-        else if (requiresAuth && ViewContext.HttpContext.User.Identity.IsAuthenticated)
+        else if (requiresAuth && user.Identity.IsAuthenticated)
         {
             // auth="true" & user is authenticated
             showOutput = true;
