@@ -151,18 +151,18 @@
         &lt;caption&gt;Customer Orders&lt;/caption&gt;
         &lt;thead&gt;
             &lt;tr&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"&gt;</strong>&lt;/th&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].Customer"&gt;</strong>&lt;/th&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].Total"&gt;</strong>&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"</strong>&gt;&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Customer"</strong>&gt;&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Total"</strong>&gt;&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody&gt;
             @@foreach (var order in Model.Orders)
             {
                 &lt;tr&gt;
-                    &lt;td <strong>asp-display-for="@@order.PlacedOn"&gt;</strong>&lt;/td&gt;
-                    &lt;td <strong>asp-display-for="@@order.Customer" asp-template-name="CustomerName"&gt;</strong>&lt;/td&gt;
-                    &lt;td <strong>asp-display-for="@@order.Total"&gt;</strong>&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.PlacedOn"</strong>&gt;&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Customer" asp-template-name="CustomerName"</strong>&gt;&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Total"</strong>&gt;&lt;/td&gt;
                 &lt;/tr&gt;
             }
         &lt;/tbody&gt;
