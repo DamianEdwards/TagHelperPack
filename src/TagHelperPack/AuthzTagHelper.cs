@@ -86,7 +86,7 @@ public class AuthzTagHelper : TagHelper
             }
             else
             {
-                var authResult = await _authz.AuthorizeAsync(user, RequiredPolicy);
+                var authResult = await _authz.AuthorizeAsync(user, ViewContext, RequiredPolicy);
                 authorized = authResult.Succeeded;
                 ViewContext.ViewData[cacheKey] = authorized;
             }
