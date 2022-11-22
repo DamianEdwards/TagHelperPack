@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- Targeting minimum supported versions here despite package targeting lower in some cases -->
-    <TargetFrameworks>net471;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net471;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
     <RootNamespace>TagHelperPack.Sample</RootNamespace>
   </PropertyGroup>
 
@@ -16,6 +16,10 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
