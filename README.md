@@ -9,18 +9,18 @@ Supports ASP.NET Core 3.1.x, 5.0.x, and 6.0.x. Also supports ASP.NET Core 2.1.x 
 
 ## Installing
 1. Add a reference to the package from the cmd line:
-    ````shell
+    ```shell
     MyGreatProject> dotnet add package TagHelperPack --prerelease
-    ````
+    ```
 1. Restore:
-    ````shell
+    ```shell
     MyGreatProject> dotnet restore
-    ````
+    ```
 1. Register the Tag Helpers in your application's `_ViewImports.cshtml` file:
-    ````cshtml
+    ```cshtml
    @addTagHelper *, TagHelperPack
-    ````
+    ```
 1. Optional: Register optimizations in `ConfigureServices()` or `Program.cs` (ASP.NET Core 6+)
-    ````csharp
+    ```csharp
     services.AddTagHelperPack();
-    ````
+    ```
