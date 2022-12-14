@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace TagHelperPack.Sample
+namespace TagHelperPack.Sample;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build()
-                .Run();
-        }
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()
+            .Build()
+            .Run();
     }
 }
