@@ -43,7 +43,7 @@ jobs:
     - name: Publish sample (net6.0)
       run: dotnet publish $SAMPLE_PATH --framework net6.0 --configuration Release --no-build --verbosity normal
 
-    - name: Publish sample (net6.0)
+    - name: Publish sample (net7.0)
       run: dotnet publish $SAMPLE_PATH --output samplesite --framework net7.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
       
     - name: Pack
