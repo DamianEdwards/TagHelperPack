@@ -20,10 +20,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Setup .NET SDK ${{ env.DOTNET_SDK_VERSION }}
-      uses: actions/setup-dotnet@v1
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+        dotnet-version: |
+          6.0.x
+          ${{ env.DOTNET_SDK_VERSION }}
     
     - name: Restore dependencies
       run: dotnet restore
