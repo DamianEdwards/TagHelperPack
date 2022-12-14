@@ -13,6 +13,6 @@ on:
 jobs:
   build:
     name: Build & Test PR
-    uses: DamianEdwards/TagHelperPack/.github/workflows/_build.yml@master
+    uses: ./.github/workflows/_build.yml
     with:
       versionSuffix: ci

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AngleSharp.Text;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using TagHelperPack;
@@ -69,7 +70,7 @@ public class MarkdownTagHelperTests
 <p>After image</p>
 <h2>Subject two</h2>
 <p>Test</p>
-",
+".NormalizeLineEndings("\n"),
                 tagHelperOutput.Content.GetContent());
         }
 
@@ -109,7 +110,7 @@ public class MarkdownTagHelperTests
 <p>After image</p>
 <h2>Subject two</h2>
 <p>Test</p>
-",
+".NormalizeLineEndings("\n"),
                 tagHelperOutput.Content.GetContent());
         }
 
@@ -139,7 +140,7 @@ Not Code
             Assert.Equal(@"<pre><code>Some Code
 </code></pre>
 <p>Not Code</p>
-",
+".NormalizeLineEndings("\n"),
                 tagHelperOutput.Content.GetContent());
         }
     }

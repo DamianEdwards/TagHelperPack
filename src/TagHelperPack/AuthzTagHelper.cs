@@ -3,89 +3,104 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 
-namespace TagHelperPack
+namespace TagHelperPack;
+
+/// <summary>
+/// Suppresses rendering of an element unless specific authorization policies are met.
+/// </summary>
+[HtmlTargetElement("*", Attributes = AspAuthzAttributeName)]
+[HtmlTargetElement("*", Attributes = AspAuthzPolicyAttributeName)]
+public class AuthzTagHelper : TagHelper
 {
+    private const string AspAuthzAttributeName = "asp-authz";
+    private const string AspAuthzPolicyAttributeName = "asp-authz-policy";
+
+    private readonly IAuthorizationService _authz;
+
     /// <summary>
-    /// Suppresses rendering of an element unless specific authorization policies are met.
+    /// Creates a new instance of the <see cref="AuthzTagHelper" /> class.
     /// </summary>
-    [HtmlTargetElement("*", Attributes = AspAuthzAttributeName)]
-    [HtmlTargetElement("*", Attributes = AspAuthzPolicyAttributeName)]
-    public class AuthzTagHelper : TagHelper
+    /// <param name="authz">The <see cref="IAuthorizationService"/>.</param>
+    public AuthzTagHelper(IAuthorizationService authz)
     {
-        private const string AspAuthzAttributeName = "asp-authz";
-        private const string AspAuthzPolicyAttributeName = "asp-authz-policy";
+        _authz = authz;
+    }
 
-        private readonly IAuthorizationService _authz;
+    /// <summary>
+    /// A boolean indicating whether the current element requires authentication in order to be rendered.
+    /// </summary>
+    [HtmlAttributeName(AspAuthzAttributeName)]
+    public bool RequiresAuthentication { get; set; }
 
-        /// <summary>
-        /// Creates a new instance of the <see cref="AuthzTagHelper" /> class.
-        /// </summary>
-        /// <param name="authz">The <see cref="IAuthorizationService"/>.</param>
-        public AuthzTagHelper(IAuthorizationService authz)
+    /// <summary>
+    /// An authorization policy name that must be satisfied in order for the current element to be rendered.
+    /// </summary>
+    [HtmlAttributeName(AspAuthzPolicyAttributeName)]
+    public string RequiredPolicy { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ViewContext"/>.
+    /// </summary>
+    [HtmlAttributeNotBound]
+    [ViewContext]
+    public ViewContext ViewContext { get; set; }
+
+    /// <inheritdoc />
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        if (context == null)
         {
-            _authz = authz;
+            throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// A boolean indicating whether the current element requires authentication in order to be rendered.
-        /// </summary>
-        [HtmlAttributeName(AspAuthzAttributeName)]
-        public bool RequiresAuthentication { get; set; }
-
-        /// <summary>
-        /// An authorization policy name that must be satisfied in order for the current element to be rendered.
-        /// </summary>
-        [HtmlAttributeName(AspAuthzPolicyAttributeName)]
-        public string RequiredPolicy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="ViewContext"/>.
-        /// </summary>
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        /// <inheritdoc />
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        if (output == null)
         {
-            var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy);
-            var showOutput = false;
+            throw new ArgumentNullException(nameof(output));
+        }
 
-            if (context.AllAttributes[AspAuthzAttributeName] != null && !requiresAuth && !ViewContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                // authz="false" & user isn't authenticated
-                showOutput = true;
-            }
-            else if (!string.IsNullOrEmpty(RequiredPolicy))
-            {
-                // auth-policy="foo" & user is authorized for policy "foo"
-                var cacheKey = AspAuthzPolicyAttributeName + "." + RequiredPolicy;
-                bool authorized;
-                var cachedResult = ViewContext.ViewData[cacheKey];
-                if (cachedResult != null)
-                {
-                    authorized = (bool)cachedResult;
-                }
-                else
-                {
-                    var authResult = await _authz.AuthorizeAsync(ViewContext.HttpContext.User, RequiredPolicy);
-                    authorized = authResult.Succeeded;
-                    ViewContext.ViewData[cacheKey] = authorized;
-                }
+        if (context.SuppressedByAspIf())
+        {
+            return;
+        }
 
-                showOutput = authorized;
-            }
-            else if (requiresAuth && ViewContext.HttpContext.User.Identity.IsAuthenticated)
+        var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy);
+        var showOutput = false;
+
+        if (context.AllAttributes[AspAuthzAttributeName] != null && !requiresAuth && !ViewContext.HttpContext.User.Identity.IsAuthenticated)
+        {
+            // authz="false" & user isn't authenticated
+            showOutput = true;
+        }
+        else if (!string.IsNullOrEmpty(RequiredPolicy))
+        {
+            // auth-policy="foo" & user is authorized for policy "foo"
+            var cacheKey = AspAuthzPolicyAttributeName + "." + RequiredPolicy;
+            bool authorized;
+            var cachedResult = ViewContext.ViewData[cacheKey];
+            if (cachedResult != null)
             {
-                // auth="true" & user is authenticated
-                showOutput = true;
+                authorized = (bool)cachedResult;
+            }
+            else
+            {
+                var authResult = await _authz.AuthorizeAsync(ViewContext.HttpContext.User, RequiredPolicy);
+                authorized = authResult.Succeeded;
+                ViewContext.ViewData[cacheKey] = authorized;
             }
 
-            if (!showOutput)
-            {
-                output.SuppressOutput();
-            }
+            showOutput = authorized;
+        }
+        else if (requiresAuth && ViewContext.HttpContext.User.Identity.IsAuthenticated)
+        {
+            // auth="true" & user is authenticated
+            showOutput = true;
+        }
+
+        if (!showOutput)
+        {
+            output.SuppressOutput();
         }
     }
 }

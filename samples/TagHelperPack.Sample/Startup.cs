@@ -12,70 +12,69 @@ using Microsoft.Extensions.Hosting;
 #endif
 using TagHelperPack.Sample.Services;
 
-namespace TagHelperPack.Sample
+namespace TagHelperPack.Sample;
+
+public class Startup
 {
-    public class Startup
+    public IConfigurationRoot Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
     {
-        public IConfigurationRoot Configuration { get; }
+        services.AddSingleton<AspNetCoreVersion>();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        // Add framework services.
+        services.AddAuthentication("QueryAuth")
+                .AddScheme<AuthenticationSchemeOptions, QueryAuthScheme>("QueryAuth", options => { });
+
+        services.AddAuthorization(options =>
         {
-            services.AddSingleton<AspNetCoreVersion>();
-
-            // Add framework services.
-            services.AddAuthentication("QueryAuth")
-                    .AddScheme<AuthenticationSchemeOptions, QueryAuthScheme>("QueryAuth", options => { });
-
-            services.AddAuthorization(options =>
+            options.AddPolicy("AdminPolicy", policy =>
             {
-                options.AddPolicy("AdminPolicy", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("IsAdmin", "true");
-                });
+                policy.RequireAuthenticatedUser();
+                policy.RequireClaim("IsAdmin", "true");
             });
+        });
 
-            // Optional optimizations to avoid Reflection
-            services.AddTagHelperPack();
+        // Optional optimizations to avoid Reflection
+        services.AddTagHelperPack();
 
 #if !NET471
-            services.AddRazorPages();
+        services.AddRazorPages();
 #else
-            services.AddMvc();
+        services.AddMvc();
 #endif
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#if !NET471
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#else
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+#endif
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Error");
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        app.UseStaticFiles();
+
+        app.UseAuthentication();
+
 #if !NET471
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#else
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#endif
+        app.UseRouting();
+
+        app.UseEndpoints(routes =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
-            app.UseStaticFiles();
-
-            app.UseAuthentication();
-
-#if !NET471
-            app.UseRouting();
-
-            app.UseEndpoints(routes =>
-            {
-                routes.MapRazorPages();
-            });
+            routes.MapRazorPages();
+        });
 #else
-            app.UseMvc();
+        app.UseMvc();
 #endif
-        }
     }
 }
