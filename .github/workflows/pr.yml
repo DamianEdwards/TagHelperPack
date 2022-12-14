@@ -18,6 +18,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Build & Test PR
-        uses: ./.github/workflows/_build.yml
+        uses: ./.github/actions/build
         with:
           versionSuffix: ci
