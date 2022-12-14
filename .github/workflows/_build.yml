@@ -9,7 +9,7 @@ on:
         default: ci
 
 env:
-  DOTNET_SDK_VERSION: 6.0.x
+  DOTNET_SDK_VERSION: 7.0.x
   SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
 
 jobs:
@@ -40,14 +40,11 @@ jobs:
     - name: Publish sample (net471)
       run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
 
-    - name: Publish sample (netcoreapp3.1)
-      run: dotnet publish $SAMPLE_PATH --framework netcoreapp3.1 --configuration Release --no-build --verbosity normal
-
-    - name: Publish sample (net5.0)
-      run: dotnet publish $SAMPLE_PATH --framework net5.0 --configuration Release --no-build --verbosity normal
+    - name: Publish sample (net6.0)
+      run: dotnet publish $SAMPLE_PATH --framework net6.0 --configuration Release --no-build --verbosity normal
 
     - name: Publish sample (net6.0)
-      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net6.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net7.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
       
     - name: Pack
       run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:VersionSuffix=${{ inputs.versionSuffix }} /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
