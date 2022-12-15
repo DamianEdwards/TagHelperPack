@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #if !NET471
@@ -33,6 +35,17 @@ public class Startup
             {
                 policy.RequireAuthenticatedUser();
                 policy.RequireClaim("IsAdmin", "true");
+                policy.RequireAssertion(handler =>
+                {
+                    var httpContext = handler.Resource switch
+                    {
+                        ViewContext vc => vc.HttpContext, // AuthzTagHelper
+                        HttpContext hc => hc, // AuthorizationMiddleware
+                        _ => throw new InvalidOperationException("Could not resolve HttpContext"),
+                    };
+
+                    return httpContext is not null;
+                });
             });
         });
 
