@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack;
 
@@ -11,7 +12,11 @@ namespace TagHelperPack;
 [HtmlTargetElement("display", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
 public class DisplayTagHelper : TagHelper
 {
+    private const string ViewDataDictionaryName = "view-data";
+    private const string ViewDataPrefix = "view-data-";
+
     private readonly IHtmlHelper _htmlHelper;
+    private IDictionary<string, object> _viewData;
 
     /// <summary>
     /// Creates a new instance of the <see cref="DisplayNameTagHelper" /> class.
@@ -41,6 +46,16 @@ public class DisplayTagHelper : TagHelper
     public string TemplateName { get; set; }
 
     /// <summary>
+    /// Additional view data.
+    /// </summary>
+    [HtmlAttributeName(ViewDataDictionaryName, DictionaryAttributePrefix = ViewDataPrefix)]
+    public IDictionary<string, object> ViewData
+    {
+        get => _viewData ??= new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        set => _viewData = value;
+    }
+
+    /// <summary>
     /// Gets or sets the <see cref="ViewContext"/>.
     /// </summary>
     [HtmlAttributeNotBound]
@@ -67,7 +82,7 @@ public class DisplayTagHelper : TagHelper
 
         ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-        output.Content.SetHtmlContent(_htmlHelper.Display(For, HtmlFieldName, TemplateName));
+        output.Content.SetHtmlContent(_htmlHelper.Display(For, HtmlFieldName, TemplateName, ViewData));
 
         output.TagName = null;
     }

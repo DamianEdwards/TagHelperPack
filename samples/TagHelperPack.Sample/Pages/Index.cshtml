@@ -41,6 +41,7 @@
     <ul>
         <li>Use the <code>template-name</code> attribute to override the template used to render the model.</li>
         <li>Use the <code>html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+        <li>Use <code>view-data-*</code> and <code>view-data</code> attributes to provide additional <code>ViewData</code> to the template.</li>
     </ul>
 </p>
 <p>
@@ -49,6 +50,7 @@
     <ul>
         <li>Use the <code>asp-template-name</code> attribute to override the template used to render the model.</li>
         <li>Use the <code>asp-html-field-name</code> attribute to override the HTML field name used to render the model.</li>
+        <li>Use <code>asp-view-data-*</code> and <code>asp-view-data</code> attributes to provide additional <code>ViewData</code> to the template.</li>
     </ul>
 </p>
 <p>
@@ -66,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Customer.FirstName"></label>
-                <editor for="Customer.FirstName" />
+                <editor for="Customer.FirstName" view-data="@(new Dictionary<string, object>{ ["color"] = "red" })" view-data-font-style="@("italic")" />
                 <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -106,7 +108,7 @@
                     @foreach (var order in Model.Customer.Orders)
                     {
                         <tr>
-                            <td asp-display-for="@order.PlacedOn"></td>
+                            <td asp-display-for="@order.PlacedOn" asp-view-data-format="@("yyyy-MM-dd")"></td>
                             <td asp-display-for="@order.Customer" asp-template-name="CustomerName"></td>
                             <td asp-display-for="@order.Total"></td>
                         </tr>
@@ -129,7 +131,7 @@
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
         &lt;label asp-for="FirstName"&gt;&lt;/label&gt;
-        <strong>&lt;editor for="FirstName" /&gt;</strong>
+        <strong>&lt;editor for="FirstName" view-data="@@(new Dictionary&lt;string, object&gt;{ ["color"] = "red" })" view-data-font-style="@@("italic")" /&gt;</strong>
         &lt;span asp-validation-for="FirstName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
@@ -158,18 +160,18 @@
         &lt;caption&gt;Customer Orders&lt;/caption&gt;
         &lt;thead&gt;
             &lt;tr&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"&gt;</strong>&lt;/th&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].Customer"&gt;</strong>&lt;/th&gt;
-                &lt;th <strong>asp-display-name-for="Orders[0].Total"&gt;</strong>&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].PlacedOn"</strong>&gt;&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Customer"</strong>&gt;&lt;/th&gt;
+                &lt;th <strong>asp-display-name-for="Orders[0].Total"</strong>&gt;&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody&gt;
             @@foreach (var order in Model.Orders)
             {
                 &lt;tr&gt;
-                    &lt;td <strong>asp-display-for="@@order.PlacedOn"&gt;</strong>&lt;/td&gt;
-                    &lt;td <strong>asp-display-for="@@order.Customer" asp-template-name="CustomerName"&gt;</strong>&lt;/td&gt;
-                    &lt;td <strong>asp-display-for="@@order.Total"&gt;</strong>&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.PlacedOn" asp-view-data-format="@@("yyyy-MM-dd")"</strong>&gt;&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Customer" asp-template-name="CustomerName"</strong>&gt;&lt;/td&gt;
+                    &lt;td <strong>asp-display-for="@@order.Total"</strong>&gt;&lt;/td&gt;
                 &lt;/tr&gt;
             }
         &lt;/tbody&gt;

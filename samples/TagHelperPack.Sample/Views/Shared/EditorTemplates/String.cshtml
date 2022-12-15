@@ -1,3 +1,9 @@
 ﻿@model string
 
-<input class="form-control" asp-for="@__model" />
+@{
+    var style = (ViewData["color"] is { } color ? $"color: {color};" : "")
+        + (ViewData["font-weight"] is { } fontWeight ? $"font-weight: {fontWeight};" : "")
+        + (ViewData["font-style"] is { } fontStyle ? $"font-style: {fontStyle};" : "");
+}
+
+<input class="form-control" asp-for="@__model" style="@style" />
