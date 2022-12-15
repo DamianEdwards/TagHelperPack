@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-    <EnableDotNetCorePreviewFeeds>false</EnableDotNetCorePreviewFeeds>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 </Project>
