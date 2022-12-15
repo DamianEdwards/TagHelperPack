@@ -1,37 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>net6.0;net471</TargetFrameworks>
     <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
-    <Authors>Damian Edwards</Authors>
-    <VersionPrefix>0.8.2</VersionPrefix>
-    <VersionSuffix Condition="'$(BuildNumber)' == ''">pre</VersionSuffix>
-    <VersionSuffix Condition="'$(BuildNumber)' != ''">pre-$(BuildNumber)</VersionSuffix>
-    <TargetFrameworks>netcoreapp3.1;net471</TargetFrameworks>
-    <Copyright>Copyright © Damian Edwards</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IsPackable>true</IsPackable>
-    <DebugType>embedded</DebugType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>aspnetcore taghelpers razor cshtml</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <LangVersion>10.0</LangVersion>
     <NoWarn>NU5105</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="HtmlSanitizer" Version="7.1.512" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.0" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
   </ItemGroup>
 </Project>

@@ -1,47 +1,62 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace TagHelperPack
+namespace TagHelperPack;
+
+/// <summary>
+/// Renders the display name for the specified model expression.
+/// </summary>
+[HtmlTargetElement("display-name", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
+public class DisplayNameTagHelper : TagHelper
 {
+    private readonly IHtmlHelper _htmlHelper;
+
     /// <summary>
-    /// Renders the display name for the specified model expression.
+    /// Creates a new instance of the <see cref="DisplayNameTagHelper" /> class.
     /// </summary>
-    [HtmlTargetElement("display-name", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
-    public class DisplayNameTagHelper : TagHelper
+    /// <param name="htmlHelper">The <see cref="IHtmlHelper"/>.</param>
+    public DisplayNameTagHelper(IHtmlHelper htmlHelper)
     {
-        private readonly IHtmlHelper _htmlHelper;
+        _htmlHelper = htmlHelper;
+    }
 
-        /// <summary>
-        /// Creates a new instance of the <see cref="DisplayNameTagHelper" /> class.
-        /// </summary>
-        /// <param name="htmlHelper">The <see cref="IHtmlHelper"/>.</param>
-        public DisplayNameTagHelper(IHtmlHelper htmlHelper)
+    /// <summary>
+    /// An expression to be evaluated against the current model.
+    /// </summary>
+    [HtmlAttributeName("for")]
+    public ModelExpression For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ViewContext"/>.
+    /// </summary>
+    [HtmlAttributeNotBound]
+    [ViewContext]
+    public ViewContext ViewContext { get; set; }
+
+    /// <inheritdoc />
+    public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        if (context == null)
         {
-            _htmlHelper = htmlHelper;
+            throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// An expression to be evaluated against the current model.
-        /// </summary>
-        [HtmlAttributeName("for")]
-        public ModelExpression For { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="ViewContext"/>.
-        /// </summary>
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        /// <inheritdoc />
-        public override void Process(TagHelperContext context, TagHelperOutput output)
+        if (output == null)
         {
-            ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
-
-            output.PostContent.AppendHtml(_htmlHelper.DisplayName(For));
-
-            output.TagName = null;
+            throw new ArgumentNullException(nameof(output));
         }
+
+        if (context.SuppressedByAspIf())
+        {
+            return;
+        }
+
+        ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
+
+        output.PostContent.AppendHtml(_htmlHelper.DisplayName(For));
+
+        output.TagName = null;
     }
 }

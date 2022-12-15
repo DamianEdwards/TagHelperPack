@@ -7,7 +7,7 @@
 
 <h1>Tag Helper Pack Samples</h1>
 <p>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</p>
-<p>Supported on ASP.NET Core 3.1, 5.0, &amp; 6.0. Also supported on ASP.NET Core 2.1 when run on .NET Framework 4.7.1 or higher.</p>
+<p>Supported on ASP.NET Core 6.0, &amp; 7.0. Also supported on ASP.NET Core 2.1 when run on .NET Framework 4.7.1 or higher.</p>
 <p class="text-muted">This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion on @AspNetCoreVersion.OperatingSystemName</p>
 
 <h2>Installation &amp; Issues</h2>
@@ -298,31 +298,31 @@
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div asp-if="(DateTime.UtcNow.Minute % 2) == 0">This paragraph will only render during <strong>even</strong> mintues.</div>
-        <div asp-if="(DateTime.UtcNow.Minute % 2) == 1">This paragraph will only render during <strong>odd</strong> mintues.</div>
+        <div asp-if="(DateTime.UtcNow.Second % 2) == 0">This paragraph will only render during <strong>even</strong> seconds. I have been rendered @(++evenCount) times.</div>
+        <div asp-if="(DateTime.UtcNow.Second % 2) == 1">This paragraph will only render during <strong>odd</strong> seconds. I have been rendered @(++oddCount) times.</div>
     </div>
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 0"</strong>&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; minutes.&lt;/div&gt;
-&lt;div <strong>asp-if="(DateTime.UtcNow.Minute % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; minutes.&lt;/div&gt;</pre>
+    <pre>&lt;div <strong>asp-if="(DateTime.UtcNow.Second % 2) == 0"</strong>&gt;This paragraph will only render during &lt;strong&gt;even&lt;/strong&gt; seconds.&lt;/div&gt;
+&lt;div <strong>asp-if="(DateTime.UtcNow.Second % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; seconds.&lt;/div&gt;</pre>
 </figure>
 
-<h3>If combined with Partial</h3>
+<h3>If combined with RenderPartial</h3>
 <p>
     Remember, you can compose certain Tag Helpers together on the same element, assuming they all apply to the specific element name.
 </p>
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
-        <partial name="_Even" asp-if="(DateTime.UtcNow.Minute % 2) == 0"/>
-        <partial name="_Odd" asp-if="(DateTime.UtcNow.Minute % 2) != 0"/>
+        <render-partial name="_Even" asp-if="(DateTime.UtcNow.Second % 2) == 0" />
+        <render-partial name="_Odd" asp-if="(DateTime.UtcNow.Second % 2) != 0" />
     </div>
 </div>
 <h4>Source</h4>
 <figure>
-    <pre>&lt;<strong>partial name="_Even" asp-if="(DateTime.UtcNow.Minute % 2) == 0"</strong> /&gt;
-&lt;<strong>partial name="_Odd" asp-if="(DateTime.UtcNow.Minute % 2) != 0"</strong> /&gt;</pre>
+    <pre>&lt;<strong>render-partial name="_Even" asp-if="(DateTime.UtcNow.Second % 2) == 0"</strong> /&gt;
+&lt;<strong>render-partial name="_Odd" asp-if="(DateTime.UtcNow.Second % 2) != 0"</strong> /&gt;</pre>
 </figure>
 
 <h3>Description For Tag Helper</h3>
@@ -359,4 +359,9 @@ public Customer Customer { get; set; }
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+
+@functions {
+    static int evenCount = 0;
+    static int oddCount = 0;
 }
