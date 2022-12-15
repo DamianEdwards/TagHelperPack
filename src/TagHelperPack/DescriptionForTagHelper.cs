@@ -5,14 +5,21 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack;
 
+/// <summary>
+/// Appends the display description for the specified model expression.
+/// </summary>
 [HtmlTargetElement("*", Attributes = ForAttributeName)]
 public sealed class DescriptionForTagHelper : TagHelper
 {
     private const string ForAttributeName = "asp-description-for";
 
+    /// <summary>
+    /// An expression to be evaluated against the current model.
+    /// </summary>
     [HtmlAttributeName(ForAttributeName)] 
     public ModelExpression For { get; set; } = default!;
 
+    /// <inheritdoc />
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
         if (context == null)
@@ -25,8 +32,11 @@ public sealed class DescriptionForTagHelper : TagHelper
             throw new ArgumentNullException(nameof(output));
         }
 
-        // will depend on model metadata from asp.net core
-        // this is very hard to unit test
+        if (context.SuppressedByAspIf())
+        {
+            return;
+        }
+
         var description = For.Metadata.Description;
         if (description != null)
         {
