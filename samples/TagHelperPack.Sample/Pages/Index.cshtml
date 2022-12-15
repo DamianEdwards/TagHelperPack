@@ -28,6 +28,11 @@
     property's display name using the relevant field display template.
 </p>
 <p>
+    Use <code>&lt;<em>any-element</em> asp-description-for="..."&gt;</code> to display the content of a description from the
+    <code><em>DisplayAttribute</em></code> instance decorating a
+    <code><em>Model</em></code> property. Works on any <strong>empty HTML element</strong>.
+</p>
+<p>
     Use <code>&lt;label asp-for="..."&gt;</code> to include the model property's description in the <code>title</code>
     attribute.
 </p>
@@ -85,6 +90,7 @@
                 <datalist id="countries" asp-list="@Model.Countries">
                     <option value="GB" />
                 </datalist>
+                <span asp-description-for="Customer.Country" class="help-block"></span>
                 <span asp-validation-for="Customer.Country" class="text-danger"></span>
             </div>
             <table class="table table-bordered table-condensed">
@@ -145,6 +151,7 @@
         &lt;label asp-for="Customer.Country"&gt;&lt;/label&gt;
         &lt;input asp-for="Customer.Country" class="form-control" list="countries" /&gt;
         &lt;datalist id="countries" <strong>asp-list="@@Models.Customer.Countries"</strong>&gt;&lt;option value="GB" /&gt;&lt;/datalist&gt;
+        &lt;span <strong>asp-description-for="Customer.Country"</strong> class="help-block"&gt;&lt;/span&gt;
         &lt;span asp-validation-for="Customer.Country" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;table class="table table-bordered table-condensed"&gt;
@@ -172,6 +179,38 @@
         &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
     &lt;/div&gt;
 &lt;/form&gt;</pre>
+</figure>
+
+<h3>Description For Tag Helper</h3>
+<p>
+    Use <code>&lt;<em>any-element</em> asp-description-for="..."&gt;</code> to display the content of a Description
+    from the
+    <code>
+        <em>DisplayAttribute</em>
+    </code> instance decorating a
+    <code>
+        <em>Model</em>
+    </code> property.
+    Works on any <strong>empty HTML element</strong>.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        The Customer description is: <span asp-description-for="Customer"></span>
+    </div>
+</div>
+<h4>Source</h4>
+<h5>Razor Syntax</h5>
+<figure>
+    <pre>The Customer description is: <strong>&lt;span asp-description-for="Customer"&gt;&lt;span&gt;</strong></pre>
+</figure>
+<h5>C# Model</h5>
+<figure>
+    <pre><code>
+[BindProperty, 
+ Display(Name="Customer", Description = "The Customer Name")]
+public Customer Customer { get; set; }
+    </code></pre>
 </figure>
 
 <h3>Markdown Tag Helper</h3>
@@ -323,38 +362,6 @@
 <figure>
     <pre>&lt;<strong>render-partial name="_Even" asp-if="(DateTime.UtcNow.Second % 2) == 0"</strong> /&gt;
 &lt;<strong>render-partial name="_Odd" asp-if="(DateTime.UtcNow.Second % 2) != 0"</strong> /&gt;</pre>
-</figure>
-
-<h3>Description For Tag Helper</h3>
-<p>
-    Use <code>&lt;<em>any-element</em> asp-description-for="..."&gt;</code> to display the content of a Description
-    from the
-    <code>
-        <em>DisplayAttribute</em>
-    </code> instance decorating a
-    <code>
-        <em>Model</em>
-    </code> property.
-    Works on any <strong>empty HTML element</strong>.
-</p>
-<h4>Example</h4>
-<div class="panel panel-default">
-    <div class="panel-body">
-        The Customer description is: <span asp-description-for="Customer"></span>
-    </div>
-</div>
-<h4>Source</h4>
-<h5>Razor Syntax</h5>
-<figure>
-    <pre>The Customer description is: <strong>&lt;span asp-description-for="Customer"&gt;&lt;span&gt;</strong></pre>
-</figure>
-<h5>C# Model</h5>
-<figure>    
-    <pre><code>
-[BindProperty, 
- Display(Name="Customer", Description = "The Customer Name")]
-public Customer Customer { get; set; }
-    </code></pre>
 </figure>
 
 @section Scripts {
