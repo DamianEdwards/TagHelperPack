@@ -325,6 +325,38 @@
 &lt;<strong>render-partial name="_Odd" asp-if="(DateTime.UtcNow.Second % 2) != 0"</strong> /&gt;</pre>
 </figure>
 
+<h3>Description For Tag Helper</h3>
+<p>
+    Use <code>&lt;<em>any-element</em> asp-description-for="..."&gt;</code> to display the content of a Description
+    from the
+    <code>
+        <em>DisplayAttribute</em>
+    </code> instance decorating a
+    <code>
+        <em>Model</em>
+    </code> property.
+    Works on any <strong>empty HTML element</strong>.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        The Customer description is: <span asp-description-for="Customer"></span>
+    </div>
+</div>
+<h4>Source</h4>
+<h5>Razor Syntax</h5>
+<figure>
+    <pre>The Customer description is: <strong>&lt;span asp-description-for="Customer"&gt;&lt;span&gt;</strong></pre>
+</figure>
+<h5>C# Model</h5>
+<figure>    
+    <pre><code>
+[BindProperty, 
+ Display(Name="Customer", Description = "The Customer Name")]
+public Customer Customer { get; set; }
+    </code></pre>
+</figure>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

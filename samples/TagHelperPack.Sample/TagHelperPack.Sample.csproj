@@ -10,6 +10,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.*" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.*" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TagHelperPack.Sample.Models;
@@ -8,7 +9,8 @@ namespace TagHelperPack.Sample.Pages;
 
 public class IndexModel : PageModel
 {
-    [BindProperty]
+    [BindProperty, 
+     Display(Name="Customer", Description = "The Customer Name")]
     public Customer Customer { get; set; }
 
     public IReadOnlyList<string> Countries { get; } = new List<string> { "DE", "FR", "US" };
