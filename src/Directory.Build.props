@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <VersionPrefix>0.10.0</VersionPrefix>
+    <!-- VersionSuffix used for local builds -->
+    <VersionSuffix>dev</VersionSuffix>
+    <!-- VersionSuffix to be used for CI builds -->
+    <VersionSuffix Condition=" '$(ContinuousIntegrationBuild)' == 'true' And '$(BuildNumber)' != '' ">ci.$(BuildNumber)</VersionSuffix>
+    <VersionSuffix Condition=" '$(ContinuousIntegrationBuild)' == 'true' And '$(IsShipCandidate)' == 'true' "></VersionSuffix>
+    <!--<VersionSuffix Condition=" '$(ContinuousIntegrationBuild)' == 'true' And '$(IsShipCandidate)' == 'true' ">pre.$(BuildNumber)</VersionSuffix>-->
+    <Authors>Damian Edwards</Authors>
+    <Copyright>Copyright © Damian Edwards</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsPackable>true</IsPackable>
+    <DebugType>embedded</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

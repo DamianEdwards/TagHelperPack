@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B871B0D-8E1E-4350-9959-DE8ED19CA113}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CE6635DE-0546-4ECC-949A-08192E19E366}"
 EndProject
@@ -15,20 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AAB8AE33-A054-440B-914D-B47899A1E37E}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CA4395BD-EFA9-4AC2-A748-72559BCBEC41}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci.yml = .github\workflows\ci.yml
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{AC6F851B-D942-488D-B0D0-4A4BD36796E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{AC6F851B-D942-488D-B0D0-4A4BD36796E4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D88AC3E0-9631-41A9-A1CB-1961B011884F}"
 EndProject
@@ -57,7 +50,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4} = {5B871B0D-8E1E-4350-9959-DE8ED19CA113}
 		{90885970-EF7F-4CFA-AEFB-AE8036A08B36} = {CE6635DE-0546-4ECC-949A-08192E19E366}
-		{CA4395BD-EFA9-4AC2-A748-72559BCBEC41} = {AAB8AE33-A054-440B-914D-B47899A1E37E}
 		{AC6F851B-D942-488D-B0D0-4A4BD36796E4} = {D88AC3E0-9631-41A9-A1CB-1961B011884F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

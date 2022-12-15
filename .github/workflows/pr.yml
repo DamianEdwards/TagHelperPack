@@ -2,7 +2,7 @@ name: PRs
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths-ignore:
       - "**/*.md"
       - "**/*.gitignore"
@@ -14,5 +14,3 @@ jobs:
   build:
     name: Build & Test PR
     uses: ./.github/workflows/_build.yml
-    with:
-      versionSuffix: ci

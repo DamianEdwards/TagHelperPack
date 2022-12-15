@@ -1,26 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
-    <Authors>Damian Edwards</Authors>
-    <VersionPrefix>0.9.0</VersionPrefix>
-    <VersionSuffix Condition="'$(BuildNumber)' == ''">pre</VersionSuffix>
-    <VersionSuffix Condition="'$(BuildNumber)' != ''">pre-$(BuildNumber)</VersionSuffix>
     <TargetFrameworks>net6.0;net471</TargetFrameworks>
-    <Copyright>Copyright © Damian Edwards</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/DamianEdwards/TagHelperPack</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DamianEdwards/TagHelperPack</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IsPackable>true</IsPackable>
-    <DebugType>embedded</DebugType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</Description>
     <PackageTags>aspnetcore taghelpers razor cshtml</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <LangVersion>10.0</LangVersion>
     <NoWarn>NU5105</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="HtmlSanitizer" Version="7.1.512" />

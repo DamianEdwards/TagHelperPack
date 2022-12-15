@@ -7,9 +7,12 @@ on:
         required: false
         type: string
         default: ci
+      packShipCandidate:
+        required: false
+        type: boolean
+        default: false
 
 env:
-  DOTNET_SDK_VERSION: 7.0.x
   SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
 
 jobs:
@@ -23,9 +26,8 @@ jobs:
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: |
-          6.0.x
-          ${{ env.DOTNET_SDK_VERSION }}
+        dotnet-version: 6.0.x
+        global-json-file: "./global.json"
     
     - name: Restore dependencies
       run: dotnet restore
@@ -37,7 +39,10 @@ jobs:
       run: echo "BUILD_NUMBER=$NOW.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore /p:VersionSuffix=${{ inputs.versionSuffix }} /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+      run: dotnet build --configuration Release --no-restore -p:BuildNumber=$BUILD_NUMBER -p:SourceRevisionId=$GITHUB_SHA -p:ContinuousIntegrationBuild=true
+
+    - name: Test
+      run: dotnet test --configuration Release --no-restore --no-build
 
     - name: Publish sample (net471)
       run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
@@ -46,21 +51,25 @@ jobs:
       run: dotnet publish $SAMPLE_PATH --framework net6.0 --configuration Release --no-build --verbosity normal
 
     - name: Publish sample (net7.0)
-      run: dotnet publish $SAMPLE_PATH --output samplesite --framework net7.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
+      run: dotnet publish $SAMPLE_PATH --output artifacts/samplesite --framework net7.0 --runtime linux-x64 --self-contained --configuration Release --verbosity normal
       
-    - name: Pack
-      run: dotnet pack --configuration Release --output finalpackage --verbosity normal /p:VersionSuffix=${{ inputs.versionSuffix }} /p:BuildNumber=$BUILD_NUMBER /p:SourceRevisionId=$GITHUB_SHA /p:ContinuousIntegrationBuild=true
+    - name: Pack (ci)
+      run: dotnet pack --configuration Release --output artifacts/ci --verbosity normal -p:BuildNumber=$BUILD_NUMBER -p:SourceRevisionId=$GITHUB_SHA -p:ContinuousIntegrationBuild=true
 
-    - name: Upload nupkg
+    - name: Pack (ship candidate)
+      if: ${{ inputs.packShipCandidate }}
+      run: dotnet pack --configuration Release --output artifacts/ship --verbosity normal -p:BuildNumber=$BUILD_NUMBER -p:SourceRevisionId=$GITHUB_SHA -p:ContinuousIntegrationBuild=true -p:IsShipCandidate=true
+
+    - name: Upload artifacts (packages)
       uses: actions/upload-artifact@master
       with:
         name: nupkg
-        path: finalpackage
+        path: artifacts/**/*.nupkg
         retention-days: 5
     
-    - name: Upload sample site
+    - name: Upload artifacts (sample site)
       uses: actions/upload-artifact@master
       with:
         name: samplesite
-        path: samplesite
+        path: artifacts/samplesite
         retention-days: 5
