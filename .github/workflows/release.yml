@@ -21,8 +21,10 @@ jobs:
           workflow_conclusion: success
           name: nupkg
       
-      - name: List NuGet packages
-        uses: mirko-felice/list-files-action@v3.0.1
-        with:
-          path: ./ship
-          ext: .nupkg
+      - name: Print package version
+        run: |
+          _filepath="$(find ./ship -iname '*.nupkg')"
+          _filename="${_filepath##*/}"
+          _pkgname="${_filename%.*}"
+          _version="${_pkgname##TagHelperPack.}"
+          echo "${_version}"
