@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      runId:
+        description: The run ID of the CI workflow to release NuGet artifacts from
+        required: true
+        type: string
+
+jobs:
+  push-package:
+    name: Push packages to nuget.org from 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          run_id: ${{ inputs.runId }}
+          workflow_conclusion: success
+          branch: main
+          name: nupkg
+      
+      - name: List NuGet packages
+        uses: mirko-felice/list-files-action@v3.0.1
+        with:
+          path: ./ship
+          ext: .nupkg
