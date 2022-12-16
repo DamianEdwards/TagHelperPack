@@ -9,7 +9,7 @@ on:
         type: string
 
 env:
-  PACKAGE_NAME: TagHelperPack
+  PACKAGE_ID: TagHelperPack
 
 jobs:
   push-package:
@@ -26,11 +26,36 @@ jobs:
       
       - name: Get package version into an environment variable
         run: |
-          _filepath="$(find ./ship -iname '*.nupkg')"
+          _filepath="$(find ./ship -iname '$PACKAGE_ID.*.nupkg')"
           _filename="${_filepath##*/}"
           _pkgname="${_filename%.*}"
-          _version="${_pkgname##$PACKAGE_NAME.}"
+          _version="${_pkgname##$PACKAGE_ID.}"
           echo "PACKAGE_VERSION=${_version}" >> $GITHUB_ENV
       
       - name: Print package version
         run: echo "$PACKAGE_VERSION"
+
+      - name: Verify package version doesn't exist
+        run: |
+          _packageIdLower="${$PACKAGE_ID,,}"
+          _packageUrl="https://api.nuget.org/v3/registration5-semver1/${_packageIdLower}/$PACKAGE_VERSION.json"
+          _packageStatusCode=$(curl _packageUrl -o /dev/null -Isw '%{http_code}')
+          if [ $_packageStatusCode == "200" ];
+          then
+            echo "The package $PACKAGE_ID with version $PACKAGE_VERSION already exists on nuget.org"; exit 1
+          else
+            if [ $_packageStatusCode == "404" ];
+              echo "Confirmed package $PACKAGE_ID with version $PACKAGE_VERSION does not already exist on nuget.org"
+            else
+              echo "Unexpected status code ${_packageStatusCode} received from nuget.org"; exit 1
+            fi
+          fi
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+
+      - name: Add nuget.org source
+        run: dotnet nuget add source --username ${{ secrets.NUGET_USERNAME }} --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name NUGET https://api.nuget.org
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push "${_filepath}" -s "NUGET"
