@@ -19,7 +19,6 @@ jobs:
         with:
           run_id: ${{ inputs.runId }}
           workflow_conclusion: success
-          branch: main
           name: nupkg
       
       - name: List NuGet packages
