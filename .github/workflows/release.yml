@@ -8,6 +8,9 @@ on:
         required: true
         type: string
 
+env:
+  PACKAGE_NAME: TagHelperPack
+
 jobs:
   push-package:
     name: Push packages to nuget.org from 
@@ -21,10 +24,13 @@ jobs:
           workflow_conclusion: success
           name: nupkg
       
-      - name: Print package version
+      - name: Get package version into an environment variable
         run: |
           _filepath="$(find ./ship -iname '*.nupkg')"
           _filename="${_filepath##*/}"
           _pkgname="${_filename%.*}"
-          _version="${_pkgname##TagHelperPack.}"
-          echo "${_version}"
+          _version="${_pkgname##$PACKAGE_NAME.}"
+          echo "PACKAGE_VERSION=${_version}" >> $GITHUB_ENV
+      
+      - name: Print package version
+        run: echo "$PACKAGE_VERSION"
