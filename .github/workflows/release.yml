@@ -37,15 +37,17 @@ jobs:
 
       - name: Verify package version doesn't exist
         run: |
-          _packageIdLower="${$PACKAGE_ID,,}"
-          _packageUrl="https://api.nuget.org/v3/registration5-semver1/${_packageIdLower}/$PACKAGE_VERSION.json"
+          _packageId="$PACKAGE_ID"
+          _packageVersion="$PACKAGE_VERSION"
+          _packageIdLower="${_packageId,,}"
+          _packageUrl="https://api.nuget.org/v3/registration5-semver1/${_packageIdLower}/${_packageVersion}.json"
           _packageStatusCode=$(curl _packageUrl -o /dev/null -Isw '%{http_code}')
           if [ $_packageStatusCode == "200" ];
           then
-            echo "The package $PACKAGE_ID with version $PACKAGE_VERSION already exists on nuget.org"; exit 1
+            echo "The package ${_packageId} with version ${_packageVersion} already exists on nuget.org"; exit 1
           else
             if [ $_packageStatusCode == "404" ];
-              echo "Confirmed package $PACKAGE_ID with version $PACKAGE_VERSION does not already exist on nuget.org"
+              echo "Confirmed package ${_packageId} with version ${_packageVersion} does not already exist on nuget.org"
             else
               echo "Unexpected status code ${_packageStatusCode} received from nuget.org"; exit 1
             fi
