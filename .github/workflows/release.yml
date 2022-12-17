@@ -35,6 +35,9 @@ jobs:
       - name: Print package version
         run: echo "$PACKAGE_VERSION"
 
+      - name: Check curl works
+        run: curl -s -o /dev/null -I -w '%{http_code}' "https://api.nuget.org/v3/registration5-semver1/taghelperpack/0.10.0.json"
+
       - name: Verify package version doesn't exist
         run: |
           _packageId="$PACKAGE_ID"
