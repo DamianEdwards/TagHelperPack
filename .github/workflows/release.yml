@@ -43,7 +43,6 @@ jobs:
           _packageUrl="https://api.nuget.org/v3/registration5-semver1/${_packageIdLower}/${_packageVersion}.json"
           echo "Checking for existing package at ${_packageUrl}"
           _statusCode=$(curl -s -o /dev/null -I -w '%{http_code}' "${_packageUrl}")
-          echo "${_statusCode}"
           if [ $_statusCode == "200" ]; then
             echo "The package ${_packageId} with version ${_packageVersion} already exists on nuget.org"; exit 1
           elif [ $_statusCode == "404" ]; then
