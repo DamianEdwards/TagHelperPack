@@ -44,13 +44,12 @@ jobs:
           echo "Checking for existing package at ${_packageUrl}"
           _statusCode=$(curl -s -o /dev/null -I -w '%{http_code}' "${_packageUrl}")
           echo "${_statusCode}"
-          if [ $_packageStatusCode == "200" ];
-          then
+          if [ $_statusCode == "200" ]; then
             echo "The package ${_packageId} with version ${_packageVersion} already exists on nuget.org"
-          elif [ $_packageStatusCode == "404" ];
+          elif [ $_statusCode == "404" ]; then
             echo "Confirmed package ${_packageId} with version ${_packageVersion} does not already exist on nuget.org"
           else
-            echo "Unexpected status code ${_packageStatusCode} received from nuget.org"
+            echo "Unexpected status code ${_statusCode} received from nuget.org"
           fi
 
       - name: Verify package version doesn't exist
