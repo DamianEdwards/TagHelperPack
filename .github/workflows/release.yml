@@ -47,12 +47,10 @@ jobs:
           if [ $_packageStatusCode == "200" ];
           then
             echo "The package ${_packageId} with version ${_packageVersion} already exists on nuget.org"
+          elif [ $_packageStatusCode == "404" ];
+            echo "Confirmed package ${_packageId} with version ${_packageVersion} does not already exist on nuget.org"
           else
-            if [ $_packageStatusCode == "404" ];
-              echo "Confirmed package ${_packageId} with version ${_packageVersion} does not already exist on nuget.org"
-            else
-              echo "Unexpected status code ${_packageStatusCode} received from nuget.org"
-            fi
+            echo "Unexpected status code ${_packageStatusCode} received from nuget.org"
           fi
 
       - name: Verify package version doesn't exist
