@@ -26,7 +26,7 @@ jobs:
       
       - name: Get package version into an environment variable
         run: |
-          _filepath="$(find ./ship -iname '$PACKAGE_ID.*.nupkg')"
+          _filepath="$(find ./ship -iname $PACKAGE_ID.*.nupkg)"
           _filename="${_filepath##*/}"
           _pkgname="${_filename%.*}"
           _version="${_pkgname##$PACKAGE_ID.}"
