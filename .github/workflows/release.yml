@@ -41,7 +41,9 @@ jobs:
           _packageVersion="$PACKAGE_VERSION"
           _packageIdLower="${_packageId,,}"
           _packageUrl="https://api.nuget.org/v3/registration5-semver1/${_packageIdLower}/${_packageVersion}.json"
+          set +e
           _packageStatusCode=$(curl _packageUrl -o /dev/null -Isw '%{http_code}')
+          set -e
           if [ $_packageStatusCode == "200" ];
           then
             echo "The package ${_packageId} with version ${_packageVersion} already exists on nuget.org"; exit 1
