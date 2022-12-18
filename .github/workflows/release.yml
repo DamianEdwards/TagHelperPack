@@ -22,13 +22,13 @@ jobs:
           workflowUrl="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ inputs.runId }}"
           curl -s -H "Accept: application/json" "${workflowUrl}" > workflow_details.json
 
-      - name: Extract workflow run commit SAMPLE_PATH
+      - name: Extract workflow run commit SHA
         uses: sergeysova/jq-action@v2
         id: workflowsha
         with:
           cmd: 'jq .head_sha workflow_details.json -r'
 
-      - name: Download artifacts
+      - name: Download workflow run artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
           run_id: ${{ inputs.runId }}
@@ -43,9 +43,6 @@ jobs:
           _version="${_pkgname##$PACKAGE_ID.}"
           echo "PACKAGE_VERSION=${_version}" >> $GITHUB_ENV
           echo "PACKAGE_FILEPATH=${_filepath}" >> $GITHUB_ENV
-      
-      - name: Print package version
-        run: echo "$PACKAGE_VERSION"
 
       - name: Verify package version doesn't exist
         run: |
