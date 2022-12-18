@@ -76,7 +76,7 @@ jobs:
         uses: actions/setup-dotnet@v3
 
       - name: Add nuget.org source
-        run: dotnet nuget add source --name NUGET https://api.nuget.org
+        run: dotnet nuget add source --name NUGET https://www.nuget.org
 
       - name: Push to nuget.org
         run: dotnet nuget push "$PACKAGE_FILEPATH" -s "NUGET" -k ${{ secrets.NUGET_API_KEY }}
