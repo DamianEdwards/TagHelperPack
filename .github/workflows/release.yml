@@ -42,6 +42,7 @@ jobs:
           _pkgname="${_filename%.*}"
           _version="${_pkgname##$PACKAGE_ID.}"
           echo "PACKAGE_VERSION=${_version}" >> $GITHUB_ENV
+          echo "PACKAGE_FILEPATH=${_filepath}" >> $GITHUB_ENV
       
       - name: Print package version
         run: echo "$PACKAGE_VERSION"
@@ -78,4 +79,4 @@ jobs:
         run: dotnet nuget add source --username ${{ secrets.NUGET_USERNAME }} --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name NUGET https://api.nuget.org
 
       - name: Push to nuget.org
-        run: dotnet nuget push "${_filepath}" -s "NUGET"
+        run: dotnet nuget push "$PACKAGE_FILEPATH" -s "NUGET"
