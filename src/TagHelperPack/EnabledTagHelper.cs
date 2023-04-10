@@ -1,0 +1,41 @@
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+
+namespace TagHelperPack;
+
+/// <summary>
+/// Enable/Disable elements. Disabling by adding [disabled]="disabled" attribute to the element.
+/// Supported elements: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+/// </summary>
+[HtmlTargetElement("button", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("fieldset", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("keygen", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("optgroup", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("option", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("select", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("textarea", Attributes = "[asp-enabled]")]
+[HtmlTargetElement("input", Attributes = "[asp-enabled]")]
+public class EnabledTagHelper : TagHelper
+{
+    /// <summary>
+    /// Enabled this element when the condition is true. True by default.
+    /// If enabled == false, it will add [disabled]="disabled" attribute to the element
+    /// </summary>
+    [HtmlAttributeName("asp-enabled")]
+    public bool IsEnabled { get; set; } = true;
+
+    /// <inheritdoc />
+    public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        if (context.SuppressedByAspIf())
+        {
+            return;
+        }
+
+        // If it's not enabled
+        // Append disabled attribute
+        if (!IsEnabled)
+        {
+            output.Attributes.SetAttribute("disabled", "disabled");
+        }
+    }
+}
