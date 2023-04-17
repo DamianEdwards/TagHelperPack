@@ -27,8 +27,10 @@ namespace UnitTests
             Assert.True(helper.IsEnabled);
         }
 
-        [Fact]
-        public void Process_AppendDisableAttribute_IfDisabled()
+        [Theory]
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        public void Process(bool isTagEnabled, bool containsDisabledAttribute)
         {
             var list = new TagHelperAttributeList();
 
@@ -39,32 +41,13 @@ namespace UnitTests
             output.Content.SetHtmlContent("hello");
 
             var helper = new EnabledTagHelper();
-            helper.IsEnabled = false;
+            helper.IsEnabled = isTagEnabled;
 
             helper.Process(context, output);
 
             Assert.Equal("button", output.TagName);
-            Assert.True(output.Attributes.ContainsName("disabled"));
+            Assert.Equal(containsDisabledAttribute, output.Attributes.ContainsName("disabled"));
         }
 
-        [Fact]
-        public void Process_WillNotAppendDisableAttribute_IfEnabled()
-        {
-            var list = new TagHelperAttributeList();
-
-            var context = new TagHelperContext("button", list, new Dictionary<object, object>(), "unqiueId");
-
-            var output = new TagHelperOutput("button", list, (_, _) => Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
-            output.TagName = "button";
-            output.Content.SetHtmlContent("hello");
-
-            var helper = new EnabledTagHelper();
-            helper.IsEnabled = true;
-
-            helper.Process(context, output);
-
-            Assert.Equal("button", output.TagName);
-            Assert.False(output.Attributes.ContainsName("disabled"));
-        }
     }
 }
