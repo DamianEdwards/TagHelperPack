@@ -17,7 +17,7 @@ namespace TagHelperPack;
 public class EnabledTagHelper : TagHelper
 {
     /// <summary>
-    /// Enabled this element when the condition is true. True by default.
+    /// Enable this element when the condition is <c>true</c>. Defaults to <c>true</c>.
     /// If enabled == false, it will add [disabled]="disabled" attribute to the element
     /// </summary>
     [HtmlAttributeName("asp-enabled")]
