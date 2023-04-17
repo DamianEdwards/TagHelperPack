@@ -18,7 +18,7 @@ public class EnabledTagHelper : TagHelper
 {
     /// <summary>
     /// Enable this element when the condition is <c>true</c>. Defaults to <c>true</c>.
-    /// If enabled == false, it will add [disabled]="disabled" attribute to the element
+    /// If <c>false</c>, will add <c>[disabled]="disabled"</c> attribute to the element.
     /// </summary>
     [HtmlAttributeName("asp-enabled")]
     public bool IsEnabled { get; set; } = true;
