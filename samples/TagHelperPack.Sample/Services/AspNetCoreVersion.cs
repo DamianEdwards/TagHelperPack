@@ -9,7 +9,7 @@ namespace TagHelperPack.Sample.Services;
 
 public class AspNetCoreVersion
 {
-#if !NET471
+#if NET6_0_OR_GREATER
     private readonly IHostEnvironment _env;
 #else
     private readonly IHostingEnvironment _env;
@@ -17,7 +17,7 @@ public class AspNetCoreVersion
     private string _version;
     private string _osName;
 
-#if !NET471
+#if NET6_0_OR_GREATER
     public AspNetCoreVersion(IHostEnvironment env)
 #else
     public AspNetCoreVersion(IHostingEnvironment env)

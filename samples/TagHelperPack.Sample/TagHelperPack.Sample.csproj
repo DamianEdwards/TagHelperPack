@@ -2,8 +2,14 @@
 
   <PropertyGroup>
     <!-- Targeting minimum supported versions here despite package targeting lower in some cases -->
-    <TargetFrameworks>net471;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net472;net6.0;net7.0</TargetFrameworks>
     <RootNamespace>TagHelperPack.Sample</RootNamespace>
+    <LangVersion>10.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
@@ -14,7 +20,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.*" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.*" />

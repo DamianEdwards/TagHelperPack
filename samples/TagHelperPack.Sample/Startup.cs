@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#if !NET471
+#if NET6_0_OR_GREATER
 using Microsoft.Extensions.Hosting;
 #endif
 using TagHelperPack.Sample.Services;
@@ -52,7 +52,7 @@ public class Startup
         // Optional optimizations to avoid Reflection
         services.AddTagHelperPack();
 
-#if !NET471
+#if NET6_0_OR_GREATER
         services.AddRazorPages();
 #else
         services.AddMvc();
@@ -60,7 +60,7 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if !NET471
+#if NET6_0_OR_GREATER
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 #else
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -79,7 +79,7 @@ public class Startup
 
         app.UseAuthentication();
 
-#if !NET471
+#if NET6_0_OR_GREATER
         app.UseRouting();
 
         app.UseEndpoints(routes =>
