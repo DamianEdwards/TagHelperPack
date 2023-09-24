@@ -58,6 +58,9 @@
     representing each of the values from the specified list. Set input elements to use the list using the <code>list</code> attribute,
     e.g. <code>&lt;input asp-for="..." list="countries" /&gt;&lt;datalist id="countries" asp-list="..."&gt;</code>
 </p>
+<p>
+    Use <code>&lt;button asp-enabled="..."&gt;</code> to disable/enable button
+</p>
 <h4>Example</h4>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -118,6 +121,7 @@
             <div class="form-group">
                 <div class="text-danger" asp-validation-summary="All"></div>
                 <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary" asp-enabled="false">Disabled Button</button>
             </div>
         </form>
     </div>
@@ -179,6 +183,7 @@
     &lt;div class="form-group"&gt;
         &lt;div class="text-danger" asp-validation-summary="ModelOnly"&gt;&lt;/div&gt;
         &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+        &lt;button type="submit" class="btn btn-primary" <strong>asp-enabled="false"</strong>&gt;Disabled Button&lt;/button&gt;
     &lt;/div&gt;
 &lt;/form&gt;</pre>
 </figure>
