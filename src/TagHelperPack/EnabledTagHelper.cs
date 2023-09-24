@@ -3,7 +3,7 @@
 namespace TagHelperPack;
 
 /// <summary>
-/// Enable/Disable elements. Disabling by adding [disabled]="disabled" attribute to the element.
+/// Enable/disable elements. Disabling by adding <c>disabled="disabled"</c> attribute to the element.
 /// Supported elements: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
 /// </summary>
 [HtmlTargetElement("button", Attributes = "[asp-enabled]")]
@@ -18,7 +18,7 @@ public class EnabledTagHelper : TagHelper
 {
     /// <summary>
     /// Enable this element when the condition is <c>true</c>. Defaults to <c>true</c>.
-    /// If <c>false</c>, will add <c>[disabled]="disabled"</c> attribute to the element.
+    /// If <c>false</c>, will add <c>disabled="disabled"</c> attribute to the element.
     /// </summary>
     [HtmlAttributeName("asp-enabled")]
     public bool IsEnabled { get; set; } = true;
@@ -31,8 +31,7 @@ public class EnabledTagHelper : TagHelper
             return;
         }
 
-        // If it's not enabled
-        // Append disabled attribute
+        // If it's not enabled, append disabled attribute
         if (!IsEnabled)
         {
             output.Attributes.SetAttribute("disabled", "disabled");
