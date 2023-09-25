@@ -1,9 +1,12 @@
 ﻿@model string
 
 @{
-    var style = (ViewData["color"] is { } color ? $"color: {color};" : "")
-        + (ViewData["font-weight"] is { } fontWeight ? $"font-weight: {fontWeight};" : "")
-        + (ViewData["font-style"] is { } fontStyle ? $"font-style: {fontStyle};" : "");
+    var color = ViewData["color"];
+    var fontWeight = ViewData["font-weight"];
+    var fontStyle = ViewData["font-style"];
+    var style = (color != null ? $"color: {color};" : "")
+         + (fontWeight != null ? $"font-weight: {fontWeight};" : "")
+         + (fontStyle != null ? $"font-style: {fontStyle};" : "");
 }
 
 <input class="form-control" asp-for="@__model" style="@style" />

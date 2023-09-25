@@ -45,8 +45,8 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-restore --no-build
 
-    - name: Publish sample (net471)
-      run: dotnet publish $SAMPLE_PATH --framework net471 --configuration Release --no-build --verbosity normal
+    - name: Publish sample (net472)
+      run: dotnet publish $SAMPLE_PATH --framework net472 --configuration Release --no-build --verbosity normal
 
     - name: Publish sample (net6.0)
       run: dotnet publish $SAMPLE_PATH --framework net6.0 --configuration Release --no-build --verbosity normal
