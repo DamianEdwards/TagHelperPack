@@ -26,7 +26,7 @@ public class EnabledTagHelper : TagHelper
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        if (context.SuppressedByAspIf())
+        if (context.SuppressedByAspIf() || context.SuppressedByAspAuthz())
         {
             return;
         }

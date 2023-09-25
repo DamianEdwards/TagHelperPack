@@ -14,6 +14,9 @@ namespace TagHelperPack;
 [HtmlTargetElement("*", Attributes = AspAuthzPolicyAttributeName)]
 public class AuthzTagHelper : TagHelper
 {
+    internal static object SuppressedKey = new();
+    internal static object SuppressedValue = new();
+
     private const string AspAuthzAttributeName = "asp-authz";
     private const string AspAuthzPolicyAttributeName = "asp-authz-policy";
 
@@ -27,6 +30,12 @@ public class AuthzTagHelper : TagHelper
     {
         _authz = authz;
     }
+
+    /// <inheritdoc />
+    // Run before other Tag Helpers (default Order is 0) so they can cooperatively decide not to run.
+    // Note this value is coordinated with the value of IfTagHelper.Order to ensure the IfTagHelper logic runs first.
+    // (Lower values run earlier).
+    public override int Order => -10;
 
     /// <summary>
     /// A boolean indicating whether the current element requires authentication in order to be rendered.
@@ -60,7 +69,7 @@ public class AuthzTagHelper : TagHelper
             throw new ArgumentNullException(nameof(output));
         }
 
-        if (context.SuppressedByAspIf())
+        if (context.SuppressedByAspIf() || context.SuppressedByAspAuthz())
         {
             return;
         }
@@ -102,6 +111,22 @@ public class AuthzTagHelper : TagHelper
         if (!showOutput)
         {
             output.SuppressOutput();
+            context.Items[SuppressedKey] = SuppressedValue;
         }
     }
+}
+
+/// <summary>
+/// Extension methods for <see cref="TagHelperContext"/>.
+/// </summary>
+public static class AuthzTagHelperContextExtensions
+{
+    /// <summary>
+    /// Determines if the <see cref="AuthzTagHelper"/> (<c>asp-authz</c>) has suppressed rendering for the element associated with
+    /// this <see cref="TagHelperContext"/>.
+    /// </summary>
+    /// <param name="context">The <see cref="TagHelperContext"/>.</param>
+    /// <returns><c>true</c> if <c>asp-authz</c> suppressed rendering of this Tag Helper.</returns>
+    public static bool SuppressedByAspAuthz(this TagHelperContext context) =>
+        context.Items.TryGetValue(AuthzTagHelper.SuppressedKey, out var value) && value == AuthzTagHelper.SuppressedValue;
 }
