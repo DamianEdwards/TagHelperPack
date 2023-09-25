@@ -19,7 +19,7 @@ public class IfTagHelper : TagHelper
     public bool Predicate { get; set; }
 
     /// <inheritdoc />
-    public override int Order => int.MaxValue - 1;
+    public override int Order => - 1;
 
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
