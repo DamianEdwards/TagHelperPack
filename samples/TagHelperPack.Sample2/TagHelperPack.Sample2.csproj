@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <!-- Targeting minimum supported versions here despite package targeting lower in some cases -->
     <TargetFrameworks>net472;net6.0;net7.0</TargetFrameworks>
-    <RootNamespace>TagHelperPack.Sample</RootNamespace>
+    <RootNamespace>TagHelperPack.Sample2</RootNamespace>
     <LangVersion>10.0</LangVersion>
     <DebugType>full</DebugType>
   </PropertyGroup>

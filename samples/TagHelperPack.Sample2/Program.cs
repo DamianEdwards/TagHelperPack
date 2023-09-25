@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace TagHelperPack.Sample;
+namespace TagHelperPack.Sample2;
 
 public class Program
 {

@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D88AC3E0-9631-41A9-A1CB-1961B011884F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagHelperPack.Sample2", "samples\TagHelperPack.Sample2\TagHelperPack.Sample2.csproj", "{092B2ED0-F3BF-4DD9-9084-C50449E9757F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{AC6F851B-D942-488D-B0D0-4A4BD36796E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC6F851B-D942-488D-B0D0-4A4BD36796E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC6F851B-D942-488D-B0D0-4A4BD36796E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092B2ED0-F3BF-4DD9-9084-C50449E9757F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092B2ED0-F3BF-4DD9-9084-C50449E9757F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092B2ED0-F3BF-4DD9-9084-C50449E9757F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092B2ED0-F3BF-4DD9-9084-C50449E9757F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{5276EEB9-E167-40EB-ADD4-EA3FD22039C4} = {5B871B0D-8E1E-4350-9959-DE8ED19CA113}
 		{90885970-EF7F-4CFA-AEFB-AE8036A08B36} = {CE6635DE-0546-4ECC-949A-08192E19E366}
 		{AC6F851B-D942-488D-B0D0-4A4BD36796E4} = {D88AC3E0-9631-41A9-A1CB-1961B011884F}
+		{092B2ED0-F3BF-4DD9-9084-C50449E9757F} = {CE6635DE-0546-4ECC-949A-08192E19E366}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59D4518E-872C-4D34-A5F6-385BB5D3B58C}

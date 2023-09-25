@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 #if NET6_0_OR_GREATER
 using Microsoft.Extensions.Hosting;
 #endif
-using TagHelperPack.Sample.Services;
+using TagHelperPack.Sample2.Services;
 
-namespace TagHelperPack.Sample;
+namespace TagHelperPack.Sample2;
 
 public class Startup
 {

@@ -13,7 +13,7 @@
 <h2>Installation &amp; Issues</h2>
 <p>See installation instructions and file issues at <a href="https://github.com/DamianEdwards/TagHelperPack">GitHub</a>.</p>
 
-@* <h2>Examples</h2>
+<h2>Examples</h2>
 <h3>Field Template, Data Annotation, &amp; Model Tag Helpers</h3>
 <p>
     Use <code>&lt;<em>any-element</em> asp-display-for="..."&gt;</code> or <code>&lt;display for="..."&gt;</code> to render a model
@@ -214,7 +214,7 @@
 <h5>C# Model</h5>
 <figure>
     <pre><code>
-[BindProperty, 
+[BindProperty,
  Display(Name="Customer", Description = "The Customer Name")]
 public Customer Customer { get; set; }
     </code></pre>
@@ -369,7 +369,7 @@ public Customer Customer { get; set; }
 <figure>
     <pre>&lt;<strong>render-partial name="_Even" asp-if="(DateTime.UtcNow.Second % 2) == 0"</strong> /&gt;
 &lt;<strong>render-partial name="_Odd" asp-if="(DateTime.UtcNow.Second % 2) != 0"</strong> /&gt;</pre>
-</figure> *@
+</figure>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
