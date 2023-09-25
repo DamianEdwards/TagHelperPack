@@ -128,7 +128,7 @@ public class RenderPartialTagHelper : TagHelper
             throw new ArgumentNullException(nameof(output));
         }
 
-        if (context.SuppressedByAspIf())
+        if (context.SuppressedByAspIf() || context.SuppressedByAspAuthz())
         {
             // The asp-if Tag Helper has run already and determined this element shouldn't be rendered so just return now.
             output.SuppressOutput();

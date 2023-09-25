@@ -19,7 +19,10 @@ public class IfTagHelper : TagHelper
     public bool Predicate { get; set; }
 
     /// <inheritdoc />
-    public override int Order => - 1;
+    // Run before other Tag Helpers (default Order is 0) so they can cooperatively decide not to run.
+    // Note this value is coordinated with the value of AuthzTagHelper.Order to ensure the IfTagHelper logic runs first.
+    // (Lower values run earlier).
+    public override int Order => - 100;
 
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -45,7 +48,7 @@ public class IfTagHelper : TagHelper
 /// <summary>
 /// Extension methods for <see cref="TagHelperContext"/>.
 /// </summary>
-public static class TagHelperContextExtensions
+public static class IfTagHelperContextExtensions
 {
     /// <summary>
     /// Determines if the <see cref="IfTagHelper"/> (<c>asp-if</c>) has suppressed rendering for the element associated with

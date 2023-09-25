@@ -64,7 +64,7 @@ public class MarkdownTagHelper : TagHelper
             throw new ArgumentNullException(nameof(output));
         }
 
-        if (context.SuppressedByAspIf())
+        if (context.SuppressedByAspIf() || context.SuppressedByAspAuthz())
         {
             return;
         }
