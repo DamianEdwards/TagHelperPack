@@ -13,7 +13,7 @@
     <None Include="../../README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="HtmlSanitizer" Version="7.1.512" />
+    <PackageReference Include="HtmlSanitizer" Version="8.0.723" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
