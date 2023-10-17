@@ -6,7 +6,7 @@ using System.Linq;
 namespace TagHelperPack;
 
 /// <summary>
-/// Add/Remove class name based on a condition. 
+/// Add/Remove a class name based on a condition. 
 /// Supports different variations: 
 /// asp-class-if-my-class, 
 /// asp-class-if-class, 
@@ -22,7 +22,7 @@ public class ClassIfTagHelper : TagHelper
     private const string Space = " ";
 
     /// <summary>
-    /// Add/Remove class name based on a condition
+    /// Add a class name based on a condition
     /// </summary>
     [HtmlAttributeName(DictionaryAttributePrefix = "asp-class-if-")]
     public IDictionary<string, bool> ClassIfAttributes { get; set; } = new Dictionary<string, bool>();
@@ -70,7 +70,7 @@ public class ClassIfTagHelper : TagHelper
     private static string GenerateClassName(string className)
     {
         // Handle className transformation here
-        // for something that we hadn't consider
+        // for something that we hadn't considered
         return className;
     }
 }
