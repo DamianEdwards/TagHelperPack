@@ -60,7 +60,7 @@ public class AuthzTagHelper : TagHelper
     public string RequiredRole { get; set; }
 
     /// <summary>
-    /// A permission that must be satisfied in order for the current element to be rendered. asp-authz-policy should be set as well.
+    /// A permission that must be satisfied in order for the current element to be rendered. <c>asp-authz-policy</c> should be set as well.
     /// </summary>
     [HtmlAttributeName(AspAuthzPolicyPermissionAttributeName)]
     public string RequiredPolicyPermission { get; set; }

@@ -55,8 +55,8 @@ public class Startup
             });
             options.AddPolicy("PermissionPolicy", policy =>
             {
-                List<string> standardPermissions = new List<string>() { "ViewUsers"};
-                List<string> adminPermissions = new List<string>(standardPermissions) { "ManageUsers" };
+                var standardPermissions = new List<string> { "ViewUsers" };
+                var adminPermissions = new List<string>(standardPermissions) { "ManageUsers" };
 
                 policy.RequireAuthenticatedUser();
                 policy.RequireAssertion(handler =>

@@ -63,13 +63,13 @@ public class EditorTagHelper : TagHelper
     public ViewContext ViewContext { get; set; }
 
     /// <summary>
-    /// css class
+    /// CSS class name.
     /// </summary>
     [HtmlAttributeName("class")]
     public string Class { get; set; }
 
     /// <summary>
-    /// css style
+    /// CSS inline style.
     /// </summary>
     [HtmlAttributeName("style")]
     public string Style { get; set; }
