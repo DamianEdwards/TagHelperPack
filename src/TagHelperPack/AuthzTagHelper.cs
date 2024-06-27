@@ -12,6 +12,8 @@ namespace TagHelperPack;
 /// </summary>
 [HtmlTargetElement("*", Attributes = AspAuthzAttributeName)]
 [HtmlTargetElement("*", Attributes = AspAuthzPolicyAttributeName)]
+[HtmlTargetElement("*", Attributes = AspAuthzRoleAttributeName)]
+[HtmlTargetElement("*", Attributes = AspAuthzPolicyPermissionAttributeName)]
 public class AuthzTagHelper : TagHelper
 {
     internal static object SuppressedKey = new();
@@ -19,6 +21,8 @@ public class AuthzTagHelper : TagHelper
 
     private const string AspAuthzAttributeName = "asp-authz";
     private const string AspAuthzPolicyAttributeName = "asp-authz-policy";
+    private const string AspAuthzRoleAttributeName = "asp-authz-role";
+    private const string AspAuthzPolicyPermissionAttributeName = "asp-authz-permission";
 
     private readonly IAuthorizationService _authz;
 
@@ -50,6 +54,18 @@ public class AuthzTagHelper : TagHelper
     public string RequiredPolicy { get; set; }
 
     /// <summary>
+    /// A role that the User must belong to in order for the current element to be rendered.
+    /// </summary>
+    [HtmlAttributeName(AspAuthzRoleAttributeName)]
+    public string RequiredRole { get; set; }
+
+    /// <summary>
+    /// A permission that must be satisfied in order for the current element to be rendered. asp-authz-policy should be set as well.
+    /// </summary>
+    [HtmlAttributeName(AspAuthzPolicyPermissionAttributeName)]
+    public string RequiredPolicyPermission { get; set; }
+
+    /// <summary>
     /// Gets or sets the <see cref="ViewContext"/>.
     /// </summary>
     [HtmlAttributeNotBound]
@@ -74,7 +90,7 @@ public class AuthzTagHelper : TagHelper
             return;
         }
 
-        var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy);
+        var requiresAuth = RequiresAuthentication || !string.IsNullOrEmpty(RequiredPolicy) || !string.IsNullOrEmpty(RequiredRole);
         var showOutput = false;
 
         var user = ViewContext.HttpContext.User;
@@ -85,22 +101,44 @@ public class AuthzTagHelper : TagHelper
         }
         else if (!string.IsNullOrEmpty(RequiredPolicy))
         {
-            // auth-policy="foo" & user is authorized for policy "foo"
-            var cacheKey = AspAuthzPolicyAttributeName + "." + RequiredPolicy;
             bool authorized;
-            var cachedResult = ViewContext.ViewData[cacheKey];
-            if (cachedResult != null)
+            if (!string.IsNullOrEmpty(RequiredPolicyPermission))
             {
-                authorized = (bool)cachedResult;
+                // auth-policy="foo" & user is authorized for policy "foo" based on permission
+                var cacheKey = AspAuthzPolicyPermissionAttributeName + "." + RequiredPolicyPermission;
+                var cachedResult = ViewContext.ViewData[cacheKey];
+                if (cachedResult != null)
+                {
+                    authorized = (bool)cachedResult;
+                }
+                else
+                {
+                    var authResult = await _authz.AuthorizeAsync(user, RequiredPolicyPermission, RequiredPolicy);
+                    authorized = authResult.Succeeded;
+                    ViewContext.ViewData[cacheKey] = authorized;
+                }
             }
             else
             {
-                var authResult = await _authz.AuthorizeAsync(user, ViewContext, RequiredPolicy);
-                authorized = authResult.Succeeded;
-                ViewContext.ViewData[cacheKey] = authorized;
+                // auth-policy="foo" & user is authorized for policy "foo"
+                var cacheKey = AspAuthzPolicyAttributeName + "." + RequiredPolicy;
+                var cachedResult = ViewContext.ViewData[cacheKey];
+                if (cachedResult != null)
+                {
+                    authorized = (bool)cachedResult;
+                }
+                else
+                {
+                    var authResult = await _authz.AuthorizeAsync(user, ViewContext, RequiredPolicy);
+                    authorized = authResult.Succeeded;
+                    ViewContext.ViewData[cacheKey] = authorized;
+                }
             }
-
             showOutput = authorized;
+        }
+        else if (!string.IsNullOrEmpty(RequiredRole))
+        {
+            showOutput = user.IsInRole(RequiredRole);
         }
         else if (requiresAuth && user.Identity.IsAuthenticated)
         {

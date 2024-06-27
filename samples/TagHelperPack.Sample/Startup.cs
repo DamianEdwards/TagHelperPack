@@ -53,6 +53,25 @@ public class Startup
                     return httpContext is not null;
                 });
             });
+            options.AddPolicy("PermissionPolicy", policy =>
+            {
+                List<string> standardPermissions = new List<string>() { "ViewUsers"};
+                List<string> adminPermissions = new List<string>(standardPermissions) { "ManageUsers" };
+
+                policy.RequireAuthenticatedUser();
+                policy.RequireAssertion(handler =>
+                {
+                    var permission = handler.Resource as string;
+                    if (handler.User.IsInRole("admin"))
+                    {
+                        return adminPermissions.Contains(permission);
+                    }
+                    else //standard role
+                    {
+                        return standardPermissions.Contains(permission);
+                    }
+                });
+            });
         });
 
         // Optional optimizations to avoid Reflection

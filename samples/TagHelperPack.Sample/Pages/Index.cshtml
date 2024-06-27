@@ -327,6 +327,10 @@ public Customer Customer { get; set; }
         <div asp-authz>This will only render if the user is authenticated.</div>
         <div asp-authz="false">This will only render when the user is <strong>*not*</strong> authenticated.</div>
         <div asp-authz-policy="AdminPolicy">This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.</div>
+        <div asp-authz-policy="PermissionPolicy" asp-authz-permission="ViewUsers">This will only render if the user has "ViewUsers" permission.</div>
+        <div asp-authz-policy="PermissionPolicy" asp-authz-permission="ManageUsers">This will only render if the user has "ManageUsers" permission.</div>
+        <div asp-authz-role="standard">This will only render if the user belongs to the "standard" role.</div>
+        <div asp-authz-role="admin">This will only render if the user belongs to the "admin" role.</div>
     </div>
 </div>
 <h4>Source</h4>
