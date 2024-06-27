@@ -55,12 +55,24 @@ public class EditorTagHelper : TagHelper
         set => _viewData = value;
     }
 
-        /// <summary>
+    /// <summary>
     /// Gets or sets the <see cref="ViewContext"/>.
     /// </summary>
     [HtmlAttributeNotBound]
     [ViewContext]
     public ViewContext ViewContext { get; set; }
+
+    /// <summary>
+    /// css class
+    /// </summary>
+    [HtmlAttributeName("class")]
+    public string Class { get; set; }
+
+    /// <summary>
+    /// css style
+    /// </summary>
+    [HtmlAttributeName("style")]
+    public string Style { get; set; }
 
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -82,7 +94,9 @@ public class EditorTagHelper : TagHelper
 
         ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-        output.Content.SetHtmlContent(_htmlHelper.Editor(For, HtmlFieldName, TemplateName, ViewData));
+        var cssViewData = new { htmlAttributes = new { @class = Class, style = Style } };
+        var finalViewData = _htmlHelper.MergeHtmlAttributes(cssViewData, ViewData);
+        output.Content.SetHtmlContent(_htmlHelper.Editor(For, HtmlFieldName, TemplateName, finalViewData));
 
         output.TagName = null;
     }
