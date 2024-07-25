@@ -337,7 +337,11 @@ public Customer Customer { get; set; }
 <figure>
     <pre>&lt;div asp-authz&gt;This will only render if the user is authenticated.&lt;/div&gt;
 &lt;div asp-authz="false"&gt;This will only render when the user is &lt;strong&gt;*not*&lt;/strong&gt; authenticated.&lt;/div&gt;
-&lt;div asp-authz-policy="AdminPolicy"&gt;This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.&lt;/div&gt;</pre>
+&lt;div asp-authz-policy="AdminPolicy"&gt;This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.&lt;/div&gt;
+&lt;div asp-authz-policy=&quot;PermissionPolicy&quot; asp-authz-permission=&quot;ViewUsers&quot;&gt;This will only render if the user has &quot;ViewUsers&quot; permission.&lt;/div&gt;
+&lt;div asp-authz-policy=&quot;PermissionPolicy&quot; asp-authz-permission=&quot;ManageUsers&quot;&gt;This will only render if the user has &quot;ManageUsers&quot; permission.&lt;/div&gt;
+&lt;div asp-authz-role=&quot;standard&quot;&gt;This will only render if the user belongs to the &quot;standard&quot; role.&lt;/div&gt;
+&lt;div asp-authz-role=&quot;admin&quot;&gt;This will only render if the user belongs to the &quot;admin&quot; role.&lt;/div&gt;</pre>
 </figure>
 
 <h3>If Tag Helper</h3>
