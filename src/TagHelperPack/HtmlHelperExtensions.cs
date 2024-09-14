@@ -1,7 +1,10 @@
-﻿using System;
-using System.Reflection;
+﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Routing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TagHelperPack;
 
 namespace Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -94,5 +97,59 @@ internal static class HtmlHelperExtensions
         }
 
         return htmlHelper.Editor(expression, templateName, htmlFieldName, additionalViewData);
+    }
+
+    /// <summary>
+    /// Merge values from 2 anonymous or IDictionary objects. Values of overlapping keys from the 'existing values' object are replaced by the values 
+    /// from the 'new values' object except if the keys are 'class' or 'style', in which case the values are concatentated with a space or ; respectively.
+    /// </summary>
+    /// <param name="newHtmlAttributesObject">new values</param>
+    /// <param name="existingHtmlAttributesObject">existing values</param>
+    /// <returns></returns>
+    internal static IDictionary<string, object> MergeHtmlAttributes(this IHtmlHelper helper, object newHtmlAttributesObject, object existingHtmlAttributesObject)
+    {
+        var keysConcatValuesWithSpace = new string[] { "class" };
+        var keysConcatValuesWithSemiColon = new string[] { "style" };
+
+        var htmlAttributesDict = newHtmlAttributesObject as IDictionary<string, object>;
+        var defaultHtmlAttributesDict = existingHtmlAttributesObject as IDictionary<string, object>;
+
+        IDictionary<string, object> htmlAttributes = (htmlAttributesDict != null)
+            ? new RouteValueDictionary(htmlAttributesDict)
+            : HtmlHelper.AnonymousObjectToHtmlAttributes(newHtmlAttributesObject);
+
+        IDictionary<string, object> existingHtmlAttributes = (defaultHtmlAttributesDict != null)
+            ? new RouteValueDictionary(defaultHtmlAttributesDict)
+            : HtmlHelper.AnonymousObjectToHtmlAttributes(existingHtmlAttributesObject);
+
+        foreach (var item in htmlAttributes)
+        {
+            if (keysConcatValuesWithSpace.Contains(item.Key))
+            {
+                existingHtmlAttributes.TryGetValue(item.Key, out object? value);
+                if (value != null && item.Value != null)
+                {
+                    existingHtmlAttributes[item.Key] = value != null ?
+                        string.Format("{0} {1}", existingHtmlAttributes[item.Key], item.Value)
+                        : item.Value;
+                }
+            }
+            else if (keysConcatValuesWithSemiColon.Contains(item.Key))
+            {
+                existingHtmlAttributes.TryGetValue(item.Key, out object? value);
+                if (value != null && item.Value != null)
+                {
+                    existingHtmlAttributes[item.Key] = value != null ?
+                        string.Format("{0}; {1}", existingHtmlAttributes[item.Key], item.Value)
+                        : item.Value;
+                }
+            }
+            else
+            {
+                existingHtmlAttributes[item.Key] = item.Value;
+            }
+        }
+
+        return existingHtmlAttributes;
     }
 }

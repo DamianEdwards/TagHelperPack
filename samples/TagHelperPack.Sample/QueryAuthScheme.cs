@@ -28,10 +28,12 @@ public class QueryAuthScheme : AuthenticationHandler<AuthenticationSchemeOptions
         {
             identity.AddClaim(new Claim("Name", "AdminUser"));
             identity.AddClaim(new Claim("IsAdmin", "true"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
         }
         else
         {
             identity.AddClaim(new Claim("Name", "StandardUser"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "standard"));
         }
         var user = new ClaimsPrincipal(identity);
         return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(user, nameof(QueryAuthScheme))));

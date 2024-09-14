@@ -62,6 +62,18 @@ public class DisplayTagHelper : TagHelper
     [ViewContext]
     public ViewContext ViewContext { get; set; }
 
+    /// <summary>
+    /// CSS class name.
+    /// </summary>
+    [HtmlAttributeName("class")]
+    public string Class { get; set; }
+
+    /// <summary>
+    /// CSS inline style.
+    /// </summary>
+    [HtmlAttributeName("style")]
+    public string Style { get; set; }
+
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -82,7 +94,9 @@ public class DisplayTagHelper : TagHelper
 
         ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
 
-        output.Content.SetHtmlContent(_htmlHelper.Display(For, HtmlFieldName, TemplateName, ViewData));
+        var cssViewData = new { htmlAttributes = new { @class = Class, style = Style } };
+        var finalViewData = _htmlHelper.MergeHtmlAttributes(cssViewData, ViewData);
+        output.Content.SetHtmlContent(_htmlHelper.Display(For, HtmlFieldName, TemplateName, finalViewData));
 
         output.TagName = null;
     }
