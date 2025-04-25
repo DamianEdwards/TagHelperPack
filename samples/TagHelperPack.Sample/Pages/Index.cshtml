@@ -42,6 +42,9 @@
         <li>Use the <code>template-name</code> attribute to override the template used to render the model.</li>
         <li>Use the <code>html-field-name</code> attribute to override the HTML field name used to render the model.</li>
         <li>Use <code>view-data-*</code> and <code>view-data</code> attributes to provide additional <code>ViewData</code> to the template.</li>
+        <li>Use <code>view-data-htmlAttributes</code> attribute to add properties to the <code>htmlAttributes</code> property in <code>ViewData</code>. This property can then be used as an argument to <code>Html helpers</code> in the template to render it in the final html.</li>
+        <li>Use <code>class</code> and <code>style</code> attributes to add additional css classes or inline styles to the <code>htmlAttributes</code> property in <code>ViewData</code>.</li>
+        <li>Use <code>id</code> attribute to add the id property to the <code>htmlAttributes</code> property in <code>ViewData</code>.</li>
     </ul>
 </p>
 <p>
@@ -51,7 +54,7 @@
         <li>Use the <code>asp-template-name</code> attribute to override the template used to render the model.</li>
         <li>Use the <code>asp-html-field-name</code> attribute to override the HTML field name used to render the model.</li>
         <li>Use <code>asp-view-data-*</code> and <code>asp-view-data</code> attributes to provide additional <code>ViewData</code> to the template.</li>
-    </ul>
+   </ul>
 </p>
 <p>
     Use <code>&lt;datalist asp-list="..."&gt;</code> to render a <code>&lt;datalist&gt;</code> element containing <code>&lt;option&gt;</code> elements
@@ -77,6 +80,11 @@
             <div class="form-group">
                 <label asp-for="Customer.LastName"></label>
                 <editor for="Customer.LastName" template-name="String2" />
+                <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.LastName"></label>
+                <editor for="Customer.LastName" template-name="String3" id="myId" class="myClass" style="color: green" view-data-htmlAttributes='new {data_info = "some info"}' />
                 <span asp-validation-for="Customer.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -141,6 +149,11 @@
     &lt;div class="form-group"&gt;
         &lt;label asp-for="LastName"&gt;&lt;/label&gt;
         <strong>&lt;editor for="LastName" template-name="String2" /&gt;</strong>
+        &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label asp-for="LastName"&gt;&lt;/label&gt;
+        <strong>&lt;editor for="LastName" template-name="String3" id="myId" class="myClass" style="color: green" view-data-htmlAttributes='new {data_info = "some info"}' /&gt;</strong>
         &lt;span asp-validation-for="LastName" class="text-danger"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;div class="form-group"&gt;
@@ -327,13 +340,21 @@ public Customer Customer { get; set; }
         <div asp-authz>This will only render if the user is authenticated.</div>
         <div asp-authz="false">This will only render when the user is <strong>*not*</strong> authenticated.</div>
         <div asp-authz-policy="AdminPolicy">This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.</div>
+        <div asp-authz-policy="PermissionPolicy" asp-authz-resource='"ViewUsers"'>This will only render if the user has "ViewUsers" permission.</div>
+        <div asp-authz-policy="PermissionPolicy" asp-authz-resource='"ManageUsers"'>This will only render if the user has "ManageUsers" permission.</div>
+        <div asp-authz-role="standard">This will only render if the user belongs to the "standard" role.</div>
+        <div asp-authz-role="admin">This will only render if the user belongs to the "admin" role.</div>
     </div>
 </div>
 <h4>Source</h4>
 <figure>
     <pre>&lt;div asp-authz&gt;This will only render if the user is authenticated.&lt;/div&gt;
 &lt;div asp-authz="false"&gt;This will only render when the user is &lt;strong&gt;*not*&lt;/strong&gt; authenticated.&lt;/div&gt;
-&lt;div asp-authz-policy="AdminPolicy"&gt;This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.&lt;/div&gt;</pre>
+&lt;div asp-authz-policy="AdminPolicy"&gt;This will only render if the user is authenticated and authorized via the "AdminPolicy" policy.&lt;/div&gt;
+&lt;div asp-authz-policy=&quot;PermissionPolicy&quot; asp-authz-resource='&quot;ViewUsers&quot;'&gt;This will only render if the user has &quot;ViewUsers&quot; permission.&lt;/div&gt;
+&lt;div asp-authz-policy=&quot;PermissionPolicy&quot; asp-authz-resource='&quot;ManageUsers&quot;'&gt;This will only render if the user has &quot;ManageUsers&quot; permission.&lt;/div&gt;
+&lt;div asp-authz-role=&quot;standard&quot;&gt;This will only render if the user belongs to the &quot;standard&quot; role.&lt;/div&gt;
+&lt;div asp-authz-role=&quot;admin&quot;&gt;This will only render if the user belongs to the &quot;admin&quot; role.&lt;/div&gt;</pre>
 </figure>
 
 <h3>If Tag Helper</h3>

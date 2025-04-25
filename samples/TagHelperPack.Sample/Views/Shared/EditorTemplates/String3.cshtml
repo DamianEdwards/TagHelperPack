@@ -1,0 +1,18 @@
+﻿@model string
+
+@using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
+@{
+    //default html attributes added by the template
+    var defaultHtmlAttributesObject = new
+    { 
+        Class = "form-control",
+        style= "font-weight: bold"
+    };
+
+    //merging the above html attributes with attributes received from the view
+    var viewHtmlAttributes = ViewData["htmlAttributes"] ?? new { };
+    var mergedHtmlAttributes = Html.MergeHtmlAttributesObjects(viewHtmlAttributes, defaultHtmlAttributesObject);
+}
+
+@Html.TextBox("", Model, mergedHtmlAttributes)

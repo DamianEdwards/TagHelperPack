@@ -55,12 +55,30 @@ public class EditorTagHelper : TagHelper
         set => _viewData = value;
     }
 
-        /// <summary>
+    /// <summary>
     /// Gets or sets the <see cref="ViewContext"/>.
     /// </summary>
     [HtmlAttributeNotBound]
     [ViewContext]
     public ViewContext ViewContext { get; set; }
+
+    /// <summary>
+    /// CSS class name.
+    /// </summary>
+    [HtmlAttributeName("class")]
+    public string Class { get; set; }
+
+    /// <summary>
+    /// CSS inline style.
+    /// </summary>
+    [HtmlAttributeName("style")]
+    public string Style { get; set; }
+
+    /// <summary>
+    /// HTML id.
+    /// </summary>
+    [HtmlAttributeName("id")]
+    public string Id { get; set; }
 
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -81,6 +99,30 @@ public class EditorTagHelper : TagHelper
         }
 
         ((IViewContextAware)_htmlHelper).Contextualize(ViewContext);
+
+        //create a local htmlAttributes dictionary for html attributes exposed by the tag helper
+        IDictionary<string, object> htmlAttributes = new Dictionary<string, object>();
+        if (!string.IsNullOrWhiteSpace(Id))
+        {
+            htmlAttributes["id"] = Id;
+        }
+        if (!string.IsNullOrWhiteSpace(Class))
+        {
+            htmlAttributes["class"] = Class;
+        }
+        if (!string.IsNullOrWhiteSpace(Style))
+        {
+            htmlAttributes["style"] = Style;
+        }
+        
+        //get the htmlAttributes property from tag ViewData
+        ViewData.TryGetValue("htmlAttributes", out var viewDataHtmlAttributes);
+
+        //merging local and ViewData htmlAttributes properties
+        htmlAttributes = _htmlHelper.MergeHtmlAttributesObjects(htmlAttributes, viewDataHtmlAttributes);
+
+        //setting the merged htmlAttributes on the ViewData of the tag.
+        ViewData["htmlAttributes"] = htmlAttributes;
 
         output.Content.SetHtmlContent(_htmlHelper.Editor(For, HtmlFieldName, TemplateName, ViewData));
 
