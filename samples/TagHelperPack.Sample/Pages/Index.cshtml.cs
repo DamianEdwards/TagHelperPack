@@ -20,9 +20,9 @@ public class IndexModel : PageModel
         Customer = new Customer
         {
             Id = 123,
-            FirstName = "Elizabeth",
-            LastName = "Edwards",
-            BirthDate = new DateTime(2005, 8, 8),
+            FirstName = "Jed",
+            LastName = "Bartlet",
+            BirthDate = new DateTime(1942, 8, 8),
             Country = "US",
         };
         Customer.Orders.Add(new Order { Customer = Customer, CustomerId = Customer.Id, Id = 1, PlacedOn = new DateTime(2017, 2, 4, 15, 22, 0), Total = 342.39m });

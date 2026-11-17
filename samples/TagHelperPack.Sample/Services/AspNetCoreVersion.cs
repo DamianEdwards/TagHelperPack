@@ -95,8 +95,7 @@ public class AspNetCoreVersion
 
     private string GetAspNetCoreVersion()
     {
-        var aspNetCoreAssembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => string.Equals(a.GetName().Name, "Microsoft.AspNetCore", StringComparison.OrdinalIgnoreCase));
+        var aspNetCoreAssembly = typeof(Microsoft.AspNetCore.Builder.WebApplication).Assembly;
 
         // Get AssemblyInformationalVersion
         var assemblyInformationalVersion = aspNetCoreAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
