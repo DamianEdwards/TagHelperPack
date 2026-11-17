@@ -7,7 +7,7 @@
 
 <h1>Tag Helper Pack Samples</h1>
 <p>A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.</p>
-<p>Supported on ASP.NET Core 6.0, &amp; 7.0. Also supported on ASP.NET Core 2.1 when run on .NET Framework 4.7.1 or higher.</p>
+<p>Supported on ASP.NET Core 6.0+. Also supported on ASP.NET Core 2.3 when run on .NET Framework 4.7.1 or higher.</p>
 <p class="text-muted">This site running on ASP.NET Core @AspNetCoreVersion.CurrentVersion on @AspNetCoreVersion.OperatingSystemName</p>
 
 <h2>Installation &amp; Issues</h2>
@@ -228,7 +228,7 @@ public Customer Customer { get; set; }
 <div class="panel panel-default">
     <div class="panel-body">
         <markdown allow-html="true">
-            Greetings *Elizabeth*, from **markdown**!
+            Greetings *Jed Bartlet*, from **markdown**!
 
             - This is a list
             - Of things you could do
@@ -241,7 +241,7 @@ public Customer Customer { get; set; }
 <h4>Source</h4>
 <figure>
     <pre>&lt;markdown allow-html="true"&gt;
-    Greetings *Elizabeth*, from **markdown**!
+    Greetings *Jed Bartlet*, from **markdown**!
 
     - This is a list
     - Of things you could do
@@ -259,7 +259,7 @@ public Customer Customer { get; set; }
 
 <h4>Source</h4>
 <figure>
-    <pre>&lt;markdown allow-html="true" preserve-indentation&gt;Greetings *Elizabeth*, from **markdown**!
+    <pre>&lt;markdown allow-html="true" preserve-indentation&gt;Greetings *Jed Bartlet*, from **markdown**!
 
 - This is a list
 - Of things you could do
@@ -274,7 +274,7 @@ public Customer Customer { get; set; }
 <div class="panel panel-default">
     <div class="panel-body">
         <markdown preserve-indentation>
-            Greetings *Elizabeth*, from **markdown**!
+            Greetings *Jed Bartlet*, from **markdown**!
 
             - This is a list
             - Of things you could do
@@ -285,7 +285,7 @@ public Customer Customer { get; set; }
 <h4>Source</h4>
 <figure>
     <pre>&lt;markdown preserve-indentation&gt;
-        Greetings *Elizabeth*, from **markdown**!
+        Greetings *Jed Bartlet*, from **markdown**!
 
         - This is a list
         - Of things you could do
@@ -303,7 +303,7 @@ public Customer Customer { get; set; }
     <div class="panel-body">
         <div id="jsGreeting"></div>
         <script src="~/js/site.js" asp-inline="true"></script>
-        <script>document.getElementById('jsGreeting').appendChild(document.createTextNode(getGreeting('Elizabeth')))</script>
+        <script>document.getElementById('jsGreeting').appendChild(document.createTextNode(getGreeting('Jed Bartlet')))</script>
     </div>
 </div>
 <h4>Source</h4>
