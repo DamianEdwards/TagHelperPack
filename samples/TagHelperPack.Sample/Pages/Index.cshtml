@@ -354,6 +354,23 @@ public Customer Customer { get; set; }
 &lt;div <strong>asp-if="(DateTime.UtcNow.Second % 2) == 1"</strong>&gt;This paragraph will only render during &lt;strong&gt;odd&lt;/strong&gt; seconds.&lt;/div&gt;</pre>
 </figure>
 
+<h3>Class-If Tag Helper</h3>
+<p>
+    Use <code>&lt;<em>any-element</em> asp-class-if-<i>{className}</i>="..."&gt;</code> to conditionally add class name when the provided expression is <code>true</code>.
+</p>
+<h4>Example</h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div asp-class-if-bg-primary="(DateTime.UtcNow.Second % 2) == 0">This paragraph will have <code>bg-primary</code> class during <strong>even</strong> seconds.</div>
+        <div asp-class-if-bg-primary="(DateTime.UtcNow.Second % 2) == 1">This paragraph will have <code>bg-primary</code> class during <strong>odd</strong> seconds.</div>
+    </div>
+</div>
+<h4>Source</h4>
+<figure>
+    <pre>&lt;div <strong>asp-class-if-bg-primary="(DateTime.UtcNow.Second % 2) == 0"&gt;</strong>This paragraph will have &lt;code&gt;bg-primary&lt;/code&gt; class during &lt;strong&gt;even&lt;/strong&gt; seconds.&lt;/div&gt;
+&lt;div <strong>asp-class-if-bg-primary="(DateTime.UtcNow.Second % 2) == 1"&gt;</strong>This paragraph will have &lt;code&gt;bg-primary&lt;/code&gt; class during &lt;strong&gt;even&lt;/strong&gt; seconds.&lt;/div&gt;</pre>
+</figure>
+
 <h3>If combined with RenderPartial</h3>
 <p>
     Remember, you can compose certain Tag Helpers together on the same element, assuming they all apply to the specific element name.
