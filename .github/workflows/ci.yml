@@ -36,8 +36,10 @@ jobs:
         run: dotnet nuget push **/ci/*.nupkg -s "GPR" --skip-duplicate
 
       - name: Delete old packages
-        uses: smartsquaregmbh/delete-old-packages@53e0b59f56449a9fdbcec8dcc6d1b038b8a29992 # v0.5.0
+        uses: smartsquaregmbh/delete-old-packages@78421c4341be2a20cc4766902b4dc2925efa5117 # v1.0.0
         with:
+          user: ${{ github.repository_owner }}
+          type: nuget
           keep: 5
           names: TagHelperPack
 
