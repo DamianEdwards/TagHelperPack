@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4.1.7
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@55ec9447dda3d1cf6bd587150f3262f30ee10815 # v3
 
       - name: Add GitHub Package Repository source
         run: dotnet nuget add source --username ${{ secrets.GPR_USERNAME }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name GPR ${{ secrets.GPR_URI }}
@@ -36,14 +36,14 @@ jobs:
         run: dotnet nuget push **/ci/*.nupkg -s "GPR" --skip-duplicate
 
       - name: Delete old packages
-        uses: smartsquaregmbh/delete-old-packages@v0.5.0
+        uses: smartsquaregmbh/delete-old-packages@53e0b59f56449a9fdbcec8dcc6d1b038b8a29992 # v0.5.0
         with:
           keep: 5
           names: TagHelperPack
 
       # Deploy to Azure Web apps
       - name: Deploy sample site to Azure
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@5cfb776471c748b351e1ebf5770e208a54ace016 # v2
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}

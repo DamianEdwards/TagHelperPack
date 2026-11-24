@@ -9,8 +9,8 @@ namespace TagHelperPack.Sample;
 
 public class QueryAuthScheme : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    public QueryAuthScheme(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder urlEncoder, ISystemClock clock)
-        : base(options, logger, urlEncoder, clock)
+    public QueryAuthScheme(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder urlEncoder)
+        : base(options, logger, urlEncoder)
     {
 
     }
