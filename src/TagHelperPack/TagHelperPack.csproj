@@ -12,7 +12,7 @@
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="Markdig" Version="0.30.2" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="11.0.100" PrivateAssets="All" />
     <PackageReference Include="HtmlSanitizer" Version="11.0.26" />
   </ItemGroup>
 
