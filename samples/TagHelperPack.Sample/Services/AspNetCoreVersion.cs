@@ -9,19 +9,11 @@ namespace TagHelperPack.Sample.Services;
 
 public class AspNetCoreVersion
 {
-#if NET6_0_OR_GREATER
     private readonly IHostEnvironment _env;
-#else
-    private readonly IHostingEnvironment _env;
-#endif
     private string _version;
     private string _osName;
 
-#if NET6_0_OR_GREATER
     public AspNetCoreVersion(IHostEnvironment env)
-#else
-    public AspNetCoreVersion(IHostingEnvironment env)
-#endif
     {
         _env = env;
     }
@@ -49,9 +41,6 @@ public class AspNetCoreVersion
         {
             if (_osName == null)
             {
-#if NET471_OR_GREATER
-                _osName = Environment.OSVersion.Platform.ToString();
-#else
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     _osName = "Windows";
@@ -68,7 +57,6 @@ public class AspNetCoreVersion
                 {
                     _osName = "unknown";
                 }
-#endif
             }
 
             return _osName;
