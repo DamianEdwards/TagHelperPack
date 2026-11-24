@@ -4,11 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-#if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
-#else
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-#endif
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace TagHelperPack;
@@ -21,10 +17,8 @@ public class RenderPartialTagHelper : TagHelper
 {
     private const string ForAttributeName = "for";
     private const string ModelAttributeName = "model";
-#if NET6_0_OR_GREATER
     private const string FallbackAttributeName = "fallback-name";
     private const string OptionalAttributeName = "optional";
-#endif
 
     private readonly PartialTagHelper _partialTagHelper;
 
@@ -58,7 +52,6 @@ public class RenderPartialTagHelper : TagHelper
     [HtmlAttributeName(ModelAttributeName)]
     public object Model { get; set; }
 
-#if NET6_0_OR_GREATER
     /// <summary>
     /// When optional, executing the tag helper will no-op if the view cannot be located.
     /// Otherwise will throw stating the view could not be found.
@@ -71,7 +64,6 @@ public class RenderPartialTagHelper : TagHelper
     /// </summary>
     [HtmlAttributeName(FallbackAttributeName)]
     public string FallbackName { get; set; }
-#endif
 
     /// <summary>
     /// A <see cref="ViewDataDictionary"/> to pass into the partial view.
@@ -105,10 +97,8 @@ public class RenderPartialTagHelper : TagHelper
         {
             _partialTagHelper.Model = Model;
         }
-#if NET6_0_OR_GREATER
         _partialTagHelper.Optional = Optional;
         _partialTagHelper.FallbackName = FallbackName;
-#endif
         _partialTagHelper.ViewData = ViewData;
         _partialTagHelper.ViewContext = ViewContext;
 

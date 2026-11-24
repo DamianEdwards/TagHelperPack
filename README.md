@@ -1,12 +1,12 @@
 # TagHelperPack ![CI](https://github.com/DamianEdwards/TagHelperPack/actions/workflows/ci.yml/badge.svg) [![NuGet](https://img.shields.io/nuget/v/TagHelperPack?logo=nuget)](https://www.nuget.org/packages/TagHelperPack/)
 
-A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core (all versions).
+A set of useful, and possibly opinionated, Tag Helpers for ASP.NET Core.
 
 ## Included Tag Helpers & Examples
 
 See the examples page at https://taghelperpack.net
 
-Supports ASP.NET Core 6.0.x and 7.0.x. Also supports ASP.NET Core 2.1.x when running on .NET Framework 4.7.1 or higher.
+Supports ASP.NET Core 10.0 or later.
 
 ## Installing
 
@@ -28,7 +28,7 @@ Supports ASP.NET Core 6.0.x and 7.0.x. Also supports ASP.NET Core 2.1.x when run
    @addTagHelper *, TagHelperPack
     ```
 
-1. Optional: Register optimizations in `ConfigureServices()` or `Program.cs` (ASP.NET Core 6+)
+1. Optional: Register optimizations in `ConfigureServices()` or `Program.cs` (ASP.NET Core 10+)
 
     ```csharp
     services.AddTagHelperPack();

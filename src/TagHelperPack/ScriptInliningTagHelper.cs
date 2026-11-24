@@ -18,19 +18,11 @@ public class ScriptInliningTagHelper : TagHelper
 {
     private readonly IFileProvider _wwwroot;
 
-#if NET6_0_OR_GREATER
     /// <summary>
     /// Creates a new instance of the <see cref="ScriptInliningTagHelper"/> class.
     /// </summary>
     /// <param name="env">The <see cref="IWebHostEnvironment" />.</param>
     public ScriptInliningTagHelper(IWebHostEnvironment env)
-#else
-    /// <summary>
-    /// Creates a new instance of the <see cref="ScriptInliningTagHelper"/> class.
-    /// </summary>
-    /// <param name="env">The <see cref="IHostingEnvironment" />.</param>
-    public ScriptInliningTagHelper(IHostingEnvironment env)
-#endif
     {
         _wwwroot = env.WebRootFileProvider;
     }

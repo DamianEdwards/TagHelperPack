@@ -4,11 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-#if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
-#else
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-#endif
 
 namespace TagHelperPack;
 
