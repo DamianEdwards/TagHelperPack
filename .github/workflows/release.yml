@@ -34,7 +34,7 @@ jobs:
           cmd: 'jq .head_sha workflow_details.json -r'
 
       - name: Download workflow run artifacts
-        uses: dawidd6/action-download-artifact@bf251b5aa9c2f7eeb574a96ee720e24f801b7c11 # v6
+        uses: dawidd6/action-download-artifact@a92c7ae74cf1df8810783758581e485ac3aaa309 # v28
         with:
           run_id: ${{ inputs.runId }}
           workflow_conclusion: success
