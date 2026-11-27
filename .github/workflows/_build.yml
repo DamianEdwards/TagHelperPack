@@ -11,10 +11,6 @@ on:
         required: false
         type: boolean
         default: false
-      benchmarkMt:
-        required: false
-        type: boolean
-        default: false
 
 env:
   SAMPLE_PATH: ./samples/TagHelperPack.Sample/TagHelperPack.Sample.csproj
@@ -43,12 +39,7 @@ jobs:
         echo "$buildNumber"
 
     - name: Build
-      env:
-        BENCHMARK_MT: ${{ inputs.benchmarkMt }}
-      run: |
-        args=()
-        if [ "$BENCHMARK_MT" = "true" ]; then args+=(-mt); fi
-        dotnet build "${args[@]}" --configuration Release --no-restore -p:BuildNumber=$BUILD_NUMBER -p:SourceRevisionId=$GITHUB_SHA -p:ContinuousIntegrationBuild=true
+      run: dotnet build --configuration Release --no-restore -p:BuildNumber=$BUILD_NUMBER -p:SourceRevisionId=$GITHUB_SHA -p:ContinuousIntegrationBuild=true
 
     - name: Test
       run: dotnet test --configuration Release --no-restore --no-build

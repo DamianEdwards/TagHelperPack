@@ -9,15 +9,8 @@ on:
       - "**/*.gitattributes"
 
   workflow_dispatch:
-    inputs:
-      benchmarkMt:
-        type: boolean
-        default: false
 
 jobs:
   build:
     name: Build & Test PR
     uses: ./.github/workflows/_build.yml
-    with:
-      benchmarkMt: ${{ inputs.benchmarkMt || false }}
-      packShipCandidate: true
